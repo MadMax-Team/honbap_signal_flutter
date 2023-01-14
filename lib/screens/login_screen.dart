@@ -7,9 +7,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(20),
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
