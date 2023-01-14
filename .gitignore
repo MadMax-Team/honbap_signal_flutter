@@ -42,3 +42,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Custom
+# Private Keys
+local.properties
+kakao_api_key.dart
+Debug.xcconfig
+Release.xcconfig
