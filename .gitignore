@@ -46,5 +46,6 @@ app.*.map.json
 # Custom
 # Private Keys
 local.properties
-Info.plist
 kakao_api_key.dart
+Debug.xcconfig
+Release.xcconfig
