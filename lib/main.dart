@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:honbap_signal_flutter/Colors/create_material_color.dart';
-import 'package:honbap_signal_flutter/screens/login_screen.dart';
+import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
+import 'package:honbap_signal_flutter/screens/login_phone_auth_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,18 +15,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '혼밥시그널',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: createMaterialColor(const Color(0xffff4b25)),
+        textTheme: const TextTheme(
+          // 2022 sets
+          // displayLarge, displayMedium, displaySmall
+          // headlineLarge, headlineMedium, headlineSmall
+          // titleLarge, titleMedium, titleSmall
+          // bodyLarge, bodyMedium, bodySmall
+          // labelLarge, labelMedium, labelSmall
+          titleMedium: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+          ),
+          labelSmall: TextStyle(
+            color: Color(0xFFB8B8B8),
+            fontSize: 10,
+            letterSpacing: 0.5,
+          ),
+        ),
       ),
-      home: const LoginScreen(),
+      home: const LoginPhoneAuthScreen(),
     );
   }
 }

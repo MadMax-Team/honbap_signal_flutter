@@ -19,19 +19,13 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "함께 밥 먹을 친구를",
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-              ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-            const Text(
+            Text(
               "찾아볼까요?",
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-              ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             Flexible(
               flex: 3,
@@ -113,12 +107,9 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text(
+                  Text(
                     '회원가입 시 혼밥시그널의 서비스 이용 약관과 개인정보 보호정책에 동의하게 됩니다.',
-                    style: TextStyle(
-                      color: Color(0xFFB8B8B8),
-                      fontSize: 12,
-                    ),
+                    style: Theme.of(context).textTheme.labelSmall,
                   )
                 ],
               ),

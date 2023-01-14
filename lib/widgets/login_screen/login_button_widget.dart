@@ -8,11 +8,13 @@ class LoginBtnWidget extends StatelessWidget {
     required this.borderColor,
     required this.textColor,
     this.icon,
+    this.borderRad = 7,
   }) : super(key: key);
 
   final String title;
   final Color bgColor, borderColor, textColor;
   final Image? icon;
+  final double borderRad;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class LoginBtnWidget extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(borderRad),
         border: Border.all(
           color: borderColor,
           width: 1,
