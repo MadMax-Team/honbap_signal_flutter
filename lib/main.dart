@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
-import 'package:honbap_signal_flutter/screens/login_phone_auth_screen.dart';
+import 'package:honbap_signal_flutter/screens/login_screen.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'apis/kakao_api_key.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Kakao SDK initialize
+  KakaoSdk.init(nativeAppKey: KAKAO_API_KEY);
+
   runApp(const MyApp());
 }
 
@@ -34,7 +41,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const LoginPhoneAuthScreen(),
+      home: const LoginScreen(),
     );
   }
 }

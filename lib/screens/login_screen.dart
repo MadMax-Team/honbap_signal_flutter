@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
 import 'package:honbap_signal_flutter/widgets/login_screen/login_button_widget.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -93,15 +98,46 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  LoginBtnWidget(
-                    title: "카카오로 로그인",
-                    bgColor: const Color(0xffffe500),
-                    borderColor: const Color(0xffffe500),
-                    textColor: const Color(0xff402326),
-                    icon: Image.asset(
-                      'assets/images/kakaotalk_logo.png',
-                      width: 23,
-                      height: 23,
+                  GestureDetector(
+                    onTap: () async {
+                      try {
+                        bool isInstalled = await isKakaoTalkInstalled();
+
+                        OAuthToken token = isInstalled
+                            ? await UserApi.instance.loginWithKakaoTalk()
+                            : await UserApi.instance.loginWithKakaoAccount();
+
+                        final url = Uri.https('kapi.kakao.com', '/v2/user/me');
+
+                        final response = await http.get(
+                          url,
+                          headers: {
+                            HttpHeaders.authorizationHeader:
+                                'Bearer ${token.accessToken}'
+                          },
+                        );
+
+                        final profileInfo = json.decode(response.body);
+                        print(profileInfo.toString());
+
+                        KakaoLoginModel kakaoAccount =
+                            KakaoLoginModel.fromJson(profileInfo);
+
+                        print(kakaoAccount);
+                      } catch (error) {
+                        print('카카오톡으로 로그인 실패 $error');
+                      }
+                    },
+                    child: LoginBtnWidget(
+                      title: "카카오로 로그인",
+                      bgColor: const Color(0xffffe500),
+                      borderColor: const Color(0xffffe500),
+                      textColor: const Color(0xff402326),
+                      icon: Image.asset(
+                        'assets/images/kakaotalk_logo.png',
+                        width: 23,
+                        height: 23,
+                      ),
                     ),
                   ),
                   const SizedBox(
