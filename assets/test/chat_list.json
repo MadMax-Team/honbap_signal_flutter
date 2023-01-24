@@ -1,0 +1,32 @@
+{
+  "chats": [
+    {
+      "profileImage": "test_image",
+      "nickname": "프로국밥러",
+      "lastMessage": "제주도에 여행왔어요 토박이이신 분과 국밥한끼 했는데 저번에 모니카님이랑 먹은 국밥이 생각나네요ㅠㅠ",
+      "lastSendedAt": "2023-01-24 17:05:34.569518",
+      "unreadMessages": 1
+    },
+    {
+      "profileImage": "test_image",
+      "nickname": "김매트",
+      "lastMessage": "수락받아주셔서 감사합니다. 프로필에 설정돼 있는게 없는데 좋아하시는 메뉴 있으세요?",
+      "lastSendedAt": "2023-01-24 16:10:34.569518",
+      "unreadMessages": 1
+    },
+    {
+      "profileImage": "test_image",
+      "nickname": "박패트",
+      "lastMessage": "저 내손동인데!! 시그널 키셨네용\n괜찮으면 스시싱?",
+      "lastSendedAt": "2023-01-24 13:55:34.569518",
+      "unreadMessages": 0
+    },
+    {
+      "profileImage": "test_image",
+      "nickname": "박패트",
+      "lastMessage": "사진을 보냈습니다",
+      "lastSendedAt": "2023-01-22 15:55:34.569518",
+      "unreadMessages": 0
+    }
+  ]
+}
