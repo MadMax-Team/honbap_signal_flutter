@@ -64,43 +64,111 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Flexible(
-            child: FutureBuilder(
-              future: _getChat(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var chat = snapshot.data!;
-                  return CustomScrollView(
-                    slivers: [
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 10),
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Flexible(
+              child: FutureBuilder(
+                future: _getChat(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    var chat = snapshot.data!;
+                    return ShaderMask(
+                      shaderCallback: (Rect rect) {
+                        return const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.purple,
+                            Colors.transparent,
+                            Colors.transparent,
+                            Colors.purple
+                          ],
+                          stops: [
+                            0.0,
+                            0.01,
+                            0.99,
+                            1.0
+                          ], // 10% purple, 80% transparent, 10% purple
+                        ).createShader(rect);
+                      },
+                      blendMode: BlendMode.dstOut,
+                      child: CustomScrollView(
+                        slivers: [
+                          const SliverToBoxAdapter(
+                            child: SizedBox(height: 10),
+                          ),
+                          for (var index = 0; index < chat.length; index++)
+                            ChatBox(
+                              chat: chat,
+                              index: index,
+                              profileImage: widget.profileImage,
+                              isSended: chat[index].nickname != widget.nickname,
+                            ),
+                          const SliverToBoxAdapter(
+                            child: SizedBox(height: 10),
+                          ),
+                        ],
                       ),
-                      for (var index = 0; index < chat.length; index++)
-                        ChatBox(
-                          chat: chat,
-                          index: index,
-                          profileImage: widget.profileImage,
-                          isSended: chat[index].nickname != widget.nickname,
-                        ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 10),
-                      ),
-                    ],
+                    );
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
+                },
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 50,
-            child: Text('채팅입력창'),
-          ),
-        ],
+            Container(
+              height: 50,
+              margin: const EdgeInsets.fromLTRB(10, 0, 10, 25),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 5,
+                    spreadRadius: 1,
+                    color: Colors.grey[400]!,
+                  ),
+                ],
+                color: Colors.white,
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      print('add btn clicked');
+                    },
+                    icon: Icon(
+                      Icons.add,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: 30,
+                    color: Colors.grey[300],
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: const Text('input'),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      print('send btn clicked');
+                    },
+                    icon: Icon(
+                      Icons.arrow_circle_right,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
