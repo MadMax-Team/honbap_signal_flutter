@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/screens/signal/signal_userprofile_dialog.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_filtertag_widget.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_usercard_widget.dart';
 
@@ -95,7 +96,13 @@ class _SignalListScreenState extends State<SignalListScreen> {
                       (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            print('tap $index');
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return const SignalUserDialog();
+                              },
+                            );
                           },
                           child: const SignalUserCard(),
                         );

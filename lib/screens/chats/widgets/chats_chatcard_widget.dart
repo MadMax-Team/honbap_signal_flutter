@@ -78,27 +78,27 @@ class ChatCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        chat.unreadMessages != 0
-                            ? Container(
-                                width: Sizes.size16,
-                                height: Sizes.size16,
-                                margin:
-                                    const EdgeInsets.only(left: Sizes.size10),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                                child: Text(
-                                  '${chat.unreadMessages}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: Sizes.size10,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                            : Container(),
+                        if (chat.unreadMessages != 0)
+                          Container(
+                            width: Sizes.size16,
+                            height: Sizes.size16,
+                            margin: const EdgeInsets.only(left: Sizes.size10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            child: Text(
+                              '${chat.unreadMessages}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: Sizes.size10,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        else
+                          Container(),
                       ],
                     ),
                   ],

@@ -26,74 +26,75 @@ class ChatBox extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            isSended
-                ? Container()
-                : (index == 0 ||
-                        chat[index].nickname != chat[index - 1].nickname)
-                    ? Container(
-                        margin: const EdgeInsets.only(right: Sizes.size10),
-                        clipBehavior: Clip.hardEdge,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        // Image.network로 변경하면 됨
-                        child: Image.asset(
-                          "assets/test/$profileImage.jpg",
-                          width: Sizes.size48 + Sizes.size2,
-                          height: Sizes.size48 + Sizes.size2,
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                    : Container(
-                        width: Sizes.size48 + Sizes.size2,
-                      ),
+            if (isSended)
+              Container()
+            else if (index == 0 ||
+                chat[index].nickname != chat[index - 1].nickname)
+              Container(
+                margin: const EdgeInsets.only(right: Sizes.size10),
+                clipBehavior: Clip.hardEdge,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                // Image.network로 변경하면 됨
+                child: Image.asset(
+                  "assets/test/$profileImage.jpg",
+                  width: Sizes.size48 + Sizes.size2,
+                  height: Sizes.size48 + Sizes.size2,
+                  fit: BoxFit.fill,
+                ),
+              )
+            else
+              Container(
+                width: Sizes.size48 + Sizes.size2,
+              ),
             Flexible(
               child: Column(
                 crossAxisAlignment: isSended
                     ? CrossAxisAlignment.end
                     : CrossAxisAlignment.start,
                 children: [
-                  isSended
-                      ? Container()
-                      : (index == 0 ||
-                              chat[index].nickname != chat[index - 1].nickname)
-                          ? Container(
-                              margin:
-                                  const EdgeInsets.only(bottom: Sizes.size3),
-                              child: Text(
-                                chat[index].nickname,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: Sizes.size12,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            )
-                          : Container(),
+                  if (isSended)
+                    Container()
+                  else if (index == 0 ||
+                      chat[index].nickname != chat[index - 1].nickname)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: Sizes.size3),
+                      child: Text(
+                        chat[index].nickname,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: Sizes.size12,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  else
+                    Container(),
                   Row(
                     mainAxisAlignment: isSended
                         ? MainAxisAlignment.end
                         : MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      isSended &&
-                              (index == chat.length - 1 ||
-                                  diffDatetime(chat[index].sendedAt) !=
-                                      diffDatetime(chat[index + 1].sendedAt) ||
-                                  chat[index].nickname !=
-                                      chat[index + 1].nickname)
-                          ? Container(
-                              margin: const EdgeInsets.only(right: Sizes.size5),
-                              child: Text(
-                                diffDatetime(chat[index].sendedAt),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: Sizes.size10,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            )
-                          : Container(),
+                      if (isSended &&
+                          (index == chat.length - 1 ||
+                              diffDatetime(chat[index].sendedAt) !=
+                                  diffDatetime(chat[index + 1].sendedAt) ||
+                              chat[index].nickname != chat[index + 1].nickname))
+                        Container(
+                          margin: const EdgeInsets.only(right: Sizes.size5),
+                          child: Text(
+                            diffDatetime(chat[index].sendedAt),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: Sizes.size10,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        )
+                      else
+                        Container(),
                       Flexible(
                         child: Container(
                           padding: const EdgeInsets.all(Sizes.size7),
@@ -121,26 +122,25 @@ class ChatBox extends StatelessWidget {
                           ),
                         ),
                       ),
-                      isSended
-                          ? Container()
-                          : (index == chat.length - 1 ||
-                                  diffDatetime(chat[index].sendedAt) !=
-                                      diffDatetime(chat[index + 1].sendedAt) ||
-                                  chat[index].nickname !=
-                                      chat[index + 1].nickname)
-                              ? Container(
-                                  margin:
-                                      const EdgeInsets.only(left: Sizes.size5),
-                                  child: Text(
-                                    diffDatetime(chat[index].sendedAt),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: Sizes.size10,
-                                      color: Colors.grey.shade600,
-                                    ),
-                                  ),
-                                )
-                              : Container(),
+                      if (isSended)
+                        Container()
+                      else if (index == chat.length - 1 ||
+                          diffDatetime(chat[index].sendedAt) !=
+                              diffDatetime(chat[index + 1].sendedAt) ||
+                          chat[index].nickname != chat[index + 1].nickname)
+                        Container(
+                          margin: const EdgeInsets.only(left: Sizes.size5),
+                          child: Text(
+                            diffDatetime(chat[index].sendedAt),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: Sizes.size10,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        )
+                      else
+                        Container(),
                     ],
                   ),
                   Gaps.v10,

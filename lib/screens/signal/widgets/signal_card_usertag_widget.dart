@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 
-class UserTag extends StatelessWidget {
+class CardUserTag extends StatelessWidget {
   final String tag;
 
-  const UserTag({
+  const CardUserTag({
     Key? key,
     required this.tag,
   }) : super(key: key);

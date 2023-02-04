@@ -84,44 +84,43 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
                         ],
                       ),
                     ),
-                    isPhoneSubmit
-                        ? Form(
-                            key: _authNumFormKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '문자 메세지로 도착한',
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                Text(
-                                  '인증번호를 입력해 주세요',
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                Gaps.v10,
-                                TextFormField(
-                                  focusNode: _authNumNode,
-                                  keyboardType: TextInputType.number,
-                                  onTap: () {
-                                    _authNumNode.requestFocus();
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "인증번호를 입력해주세요";
-                                    }
-                                    authNum = value;
-                                    return null;
-                                  },
-                                  onFieldSubmitted: (value) {
-                                    submitHandler();
-                                  },
-                                ),
-                              ],
+                    if (isPhoneSubmit)
+                      Form(
+                        key: _authNumFormKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '문자 메세지로 도착한',
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
-                          )
-                        : Container(),
+                            Text(
+                              '인증번호를 입력해 주세요',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Gaps.v10,
+                            TextFormField(
+                              focusNode: _authNumNode,
+                              keyboardType: TextInputType.number,
+                              onTap: () {
+                                _authNumNode.requestFocus();
+                              },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "인증번호를 입력해주세요";
+                                }
+                                authNum = value;
+                                return null;
+                              },
+                              onFieldSubmitted: (value) {
+                                submitHandler();
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      Container(),
                   ],
                 ),
               ),

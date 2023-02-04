@@ -33,14 +33,15 @@ class LoginBtnWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            icon != null
-                ? Padding(
-                    padding: const EdgeInsets.only(right: Sizes.size5),
-                    child: Container(
-                      child: icon,
-                    ),
-                  )
-                : Container(),
+            if (icon != null)
+              Padding(
+                padding: const EdgeInsets.only(right: Sizes.size5),
+                child: Container(
+                  child: icon,
+                ),
+              )
+            else
+              Container(),
             Text(
               title,
               style: TextStyle(

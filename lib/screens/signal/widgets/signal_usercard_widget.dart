@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/signal/widgets/signal_usertag_widget.dart';
+import 'package:honbap_signal_flutter/screens/signal/widgets/signal_card_usertag_widget.dart';
 
 class SignalUserCard extends StatelessWidget {
   const SignalUserCard({
@@ -85,11 +85,11 @@ class SignalUserCard extends StatelessWidget {
                     spacing: Sizes.size4,
                     runSpacing: Sizes.size4,
                     children: const <Widget>[
-                      UserTag(tag: '양꼬치'),
-                      UserTag(tag: '삼각지역'),
-                      UserTag(tag: '반주사랑'),
-                      UserTag(tag: '이구역토박이'),
-                      UserTag(tag: '한식'),
+                      CardUserTag(tag: '양꼬치'),
+                      CardUserTag(tag: '삼각지역'),
+                      CardUserTag(tag: '반주사랑'),
+                      CardUserTag(tag: '이구역토박이'),
+                      CardUserTag(tag: '한식'),
                     ],
                   ),
                 ),
