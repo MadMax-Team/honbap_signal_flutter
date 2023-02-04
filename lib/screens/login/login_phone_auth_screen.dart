@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:honbap_signal_flutter/constants/gaps.dart';
+import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/tools/phone_format_updater.dart';
-import 'package:honbap_signal_flutter/widgets/login_screen/login_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/login/widgets/login_button_widget.dart';
 
 class LoginPhoneAuthScreen extends StatefulWidget {
   const LoginPhoneAuthScreen({super.key});
@@ -36,7 +38,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
           children: [
             Flexible(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
                 child: Column(
                   children: [
                     Form(
@@ -52,9 +54,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
                             '입력해 주시는 번호로 인증 번호가 발송됩니다',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+                          Gaps.v20,
                           TextFormField(
                             focusNode: _phoneNumFocusNode,
                             keyboardType: TextInputType.number,
@@ -80,52 +80,47 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
                               submitHandler();
                             },
                           ),
-                          const SizedBox(
-                            height: 60,
-                          ),
+                          Gaps.v60,
                         ],
                       ),
                     ),
-                    isPhoneSubmit
-                        ? Form(
-                            key: _authNumFormKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '문자 메세지로 도착한',
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                Text(
-                                  '인증번호를 입력해 주세요',
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                TextFormField(
-                                  focusNode: _authNumNode,
-                                  keyboardType: TextInputType.number,
-                                  onTap: () {
-                                    _authNumNode.requestFocus();
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "인증번호를 입력해주세요";
-                                    }
-                                    authNum = value;
-                                    return null;
-                                  },
-                                  onFieldSubmitted: (value) {
-                                    submitHandler();
-                                  },
-                                ),
-                              ],
+                    if (isPhoneSubmit)
+                      Form(
+                        key: _authNumFormKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '문자 메세지로 도착한',
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
-                          )
-                        : Container(),
+                            Text(
+                              '인증번호를 입력해 주세요',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Gaps.v10,
+                            TextFormField(
+                              focusNode: _authNumNode,
+                              keyboardType: TextInputType.number,
+                              onTap: () {
+                                _authNumNode.requestFocus();
+                              },
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "인증번호를 입력해주세요";
+                                }
+                                authNum = value;
+                                return null;
+                              },
+                              onFieldSubmitted: (value) {
+                                submitHandler();
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      Container(),
                   ],
                 ),
               ),

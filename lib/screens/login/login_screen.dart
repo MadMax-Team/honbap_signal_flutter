@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:honbap_signal_flutter/constants/gaps.dart';
+import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
-import 'package:honbap_signal_flutter/widgets/login_screen/login_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/login/widgets/login_button_widget.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,14 +15,14 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(20),
+        preferredSize: const Size.fromHeight(Sizes.size20),
         child: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,18 +46,14 @@ class LoginScreen extends StatelessWidget {
                       child: Text('이미지'),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  Gaps.v10,
                   LoginBtnWidget(
                     title: "회원가입 하기",
                     bgColor: Theme.of(context).primaryColor,
                     borderColor: Theme.of(context).primaryColor,
                     textColor: Colors.white,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  Gaps.v10,
                   LoginBtnWidget(
                     title: "로그인 하기",
                     bgColor: Colors.white,
@@ -73,31 +71,29 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Container(
-                          height: 2,
+                          height: Sizes.size2,
                           color: const Color(0xffe6e6e6),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        padding: EdgeInsets.symmetric(horizontal: Sizes.size14),
                         child: Text(
                           '간편로그인',
                           style: TextStyle(
                             color: Color(0xFFB8B8B8),
-                            fontSize: 14,
+                            fontSize: Sizes.size14,
                           ),
                         ),
                       ),
                       Flexible(
                         child: Container(
-                          height: 2,
+                          height: Sizes.size2,
                           color: const Color(0xffe6e6e6),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  Gaps.v20,
                   GestureDetector(
                     onTap: () async {
                       try {
@@ -135,14 +131,12 @@ class LoginScreen extends StatelessWidget {
                       textColor: const Color(0xff402326),
                       icon: Image.asset(
                         'assets/images/kakaotalk_logo.png',
-                        width: 23,
-                        height: 23,
+                        width: Sizes.size24,
+                        height: Sizes.size24,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  Gaps.v10,
                   Text(
                     '회원가입 시 혼밥시그널의 서비스 이용 약관과 개인정보 보호정책에 동의하게 됩니다.',
                     style: Theme.of(context).textTheme.labelSmall,

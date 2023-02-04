@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:honbap_signal_flutter/constants/sizes.dart';
 
 class LoginBtnWidget extends StatelessWidget {
   const LoginBtnWidget({
@@ -19,32 +20,33 @@ class LoginBtnWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: Sizes.size52,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(borderRad),
         border: Border.all(
           color: borderColor,
-          width: 1,
+          width: Sizes.size1,
         ),
       ),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            icon != null
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 5),
-                    child: Container(
-                      child: icon,
-                    ),
-                  )
-                : Container(),
+            if (icon != null)
+              Padding(
+                padding: const EdgeInsets.only(right: Sizes.size5),
+                child: Container(
+                  child: icon,
+                ),
+              )
+            else
+              Container(),
             Text(
               title,
               style: TextStyle(
                 color: textColor,
-                fontSize: 14,
+                fontSize: Sizes.size14,
               ),
             ),
           ],

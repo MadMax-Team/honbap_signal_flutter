@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:honbap_signal_flutter/constants/gaps.dart';
+import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/chats/chat_room_model.dart';
-import 'package:honbap_signal_flutter/widgets/chats_screen/chats_chatbox_widget.dart';
+import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatbox_widget.dart';
 
 class ChatRoomScreen extends StatefulWidget {
   final String nickname, profileImage;
@@ -97,7 +99,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       child: CustomScrollView(
                         slivers: [
                           const SliverToBoxAdapter(
-                            child: SizedBox(height: 10),
+                            child: Gaps.v10,
                           ),
                           for (var index = 0; index < chat.length; index++)
                             ChatBox(
@@ -107,7 +109,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               isSended: chat[index].nickname != widget.nickname,
                             ),
                           const SliverToBoxAdapter(
-                            child: SizedBox(height: 10),
+                            child: Gaps.v10,
                           ),
                         ],
                       ),
@@ -120,15 +122,20 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               ),
             ),
             Container(
-              height: 50,
-              margin: const EdgeInsets.fromLTRB(10, 0, 10, 25),
+              height: Sizes.size48,
+              margin: const EdgeInsets.fromLTRB(
+                Sizes.size10,
+                0,
+                Sizes.size10,
+                Sizes.size24,
+              ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(Sizes.size24),
                 boxShadow: [
                   BoxShadow(
-                    blurRadius: 5,
-                    spreadRadius: 1,
-                    color: Colors.grey[400]!,
+                    blurRadius: Sizes.size5,
+                    spreadRadius: Sizes.size1,
+                    color: Colors.grey.shade400,
                   ),
                 ],
                 color: Colors.white,
@@ -145,13 +152,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     ),
                   ),
                   Container(
-                    width: 1,
-                    height: 30,
-                    color: Colors.grey[300],
+                    width: Sizes.size1,
+                    height: Sizes.size28,
+                    color: Colors.grey.shade300,
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      margin:
+                          const EdgeInsets.symmetric(horizontal: Sizes.size10),
                       child: const Text('input'),
                     ),
                   ),
