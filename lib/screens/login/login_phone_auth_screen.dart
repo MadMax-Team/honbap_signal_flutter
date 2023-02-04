@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:honbap_signal_flutter/constants/gaps.dart';
+import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/tools/phone_format_updater.dart';
-import 'package:honbap_signal_flutter/widgets/login_screen/login_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/login/widgets/login_button_widget.dart';
 
 class LoginPhoneAuthScreen extends StatefulWidget {
   const LoginPhoneAuthScreen({super.key});
@@ -36,7 +38,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
           children: [
             Flexible(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
                 child: Column(
                   children: [
                     Form(
@@ -52,9 +54,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
                             '입력해 주시는 번호로 인증 번호가 발송됩니다',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+                          Gaps.v20,
                           TextFormField(
                             focusNode: _phoneNumFocusNode,
                             keyboardType: TextInputType.number,
@@ -80,9 +80,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
                               submitHandler();
                             },
                           ),
-                          const SizedBox(
-                            height: 60,
-                          ),
+                          Gaps.v60,
                         ],
                       ),
                     ),
@@ -102,9 +100,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
                                   style:
                                       Theme.of(context).textTheme.titleMedium,
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
+                                Gaps.v10,
                                 TextFormField(
                                   focusNode: _authNumNode,
                                   keyboardType: TextInputType.number,

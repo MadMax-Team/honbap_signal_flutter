@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/screens/chats/chat_list_screen.dart';
+import 'package:honbap_signal_flutter/screens/signal/signal_list_screen.dart';
 
 class RouteNavigationWidget extends StatefulWidget {
   const RouteNavigationWidget({super.key});
@@ -9,7 +11,6 @@ class RouteNavigationWidget extends StatefulWidget {
 }
 
 class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
-  int _currentIdx = 0;
   List<Widget> screens = [
     const Center(
       child: Text('home'),
@@ -17,9 +18,7 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
     const Center(
       child: Text('info'),
     ),
-    const Center(
-      child: Text('location'),
-    ),
+    const SignalListScreen(),
     const Center(
       child: Text('signal'),
     ),
@@ -37,12 +36,12 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
             height: double.infinity,
           ),
           Scaffold(
-            body: TabBarView(children: screens),
+            body: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: screens,
+            ),
             bottomNavigationBar: SafeArea(
               child: TabBar(
-                onTap: (value) => setState(() {
-                  _currentIdx = value;
-                }),
                 tabs: const [
                   Tab(
                     icon: Icon(
@@ -79,9 +78,10 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
                 indicator: UnderlineTabIndicator(
                   borderSide: BorderSide(
                     color: Theme.of(context).primaryColor,
-                    width: 3,
+                    width: Sizes.size3,
                   ),
-                  insets: const EdgeInsets.only(bottom: 44),
+                  insets:
+                      const EdgeInsets.only(bottom: Sizes.size44 + Sizes.size1),
                 ),
                 unselectedLabelColor: Colors.black,
               ),
