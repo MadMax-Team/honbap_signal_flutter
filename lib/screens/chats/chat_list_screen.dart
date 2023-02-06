@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:honbap_signal_flutter/models/chats/chat_list_model.dart';
+import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatcard_widget.dart';
 import 'package:honbap_signal_flutter/tools/push_new_screen.dart';
-import 'package:honbap_signal_flutter/widgets/chats_screen/chats_chatcard_widget.dart';
 
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({super.key});
@@ -55,7 +55,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
         ],
       ),
       body: Container(
-        color: Colors.grey[200],
+        color: Colors.grey.shade200,
         child: FutureBuilder(
           future: _getChatList(),
           builder: (context, snapshot) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
+import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/chats/chat_list_screen.dart';
 import 'package:honbap_signal_flutter/screens/home/home_screen.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '혼밥시그널',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
         primarySwatch: createMaterialColor(const Color(0xffff4b25)),
         textTheme: const TextTheme(
           // 2022 sets
@@ -38,12 +40,12 @@ class MyApp extends StatelessWidget {
           // labelLarge, labelMedium, labelSmall
           titleMedium: TextStyle(
             fontWeight: FontWeight.w700,
-            fontSize: 20,
+            fontSize: Sizes.size20,
           ),
           labelSmall: TextStyle(
             color: Color(0xFFB8B8B8),
-            fontSize: 10,
-            letterSpacing: 0.5,
+            fontSize: Sizes.size10,
+            letterSpacing: Sizes.size1 / Sizes.size2,
           ),
         ),
       ),
