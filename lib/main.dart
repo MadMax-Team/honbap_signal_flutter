@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/routes/route_navigation_widget.dart';
+import 'package:honbap_signal_flutter/screens/chats/chat_list_screen.dart';
+import 'package:honbap_signal_flutter/screens/home/home_screen.dart';
+import 'package:honbap_signal_flutter/screens/login_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'apis/kakao_api_key.dart';
@@ -44,7 +47,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const RouteNavigationWidget(),
+      home: const HomeScreen(),
     );
   }
 }
