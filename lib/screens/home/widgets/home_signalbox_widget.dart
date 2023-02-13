@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class SignalBox extends StatefulWidget {
   const SignalBox({
@@ -69,9 +70,16 @@ class _SignalBoxState extends State<SignalBox> with SingleTickerProviderStateMix
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_off.svg'),
                 const SizedBox(width: 11),
-                CupertinoSwitch(
+                FlutterSwitch(
+                  width: 105,
+                  height: 42,
+                  toggleSize: 35,
+                  activeColor: Colors.white,
+                  inactiveColor: Colors.white,
+                  toggleColor: const Color(0xffF8280B),
                   value: _isOn,
-                  onChanged: (bool value) {
+                  padding: 3,
+                  onToggle: (bool value) {
                     setState(() {
                       _isOn = value;
                     });
