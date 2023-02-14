@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'apis/kakao_api_key.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Kakao SDK initialize
   KakaoSdk.init(nativeAppKey: KAKAO_API_KEY);
-
-  initializeDateFormatting();
 
   runApp(const MyApp());
 }
@@ -25,6 +23,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '혼밥시그널',
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ko'),
+      ],
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: createMaterialColor(const Color(0xffff4b25)),
@@ -38,6 +45,10 @@ class MyApp extends StatelessWidget {
           titleMedium: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: Sizes.size20,
+          ),
+          titleSmall: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: Sizes.size16,
           ),
           labelSmall: TextStyle(
             color: Color(0xFFB8B8B8),

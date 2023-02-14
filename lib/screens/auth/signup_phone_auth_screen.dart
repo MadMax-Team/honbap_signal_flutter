@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_phone_auth_complete.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 import 'package:honbap_signal_flutter/tools/phone_format_updater.dart';
 
-class SigninPhoneAuthScreen extends StatefulWidget {
-  const SigninPhoneAuthScreen({super.key});
+class SignupPhoneAuthScreen extends StatefulWidget {
+  const SignupPhoneAuthScreen({super.key});
 
   @override
-  State<SigninPhoneAuthScreen> createState() => _SigninPhoneAuthScreenState();
+  State<SignupPhoneAuthScreen> createState() => _SignupPhoneAuthScreenState();
 }
 
-class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
+class _SignupPhoneAuthScreenState extends State<SignupPhoneAuthScreen> {
   String phoneNum = "", authNum = "";
   bool isPhoneSubmit = false;
 
@@ -21,6 +22,36 @@ class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
 
   final FocusNode _phoneNumFocusNode = FocusNode();
   final FocusNode _authNumNode = FocusNode();
+
+  void _submitHandler() {
+    if (_phoneNumFormKey.currentState!.validate()) {
+      setState(() {
+        isPhoneSubmit = true;
+      });
+      // print(phoneNum);
+    } else {
+      _phoneNumFocusNode.requestFocus();
+      return;
+    }
+
+    if (_authNumFormKey.currentState != null &&
+        _authNumFormKey.currentState!.validate()) {
+      // print(authNum);
+    } else {
+      _authNumNode.requestFocus();
+      return;
+    }
+
+    _authNumNode.unfocus();
+    _phoneNumFocusNode.unfocus();
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignupPhoneAuthComplete(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +63,9 @@ class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(
+            color: Colors.black, // <-- SEE HERE
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,6 +75,7 @@ class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
                 child: Column(
                   children: [
+                    Gaps.v20,
                     Form(
                       key: _phoneNumFormKey,
                       child: Column(
@@ -77,7 +112,7 @@ class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
                               return null;
                             },
                             onFieldSubmitted: (value) {
-                              submitHandler();
+                              _submitHandler();
                             },
                           ),
                           Gaps.v60,
@@ -113,7 +148,7 @@ class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
                                 return null;
                               },
                               onFieldSubmitted: (value) {
-                                submitHandler();
+                                _submitHandler();
                               },
                             ),
                           ],
@@ -127,7 +162,7 @@ class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
             ),
             GestureDetector(
               onTap: () {
-                submitHandler();
+                _submitHandler();
               },
               child: AuthBtnWidget(
                 title: "계속하기",
@@ -141,28 +176,5 @@ class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
         ),
       ),
     );
-  }
-
-  void submitHandler() {
-    if (_phoneNumFormKey.currentState!.validate()) {
-      setState(() {
-        isPhoneSubmit = true;
-      });
-      // print(phoneNum);
-    } else {
-      _phoneNumFocusNode.requestFocus();
-      return;
-    }
-
-    if (_authNumFormKey.currentState != null &&
-        _authNumFormKey.currentState!.validate()) {
-      // print(authNum);
-    } else {
-      _authNumNode.requestFocus();
-      return;
-    }
-
-    _authNumNode.unfocus();
-    _phoneNumFocusNode.unfocus();
   }
 }
