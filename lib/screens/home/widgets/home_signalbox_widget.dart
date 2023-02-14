@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 class SignalBox extends StatefulWidget {
-  const SignalBox({
-    Key? key,
-    required this.signal
-  }) : super(key: key);
+  const SignalBox({Key? key, required this.signal}) : super(key: key);
 
   final bool signal;
 
@@ -15,7 +11,8 @@ class SignalBox extends StatefulWidget {
   State<SignalBox> createState() => _SignalBoxState();
 }
 
-class _SignalBoxState extends State<SignalBox> with SingleTickerProviderStateMixin {
+class _SignalBoxState extends State<SignalBox>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   var _isOn = true;
 
@@ -38,16 +35,15 @@ class _SignalBoxState extends State<SignalBox> with SingleTickerProviderStateMix
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: const [
-              BoxShadow(
-                color: Color.fromRGBO(135, 135, 135, 0.2),
-                blurRadius: 10.0,
-                spreadRadius: 0.3,
-                offset: Offset(0.0, 5.0), //(x,y)
-              )
-            ]
-          ),
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromRGBO(135, 135, 135, 0.2),
+                  blurRadius: 10.0,
+                  spreadRadius: 0.3,
+                  offset: Offset(0.0, 5.0), //(x,y)
+                )
+              ]),
           child: SizedBox(
             width: double.infinity,
             child: SvgPicture.asset(
@@ -65,7 +61,7 @@ class _SignalBoxState extends State<SignalBox> with SingleTickerProviderStateMix
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if(_isOn)
+                if (_isOn)
                   SvgPicture.asset('assets/icons/home_signal_box_off_trans.svg')
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_off.svg'),
@@ -86,13 +82,12 @@ class _SignalBoxState extends State<SignalBox> with SingleTickerProviderStateMix
                   },
                 ),
                 const SizedBox(width: 15),
-                if(_isOn)
+                if (_isOn)
                   SvgPicture.asset('assets/icons/home_signal_box_on.svg')
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_on_trans.svg')
               ],
-            )
-        )
+            ))
       ],
     );
   }

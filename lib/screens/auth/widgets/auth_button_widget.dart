@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 
-class LoginBtnWidget extends StatelessWidget {
-  const LoginBtnWidget({
+class AuthBtnWidget extends StatelessWidget {
+  const AuthBtnWidget({
     Key? key,
     required this.title,
     required this.bgColor,

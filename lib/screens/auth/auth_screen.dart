@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
-import 'package:honbap_signal_flutter/screens/login/widgets/login_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:http/http.dart' as http;
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +47,16 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   Gaps.v10,
-                  LoginBtnWidget(
-                    title: "회원가입 하기",
-                    bgColor: Theme.of(context).primaryColor,
-                    borderColor: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
+                  GestureDetector(
+                    child: AuthBtnWidget(
+                      title: "회원가입 하기",
+                      bgColor: Theme.of(context).primaryColor,
+                      borderColor: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                    ),
                   ),
                   Gaps.v10,
-                  LoginBtnWidget(
+                  AuthBtnWidget(
                     title: "로그인 하기",
                     bgColor: Colors.white,
                     borderColor: Theme.of(context).primaryColor,
@@ -114,17 +116,16 @@ class LoginScreen extends StatelessWidget {
                         );
 
                         final profileInfo = json.decode(response.body);
-                        print(profileInfo.toString());
 
+                        // ignore: unused_local_variable
                         KakaoLoginModel kakaoAccount =
                             KakaoLoginModel.fromJson(profileInfo);
-
-                        print(kakaoAccount);
                       } catch (error) {
+                        // ignore: avoid_print
                         print('카카오톡으로 로그인 실패 $error');
                       }
                     },
-                    child: LoginBtnWidget(
+                    child: AuthBtnWidget(
                       title: "카카오로 로그인",
                       bgColor: const Color(0xffffe500),
                       borderColor: const Color(0xffffe500),

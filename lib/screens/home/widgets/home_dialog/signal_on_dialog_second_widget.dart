@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_third_widget.dart';
 import 'package:intl/intl.dart';
@@ -11,14 +10,12 @@ class SignalSecondDialog extends StatefulWidget {
 }
 
 class _SignalSecondDialogState extends State<SignalSecondDialog> {
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: const Color(0xffF2F2F2),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-            Radius.circular(7.0)),
+        borderRadius: BorderRadius.all(Radius.circular(7.0)),
       ),
       contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
       content: SizedBox(
@@ -32,10 +29,12 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
               child: IconButton(
                 padding: const EdgeInsets.all(0),
                 constraints: const BoxConstraints(),
-                onPressed: () { Navigator.of(context).pop(); },
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
                 icon: const Icon(
                   Icons.close,
-                  color : Colors.black,
+                  color: Colors.black,
                   size: 20,
                 ),
               ),
@@ -48,7 +47,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     '시그널 글 작성',
                     style: TextStyle(
                       fontSize: 18,
@@ -56,8 +55,8 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 6),
-                  Text(
+                  const SizedBox(height: 6),
+                  const Text(
                     '구체적인 시그널을 작성하여 매칭상대를 빠르게 찾아보세요',
                     style: TextStyle(
                       fontSize: 12,
@@ -65,42 +64,39 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       color: Color(0xff737373),
                     ),
                   ),
-                  SizedBox(height: 46),
+                  const SizedBox(height: 46),
                   Row(
-                    children: [
+                    children: const [
                       Text(
                         '약속시간',
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xff737373)
-                        ),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff737373)),
                       ),
                     ],
                   ),
-                  SizedBox(height: 9),
+                  const SizedBox(height: 9),
                   Row(
-                    children: [
+                    children: const [
                       Text(
                         '만날장소',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xff737373)
-                        ),
+                            color: Color(0xff737373)),
                       ),
                     ],
                   ),
-                  SizedBox(height: 9),
+                  const SizedBox(height: 9),
                   Row(
-                    children: [
+                    children: const [
                       Text(
                         '메뉴',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xff737373)
-                        ),
+                            color: Color(0xff737373)),
                       ),
                     ],
                   )
@@ -115,10 +111,9 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
               child: Text(
                 '시그널 생성일자 ${checkTime(context)}',
                 style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 9,
-                  color: Color(0xff8E8E8E)
-                ),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 9,
+                    color: Color(0xff8E8E8E)),
               ),
             ),
             const SizedBox(height: 20),
@@ -129,7 +124,10 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
-                      showDialog(context: context, builder: (_) => const SignalThirdBox(), barrierDismissible: false);
+                      showDialog(
+                          context: context,
+                          builder: (_) => const SignalThirdBox(),
+                          barrierDismissible: false);
                     },
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 22),
@@ -151,7 +149,10 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
-                      showDialog(context: context, builder: (_) => const SignalThirdBox(), barrierDismissible: false);
+                      showDialog(
+                          context: context,
+                          builder: (_) => const SignalThirdBox(),
+                          barrierDismissible: false);
                     },
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 22),
@@ -178,7 +179,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
   }
 }
 
-String checkTime(BuildContext context){
+String checkTime(BuildContext context) {
   var now = DateTime.now();
   now = now.toUtc().add(const Duration(hours: 9));
   String formatDate = DateFormat('yyyy.MM.dd  HH:mm').format(now); //format변경

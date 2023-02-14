@@ -3,12 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SignalListBox extends StatefulWidget {
-
-  const SignalListBox({
-    required this.name,
-    required this.imgUri,
-    Key? key
-  }) : super(key: key);
+  const SignalListBox({required this.name, required this.imgUri, Key? key})
+      : super(key: key);
 
   final String name;
   final String imgUri;
@@ -32,8 +28,7 @@ class _SignalListBox extends State<SignalListBox> {
                   spreadRadius: -2,
                   offset: Offset(0.0, 2.0), //(x,y)
                 )
-              ]
-          ),
+              ]),
           child: SizedBox(
             width: double.infinity,
             child: SvgPicture.asset(
@@ -59,8 +54,7 @@ class _SignalListBox extends State<SignalListBox> {
                       height: 24,
                       width: 24,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(125)
-                      ),
+                          borderRadius: BorderRadius.circular(125)),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Image.network(
@@ -71,8 +65,7 @@ class _SignalListBox extends State<SignalListBox> {
                                 'assets/icons/home_signal_list_box_user.svg',
                                 alignment: Alignment.center,
                                 fit: BoxFit.fill,
-                              )
-                          ),
+                              )),
                         ),
                       ),
                     ),
@@ -83,49 +76,39 @@ class _SignalListBox extends State<SignalListBox> {
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black
-                      ),
+                          color: Colors.black),
                     )
                   ],
                 ),
                 Row(
                   children: [
                     CupertinoButton(
-
                       onPressed: () {},
                       minSize: 0.0,
                       padding: const EdgeInsets.fromLTRB(7, 2, 6, 3),
                       color: const Color(0xffFF4B26),
                       borderRadius: BorderRadius.circular(4),
-
                       child: const Text(
-                          '프로필 보기',
-                          style: TextStyle(
-                            fontSize: 12
-                          ),
+                        '프로필 보기',
+                        style: TextStyle(fontSize: 12),
                       ),
                     ),
                     const SizedBox(width: 7),
                     CupertinoButton(
-
                       onPressed: () {},
                       minSize: 0.0,
                       padding: const EdgeInsets.fromLTRB(7, 2, 6, 3),
                       color: const Color(0xffFF4B26),
                       borderRadius: BorderRadius.circular(4),
-
                       child: const Text(
                         '수락하기',
-                        style: TextStyle(
-                            fontSize: 12
-                        ),
+                        style: TextStyle(fontSize: 12),
                       ),
                     ),
                   ],
                 )
               ],
-            )
-        )
+            ))
       ],
     );
   }

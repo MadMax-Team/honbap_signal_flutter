@@ -19,29 +19,28 @@ class HomeListModel {
     if (json['signalToMe'] != null) {
       signalToMe = <SignalInfo>[];
       json['signalToMe'].forEach((v) {
-        signalToMe!.add(new SignalInfo.fromJson(v));
+        signalToMe!.add(SignalInfo.fromJson(v));
       });
     }
     if (json['signalRequest'] != null) {
       signalRequest = <SignalInfo>[];
       json['signalRequest'].forEach((v) {
-        signalRequest!.add(new SignalInfo.fromJson(v));
+        signalRequest!.add(SignalInfo.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['signal'] = this.signal;
-    if (this.matchedInfo != null) {
-      data['matched_info'] = this.matchedInfo!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['signal'] = signal;
+    if (matchedInfo != null) {
+      data['matched_info'] = matchedInfo!.toJson();
     }
-    if (this.signalToMe != null) {
-      data['signalToMe'] = this.signalToMe!.map((v) => v.toJson()).toList();
+    if (signalToMe != null) {
+      data['signalToMe'] = signalToMe!.map((v) => v.toJson()).toList();
     }
-    if (this.signalRequest != null) {
-      data['signalRequest'] =
-          this.signalRequest!.map((v) => v.toJson()).toList();
+    if (signalRequest != null) {
+      data['signalRequest'] = signalRequest!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -54,7 +53,8 @@ class MatchedInfo {
   int? temperature;
   String? location;
 
-  MatchedInfo({this.name, this.image, this.tag, this.temperature, this.location});
+  MatchedInfo(
+      {this.name, this.image, this.tag, this.temperature, this.location});
 
   MatchedInfo.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -65,12 +65,12 @@ class MatchedInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['image'] = this.image;
-    data['tag'] = this.tag;
-    data['temperature'] = this.temperature;
-    data['location'] = this.location;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['image'] = image;
+    data['tag'] = tag;
+    data['temperature'] = temperature;
+    data['location'] = location;
     return data;
   }
 }
@@ -87,15 +87,16 @@ class SignalInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['image'] = this.image;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['image'] = image;
+    data['name'] = name;
     return data;
   }
 }
 
 Future<HomeListModel> fetchHome() async {
-  var url = Uri.parse('https://ac684759-244f-486f-9c52-fd91d013aeed.mock.pstmn.io/home');
+  var url = Uri.parse(
+      'https://ac684759-244f-486f-9c52-fd91d013aeed.mock.pstmn.io/home');
   final response = await http.get(url);
 
   if (response.statusCode == 200) {
