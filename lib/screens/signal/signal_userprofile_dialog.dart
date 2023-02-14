@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/signal/widgets/signal_dialog_usertag_widget%20copy.dart';
+import 'package:honbap_signal_flutter/screens/signal/widgets/signal_dialog_usertag_widget.dart';
 
 class SignalUserDialog extends StatefulWidget {
   const SignalUserDialog({
@@ -202,9 +202,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                   children: [
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {
-                          print('clicked dismiss');
-                        },
+                        onTap: () {},
                         child: Container(
                           alignment: Alignment.center,
                           height: Sizes.size52,
@@ -221,9 +219,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {
-                          print('clicked accept');
-                        },
+                        onTap: () {},
                         child: Container(
                           alignment: Alignment.center,
                           height: Sizes.size52,

@@ -143,9 +143,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () {
-                      print('add btn clicked');
-                    },
+                    onPressed: () {},
                     icon: Icon(
                       Icons.add,
                       color: Theme.of(context).primaryColor,
@@ -164,9 +162,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      print('send btn clicked');
-                    },
+                    onPressed: () {},
                     icon: Icon(
                       Icons.arrow_circle_right,
                       color: Theme.of(context).primaryColor,

@@ -1,0 +1,8 @@
+pre-commit:
+  commands:
+    pretty:
+      glob: "./src/**"
+      run: dart format .
+    flutter-analyze:
+      glob: "./src/**"
+      run: flutter analyze

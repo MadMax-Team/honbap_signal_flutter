@@ -14,8 +14,7 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
     return AlertDialog(
       backgroundColor: const Color(0xffF2F2F2),
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-              Radius.circular(7.0)),
+        borderRadius: BorderRadius.all(Radius.circular(7.0)),
       ),
       contentPadding: const EdgeInsets.fromLTRB(14, 0, 14, 0),
       content: SizedBox(
@@ -70,8 +69,11 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
-                      showDialog(context: context, builder: (_) => const SignalSecondDialog(), barrierDismissible: false);
-                      },
+                      showDialog(
+                          context: context,
+                          builder: (_) => const SignalSecondDialog(),
+                          barrierDismissible: false);
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       height: 46,

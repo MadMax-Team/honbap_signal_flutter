@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SignalThirdBox extends StatefulWidget {
-  const SignalThirdBox({
-    Key? key
-  }) : super(key: key);
+  const SignalThirdBox({Key? key}) : super(key: key);
 
   @override
   State<SignalThirdBox> createState() => _SignalThirdBoxState();
@@ -17,8 +14,7 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
     return AlertDialog(
       backgroundColor: const Color(0xffF2F2F2),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-            Radius.circular(7.0)),
+        borderRadius: BorderRadius.all(Radius.circular(7.0)),
       ),
       contentPadding: const EdgeInsets.all(0),
       content: SizedBox(
@@ -35,9 +31,9 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                     width: 96,
                     height: 96,
                     child: SvgPicture.asset(
-                        'assets/icons/home_signal_box_dialog.svg',
-                        alignment: Alignment.center,
-                        fit: BoxFit.fill,
+                      'assets/icons/home_signal_box_dialog.svg',
+                      alignment: Alignment.center,
+                      fit: BoxFit.fill,
                     ),
                   ),
                   const SizedBox(height: 10),

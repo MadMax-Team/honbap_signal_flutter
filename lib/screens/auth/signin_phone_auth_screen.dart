@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 import 'package:honbap_signal_flutter/tools/phone_format_updater.dart';
-import 'package:honbap_signal_flutter/screens/login/widgets/login_button_widget.dart';
 
-class LoginPhoneAuthScreen extends StatefulWidget {
-  const LoginPhoneAuthScreen({super.key});
+class SigninPhoneAuthScreen extends StatefulWidget {
+  const SigninPhoneAuthScreen({super.key});
 
   @override
-  State<LoginPhoneAuthScreen> createState() => _LoginPhoneAuthScreenState();
+  State<SigninPhoneAuthScreen> createState() => _SigninPhoneAuthScreenState();
 }
 
-class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
+class _SigninPhoneAuthScreenState extends State<SigninPhoneAuthScreen> {
   String phoneNum = "", authNum = "";
   bool isPhoneSubmit = false;
 
@@ -129,7 +129,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
               onTap: () {
                 submitHandler();
               },
-              child: LoginBtnWidget(
+              child: AuthBtnWidget(
                 title: "계속하기",
                 bgColor: Theme.of(context).primaryColor,
                 borderColor: Theme.of(context).primaryColor,
@@ -148,7 +148,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
       setState(() {
         isPhoneSubmit = true;
       });
-      print(phoneNum);
+      // print(phoneNum);
     } else {
       _phoneNumFocusNode.requestFocus();
       return;
@@ -156,7 +156,7 @@ class _LoginPhoneAuthScreenState extends State<LoginPhoneAuthScreen> {
 
     if (_authNumFormKey.currentState != null &&
         _authNumFormKey.currentState!.validate()) {
-      print(authNum);
+      // print(authNum);
     } else {
       _authNumNode.requestFocus();
       return;

@@ -1,7 +1,9 @@
 class KakaoLoginModel {
   final int id;
   final String connectedAt;
+  // ignore: library_private_types_in_public_api
   final _KakaoPropertiesModel properties;
+  // ignore: library_private_types_in_public_api
   final _KakaoAccountModel kakaoAccount;
 
   KakaoLoginModel.fromJson(Map<String, dynamic> json)
