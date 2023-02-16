@@ -4,12 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_phone_auth_screen.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
+
+  void _onSignUpTap(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignupPhoneAuthScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +31,7 @@ class AuthScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
         ),
       ),
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
         child: Column(
@@ -48,6 +59,7 @@ class AuthScreen extends StatelessWidget {
                   ),
                   Gaps.v10,
                   GestureDetector(
+                    onTap: () => _onSignUpTap(context),
                     child: AuthBtnWidget(
                       title: "회원가입 하기",
                       bgColor: Theme.of(context).primaryColor,

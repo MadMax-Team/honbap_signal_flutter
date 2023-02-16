@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/screens/chats/chat_list_screen.dart';
 import 'package:honbap_signal_flutter/screens/home/home_screen.dart';
+import 'package:honbap_signal_flutter/screens/mypage/mypage_screen.dart';
 import 'package:honbap_signal_flutter/screens/signal/signal_list_screen.dart';
 
 class RouteNavigationWidget extends StatefulWidget {
@@ -14,9 +15,7 @@ class RouteNavigationWidget extends StatefulWidget {
 class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
   List<Widget> screens = [
     const HomeScreen(),
-    const Center(
-      child: Text('info'),
-    ),
+    const MyPageScreen(),
     const SignalListScreen(),
     const Center(
       child: Text('signal'),
