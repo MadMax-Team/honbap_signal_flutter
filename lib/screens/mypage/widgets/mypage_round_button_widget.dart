@@ -23,7 +23,7 @@ class MyPageRoundButton extends StatelessWidget {
         color: isTransparent ? Theme.of(context).primaryColor : Colors.white,
         border: Border.all(
           width: 1,
-          color: isTransparent ? Colors.white : Theme.of(context).primaryColor,
+          color: Colors.white,
         ),
         borderRadius: BorderRadius.circular(Sizes.size20),
       ),

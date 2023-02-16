@@ -6,6 +6,9 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/chats/chat_room_model.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatbox_widget.dart';
+import 'package:honbap_signal_flutter/screens/common/user_report_dialog.dart';
+
+enum PopupItems { refresh, delete, declaration, block }
 
 class ChatRoomScreen extends StatefulWidget {
   final String nickname, profileImage;
@@ -36,6 +39,18 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
   //====================-
 
+  void _onPopupButtonSelected(PopupItems? value) {
+    if (value == PopupItems.declaration) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return const UserReportDialog();
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +72,62 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         centerTitle: false,
         backgroundColor: Colors.white,
         actions: [
-          IconButton(
-            onPressed: () {},
+          PopupMenuButton(
+            onSelected: _onPopupButtonSelected,
             icon: const Icon(
               Icons.more_vert,
               color: Colors.black,
             ),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: Sizes.size3 / 2,
+                color: Colors.grey.shade300,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+            ),
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: PopupItems.refresh,
+                child: Text(
+                  '새로고침',
+                  style: TextStyle(
+                    fontSize: Sizes.size14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              const PopupMenuItem(
+                value: PopupItems.delete,
+                child: Text(
+                  '대화삭제',
+                  style: TextStyle(
+                    fontSize: Sizes.size14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              const PopupMenuItem(
+                value: PopupItems.declaration,
+                child: Text(
+                  '신고',
+                  style: TextStyle(
+                    fontSize: Sizes.size14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              const PopupMenuItem(
+                value: PopupItems.block,
+                child: Text(
+                  '차단',
+                  style: TextStyle(
+                    fontSize: Sizes.size14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
