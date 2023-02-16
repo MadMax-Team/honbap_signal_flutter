@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
+import 'package:honbap_signal_flutter/routes/route_navigation_widget.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'apis/kakao_api_key.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale('en'),
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const AuthScreen(),
+      home: const RouteNavigationWidget(),
     );
   }
 }

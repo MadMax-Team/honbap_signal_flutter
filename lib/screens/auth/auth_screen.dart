@@ -31,6 +31,7 @@ class AuthScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
         ),
       ),
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
         child: Column(
