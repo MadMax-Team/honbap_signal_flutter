@@ -5,9 +5,9 @@ class DialogUserTag extends StatelessWidget {
   final String tag;
 
   const DialogUserTag({
-    Key? key,
+    super.key,
     required this.tag,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
