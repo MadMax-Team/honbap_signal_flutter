@@ -50,6 +50,7 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
                     onTap: () {
                       Navigator.of(context).pop();
                     },
+                    behavior: HitTestBehavior.opaque,
                     child: Container(
                       alignment: Alignment.center,
                       height: 46,
@@ -74,6 +75,7 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
                           builder: (_) => const SignalSecondDialog(),
                           barrierDismissible: false);
                     },
+                    behavior: HitTestBehavior.opaque,
                     child: Container(
                       alignment: Alignment.center,
                       height: 46,

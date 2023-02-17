@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_third_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -32,10 +33,12 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: const Icon(
-                  Icons.close,
-                  color: Colors.black,
-                  size: 20,
+                icon: SvgPicture.asset(
+                  'assets/icons/user_profile_exit_icon.svg',
+                  height: 24,
+                  width: 24,
+                  fit: BoxFit.fill,
+                  alignment: Alignment.center,
                 ),
               ),
             ),
@@ -66,40 +69,88 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                   ),
                   const SizedBox(height: 46),
                   Row(
-                    children: const [
-                      Text(
-                        '약속시간',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff737373)),
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            '약속시간',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff737373)),
+                          ),
+                          SizedBox(height: 18),
+                          Text(
+                            '만날장소',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff737373)),
+                          ),
+                          SizedBox(height: 18),
+                          Text(
+                            '메뉴',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff737373)),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 6),
+                      Column(
+                        children: const [
+                          Icon(
+                            Icons.schedule,
+                            color: Color(0xff737373),
+                            size: 20,
+                          ),
+                          SizedBox(height: 18),
+                          Icon(
+                            Icons.place,
+                            color: Color(0xff737373),
+                            size: 20,
+                          ),
+                          SizedBox(height: 18),
+                          Icon(
+                            Icons.restaurant,
+                            color: Color(0xff737373),
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            getCalculateTime(context),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(height: 18),
+                          const Text(
+                            '압구정역',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(height: 18),
+                          const Text(
+                            '약속시간',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff737373)),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 9),
-                  Row(
-                    children: const [
-                      Text(
-                        '만날장소',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff737373)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 9),
-                  Row(
-                    children: const [
-                      Text(
-                        '메뉴',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff737373)),
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),
@@ -129,6 +180,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                           builder: (_) => const SignalThirdBox(),
                           barrierDismissible: false);
                     },
+                    behavior: HitTestBehavior.opaque,
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 22),
                       alignment: Alignment.center,
@@ -154,6 +206,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                           builder: (_) => const SignalThirdBox(),
                           barrierDismissible: false);
                     },
+                    behavior: HitTestBehavior.opaque,
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 22),
                       alignment: Alignment.center,
@@ -183,5 +236,19 @@ String checkTime(BuildContext context) {
   var now = DateTime.now();
   now = now.toUtc().add(const Duration(hours: 9));
   String formatDate = DateFormat('yyyy.MM.dd  HH:mm').format(now); //format변경
+  return formatDate;
+}
+
+String getCalculateTime(BuildContext context) {
+  var now = DateTime.now();
+  now = now.toUtc().add(const Duration(hours: 9));
+  int hourData = int.parse(DateFormat('HH').format(now))+1;
+  String formatDate;
+  if(hourData < 12){
+    formatDate = '오전  ${hourData.toString()} : 00';
+  }
+  else{
+    formatDate = '오후  ${(hourData-12).toString()} : 00';
+  }
   return formatDate;
 }

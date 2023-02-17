@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
+import 'package:honbap_signal_flutter/screens/home/home_screen.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
+import 'package:honbap_signal_flutter/screens/user/widgets/initial_profile_confirm_dialog_widget.dart';
+import 'package:honbap_signal_flutter/screens/user/widgets/initial_profile_setting_dialog_widget.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'apis/kakao_api_key.dart';
@@ -46,7 +51,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const AuthScreen(),
+      home: const InitialProfileDialog(),
     );
   }
 }
