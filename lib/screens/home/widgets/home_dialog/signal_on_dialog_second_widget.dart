@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_third_widget.dart';
@@ -11,6 +14,9 @@ class SignalSecondDialog extends StatefulWidget {
 }
 
 class _SignalSecondDialogState extends State<SignalSecondDialog> {
+  final _valueList = ['직접입력', '프로필 불러오기'];
+  var _selectedValue = '직접입력';
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -140,12 +146,35 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                                 color: Colors.black),
                           ),
                           const SizedBox(height: 18),
-                          const Text(
-                            '약속시간',
-                            style: TextStyle(
-                                fontSize: 16,
+                          DropdownButton(
+                              elevation: 0, //remove floating shadow
+                              value: _selectedValue,
+                              items: _valueList.map(
+                                  (value) {
+                                    return DropdownMenuItem(
+                                      value: value,
+                                      child: Text(
+                                          value,
+
+                                      ),
+                                    );
+                                  },
+                              ).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedValue = value!;
+                                });
+                              },
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xff737373)),
+                                fontSize: 16,
+                                color: Color(0xff737373),
+                              ),
+                              icon: SvgPicture.asset(
+                                'assets/icons/home_dropdown_more.svg',
+                                alignment: Alignment.center,
+                                fit: BoxFit.fill,
+                              ),
                           ),
                         ],
                       ),
@@ -177,7 +206,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => const SignalThirdBox(),
+                          builder: (_) => const SignalThirdBox(nowTime: null, location: null, menu: null,),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,
@@ -203,7 +232,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => const SignalThirdBox(),
+                          builder: (_) => SignalThirdBox(nowTime: DateTime.now(), location: '압구정역', menu: '피자',),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,

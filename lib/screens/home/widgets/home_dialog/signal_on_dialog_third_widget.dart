@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SignalThirdBox extends StatefulWidget {
-  const SignalThirdBox({Key? key}) : super(key: key);
+  const SignalThirdBox({
+    required this.nowTime,
+    required this.location,
+    required this.menu,
+    Key? key
+  }) : super(key: key);
+
+  final DateTime? nowTime;
+  final String? location;
+  final String? menu;
 
   @override
   State<SignalThirdBox> createState() => _SignalThirdBoxState();

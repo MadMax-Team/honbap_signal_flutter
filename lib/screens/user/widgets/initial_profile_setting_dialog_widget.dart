@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:honbap_signal_flutter/screens/user/initial_profile_text_field_widget.dart';
+import 'package:honbap_signal_flutter/screens/user/widgets/initial_profile_text_field_widget.dart';
 
 class InitialProfileDialog extends StatefulWidget {
   const InitialProfileDialog({Key? key}) : super(key: key);
@@ -11,6 +11,11 @@ class InitialProfileDialog extends StatefulWidget {
 }
 
 class _InitialProfileDialogState extends State<InitialProfileDialog> {
+  final food = ['한식', '중식', '일식', '양식', '직접입력'];
+  List<String> favoriteFoodList = <String>[];
+  List<String> hateFoodList = <String>[];
+
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -91,13 +96,45 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                     ),
                     SizedBox(height: 7),
                     Container(
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        spacing: 4.0,
-                        runSpacing: 4.0,
-                        children: [
-
-                        ],
+                      alignment: Alignment.centerLeft,
+                      width: double.maxFinite,
+                      child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          spacing: 6,
+                          runSpacing: 7,
+                          children: [
+                            for (int i = 0;
+                            i < food.length;
+                            i++)
+                              GestureDetector(
+                                onTap: () {
+                                  favoriteFoodList.contains(food[i]) ? favoriteFoodList.remove(food[i]) : favoriteFoodList.add(food[i]);
+                                  print(favoriteFoodList);
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.fromLTRB(12, 9, 12, 9),
+                                  decoration: BoxDecoration(
+                                    color: favoriteFoodList.contains(food[i]) ? Color(0xffF35928) : Colors.white,
+                                    border: Border.all(
+                                      color: favoriteFoodList.contains(food[i]) ? Color(0xffF35928) : Color(0xffE1E1E1),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    food[i],
+                                    style: TextStyle(
+                                      color: favoriteFoodList.contains(food[i]) ? Colors.white : Color(0xff737373),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 17),
@@ -110,7 +147,48 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                       ),
                     ),
                     SizedBox(height: 7),
-
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: double.maxFinite,
+                      child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          spacing: 6,
+                          runSpacing: 7,
+                          children: [
+                            for (int i = 0;
+                            i < food.length;
+                            i++)
+                              GestureDetector(
+                                onTap: () {
+                                  favoriteFoodList.contains(food[i]) ? favoriteFoodList.remove(food[i]) : favoriteFoodList.add(food[i]);
+                                  print(favoriteFoodList);
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.fromLTRB(12, 9, 12, 9),
+                                  decoration: BoxDecoration(
+                                    color: favoriteFoodList.contains(food[i]) ? Color(0xffF35928) : Colors.white,
+                                    border: Border.all(
+                                      color: favoriteFoodList.contains(food[i]) ? Color(0xffF35928) : Color(0xffE1E1E1),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    food[i],
+                                    style: TextStyle(
+                                      color: favoriteFoodList.contains(food[i]) ? Colors.white : Color(0xff737373),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 14),
                     Text(
                       '선호장소',
