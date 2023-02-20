@@ -119,7 +119,7 @@ class _StateCardState extends State<StateCard> {
                           spacing: 5.0,
                           runSpacing: 5.0,
                           children: [
-                            for (int i = 1;
+                            for (int i = 0;
                                 i < widget.matchedInfo.tag!.length;
                                 i++)
                               MatchedUserTag(tag: widget.matchedInfo.tag![i])

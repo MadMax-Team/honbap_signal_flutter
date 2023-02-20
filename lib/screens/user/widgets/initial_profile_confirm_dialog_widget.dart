@@ -1,23 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SignalThirdBox extends StatefulWidget {
-  const SignalThirdBox(
-      {required this.nowTime,
-      required this.location,
-      required this.menu,
-      Key? key})
-      : super(key: key);
-
-  final DateTime? nowTime;
-  final String? location;
-  final String? menu;
+class InitialProfileConfirmDialog extends StatefulWidget {
+  const InitialProfileConfirmDialog({Key? key}) : super(key: key);
 
   @override
-  State<SignalThirdBox> createState() => _SignalThirdBoxState();
+  State<InitialProfileConfirmDialog> createState() =>
+      _InitialProfileConfirmDialogState();
 }
 
-class _SignalThirdBoxState extends State<SignalThirdBox> {
+class _InitialProfileConfirmDialogState
+    extends State<InitialProfileConfirmDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -31,7 +25,7 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 35),
+            const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: Column(
@@ -40,14 +34,14 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                     width: 96,
                     height: 96,
                     child: SvgPicture.asset(
-                      'assets/icons/home_signal_box_dialog.svg',
+                      'assets/icons/user_profile_honbob_icon.svg',
                       alignment: Alignment.center,
                       fit: BoxFit.fill,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 6),
                   const Text(
-                    '시그널 on 상태가 되었습니다',
+                    '프로필 설정이 완료되었습니다!',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -57,7 +51,7 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                   const SizedBox(height: 6),
                   const Text(
                     textAlign: TextAlign.center,
-                    '매칭 상대가 나타나지 않으면 1시간 이후 자동으로 Off됩니다',
+                    '프로필 수정은 마이페이지>프로필설정에서 가능합니다',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -86,7 +80,7 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                       height: 46,
                       width: double.maxFinite,
                       child: const Text(
-                        '확인',
+                        '혼밥시그널 시작하기',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,
