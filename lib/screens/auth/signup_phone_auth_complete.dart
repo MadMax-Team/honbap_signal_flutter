@@ -6,13 +6,20 @@ import 'package:honbap_signal_flutter/screens/auth/signup_screen.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 
 class SignupPhoneAuthComplete extends StatelessWidget {
-  const SignupPhoneAuthComplete({super.key});
+  const SignupPhoneAuthComplete({
+    super.key,
+    required this.phoneNum,
+  });
+
+  final String phoneNum;
 
   void _onContinueTap(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const SignupScreen(),
+        builder: (context) => SignupScreen(
+          phoneNum: phoneNum,
+        ),
       ),
     );
   }
