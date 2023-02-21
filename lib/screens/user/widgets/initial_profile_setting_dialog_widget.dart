@@ -15,7 +15,6 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
   List<String> favoriteFoodList = <String>[];
   List<String> hateFoodList = <String>[];
 
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -75,7 +74,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       '소개글',
                       style: TextStyle(
                         fontSize: 14,
@@ -83,10 +82,10 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 8),
-                    ProfileTextField(hintWord: '자신을 소개할 수 있는 글을 작성해주세요.'),
+                    const SizedBox(height: 8),
+                    const ProfileTextField(hintWord: '자신을 소개할 수 있는 글을 작성해주세요.'),
                     SizedBox(height: 16),
-                    Text(
+                    const Text(
                       '선호음식',
                       style: TextStyle(
                         fontSize: 14,
@@ -105,28 +104,35 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                           spacing: 6,
                           runSpacing: 7,
                           children: [
-                            for (int i = 0;
-                            i < food.length;
-                            i++)
+                            for (int i = 0; i < food.length; i++)
                               GestureDetector(
                                 onTap: () {
-                                  favoriteFoodList.contains(food[i]) ? favoriteFoodList.remove(food[i]) : favoriteFoodList.add(food[i]);
+                                  favoriteFoodList.contains(food[i])
+                                      ? favoriteFoodList.remove(food[i])
+                                      : favoriteFoodList.add(food[i]);
                                   print(favoriteFoodList);
                                   setState(() {});
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.fromLTRB(12, 9, 12, 9),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(12, 9, 12, 9),
                                   decoration: BoxDecoration(
-                                    color: favoriteFoodList.contains(food[i]) ? Color(0xffF35928) : Colors.white,
+                                    color: favoriteFoodList.contains(food[i])
+                                        ? Color(0xffF35928)
+                                        : Colors.white,
                                     border: Border.all(
-                                      color: favoriteFoodList.contains(food[i]) ? Color(0xffF35928) : Color(0xffE1E1E1),
+                                      color: favoriteFoodList.contains(food[i])
+                                          ? Color(0xffF35928)
+                                          : Color(0xffE1E1E1),
                                       width: 1,
                                     ),
                                   ),
                                   child: Text(
                                     food[i],
                                     style: TextStyle(
-                                      color: favoriteFoodList.contains(food[i]) ? Colors.white : Color(0xff737373),
+                                      color: favoriteFoodList.contains(food[i])
+                                          ? Colors.white
+                                          : Color(0xff737373),
                                       fontSize: 10,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -157,28 +163,35 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                           spacing: 6,
                           runSpacing: 7,
                           children: [
-                            for (int i = 0;
-                            i < food.length;
-                            i++)
+                            for (int i = 0; i < food.length; i++)
                               GestureDetector(
                                 onTap: () {
-                                  favoriteFoodList.contains(food[i]) ? favoriteFoodList.remove(food[i]) : favoriteFoodList.add(food[i]);
-                                  print(favoriteFoodList);
+                                  hateFoodList.contains(food[i])
+                                      ? hateFoodList.remove(food[i])
+                                      : hateFoodList.add(food[i]);
+                                  print(hateFoodList);
                                   setState(() {});
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.fromLTRB(12, 9, 12, 9),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(12, 9, 12, 9),
                                   decoration: BoxDecoration(
-                                    color: favoriteFoodList.contains(food[i]) ? Color(0xffF35928) : Colors.white,
+                                    color: hateFoodList.contains(food[i])
+                                        ? Color(0xffF35928)
+                                        : Colors.white,
                                     border: Border.all(
-                                      color: favoriteFoodList.contains(food[i]) ? Color(0xffF35928) : Color(0xffE1E1E1),
+                                      color: hateFoodList.contains(food[i])
+                                          ? Color(0xffF35928)
+                                          : Color(0xffE1E1E1),
                                       width: 1,
                                     ),
                                   ),
                                   child: Text(
                                     food[i],
                                     style: TextStyle(
-                                      color: favoriteFoodList.contains(food[i]) ? Colors.white : Color(0xff737373),
+                                      color: hateFoodList.contains(food[i])
+                                          ? Colors.white
+                                          : Color(0xff737373),
                                       fontSize: 10,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -190,7 +203,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                       ),
                     ),
                     SizedBox(height: 14),
-                    Text(
+                    const Text(
                       '선호장소',
                       style: TextStyle(
                         fontSize: 14,
@@ -198,10 +211,10 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 6),
-                    ProfileTextField(hintWord: '직접입력'),
-                    SizedBox(height: 14),
-                    Text(
+                    const SizedBox(height: 6),
+                    const ProfileTextField(hintWord: '직접입력'),
+                    const SizedBox(height: 14),
+                    const Text(
                       'MBTI',
                       style: TextStyle(
                         fontSize: 14,
@@ -236,7 +249,8 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                       },
                       child: Container(
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.vertical(top: Radius.zero, bottom: Radius.circular(7)),
+                          borderRadius: BorderRadius.vertical(
+                              top: Radius.zero, bottom: Radius.circular(7)),
                           color: Color(0xffFF4B26),
                         ),
                         alignment: Alignment.center,
