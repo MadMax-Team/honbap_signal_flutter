@@ -6,10 +6,12 @@ class InitialProfileConfirmDialog extends StatefulWidget {
   const InitialProfileConfirmDialog({Key? key}) : super(key: key);
 
   @override
-  State<InitialProfileConfirmDialog> createState() => _InitialProfileConfirmDialogState();
+  State<InitialProfileConfirmDialog> createState() =>
+      _InitialProfileConfirmDialogState();
 }
 
-class _InitialProfileConfirmDialogState extends State<InitialProfileConfirmDialog> {
+class _InitialProfileConfirmDialogState
+    extends State<InitialProfileConfirmDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -70,7 +72,8 @@ class _InitialProfileConfirmDialogState extends State<InitialProfileConfirmDialo
                     },
                     child: Container(
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.vertical(top: Radius.zero, bottom: Radius.circular(7)),
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.zero, bottom: Radius.circular(7)),
                         color: Color(0xffF35928),
                       ),
                       alignment: Alignment.center,

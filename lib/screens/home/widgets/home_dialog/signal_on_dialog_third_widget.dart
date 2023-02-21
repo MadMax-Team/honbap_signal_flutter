@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SignalThirdBox extends StatefulWidget {
-  const SignalThirdBox({
-    required this.nowTime,
-    required this.location,
-    required this.menu,
-    Key? key
-  }) : super(key: key);
+  const SignalThirdBox(
+      {required this.nowTime,
+      required this.location,
+      required this.menu,
+      Key? key})
+      : super(key: key);
 
   final DateTime? nowTime;
   final String? location;
@@ -78,7 +78,8 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                     },
                     child: Container(
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.vertical(top: Radius.zero, bottom: Radius.circular(7)),
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.zero, bottom: Radius.circular(7)),
                         color: Color(0xffF35928),
                       ),
                       alignment: Alignment.center,

@@ -147,34 +147,33 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                           ),
                           const SizedBox(height: 18),
                           DropdownButton(
-                              elevation: 0, //remove floating shadow
-                              value: _selectedValue,
-                              items: _valueList.map(
-                                  (value) {
-                                    return DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                          value,
-
-                                      ),
-                                    );
-                                  },
-                              ).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedValue = value!;
-                                });
+                            elevation: 0, //remove floating shadow
+                            value: _selectedValue,
+                            items: _valueList.map(
+                              (value) {
+                                return DropdownMenuItem(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                  ),
+                                );
                               },
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                color: Color(0xff737373),
-                              ),
-                              icon: SvgPicture.asset(
-                                'assets/icons/home_dropdown_more.svg',
-                                alignment: Alignment.center,
-                                fit: BoxFit.fill,
-                              ),
+                            ).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedValue = value!;
+                              });
+                            },
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Color(0xff737373),
+                            ),
+                            icon: SvgPicture.asset(
+                              'assets/icons/home_dropdown_more.svg',
+                              alignment: Alignment.center,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ],
                       ),
@@ -206,7 +205,11 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => const SignalThirdBox(nowTime: null, location: null, menu: null,),
+                          builder: (_) => const SignalThirdBox(
+                                nowTime: null,
+                                location: null,
+                                menu: null,
+                              ),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,
@@ -232,7 +235,11 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => SignalThirdBox(nowTime: DateTime.now(), location: '압구정역', menu: '피자',),
+                          builder: (_) => SignalThirdBox(
+                                nowTime: DateTime.now(),
+                                location: '압구정역',
+                                menu: '피자',
+                              ),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,
@@ -271,13 +278,12 @@ String checkTime(BuildContext context) {
 String getCalculateTime(BuildContext context) {
   var now = DateTime.now();
   now = now.toUtc().add(const Duration(hours: 9));
-  int hourData = int.parse(DateFormat('HH').format(now))+1;
+  int hourData = int.parse(DateFormat('HH').format(now)) + 1;
   String formatDate;
-  if(hourData < 12){
+  if (hourData < 12) {
     formatDate = '오전  ${hourData.toString()} : 00';
-  }
-  else{
-    formatDate = '오후  ${(hourData-12).toString()} : 00';
+  } else {
+    formatDate = '오후  ${(hourData - 12).toString()} : 00';
   }
   return formatDate;
 }

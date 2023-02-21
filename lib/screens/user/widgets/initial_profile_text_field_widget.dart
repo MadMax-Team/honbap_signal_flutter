@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTextField extends StatefulWidget {
-  const ProfileTextField({
-    required this.hintWord,
-    Key? key
-  }) : super(key: key);
+  const ProfileTextField({required this.hintWord, Key? key}) : super(key: key);
 
   final String hintWord;
 
@@ -19,10 +16,7 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
     return TextField(
       textAlign: TextAlign.left,
       style: const TextStyle(
-        fontSize: 11,
-        fontWeight: FontWeight.w500,
-        color: Colors.black
-      ),
+          fontSize: 11, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
         hintText: widget.hintWord,
         isDense: true,

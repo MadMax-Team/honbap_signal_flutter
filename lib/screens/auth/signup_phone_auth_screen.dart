@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:honbap_signal_flutter/apis/auth/post_app_send.dart';
+import 'package:honbap_signal_flutter/apis/auth/post_app_verify.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_phone_auth_complete.dart';
@@ -16,6 +19,7 @@ class SignupPhoneAuthScreen extends StatefulWidget {
 class _SignupPhoneAuthScreenState extends State<SignupPhoneAuthScreen> {
   String phoneNum = "", authNum = "";
   bool isPhoneSubmit = false;
+  bool isLoading = false;
 
   final _phoneNumFormKey = GlobalKey<FormState>();
   final _authNumFormKey = GlobalKey<FormState>();
@@ -25,10 +29,24 @@ class _SignupPhoneAuthScreenState extends State<SignupPhoneAuthScreen> {
 
   void _submitHandler() {
     if (_phoneNumFormKey.currentState!.validate()) {
-      setState(() {
-        isPhoneSubmit = true;
-      });
-      // print(phoneNum);
+      if (!isPhoneSubmit) {
+        setState(() {
+          isLoading = true;
+        });
+        postAppSend(phoneNumber: phoneNum).then(
+          (value) => {
+            setState(() {
+              isLoading = false;
+            }),
+            if (value)
+              setState(() {
+                isPhoneSubmit = true;
+              })
+            else
+              Fluttertoast.showToast(msg: "메세지 전송에 실패했습니다.\n번호 확인 후 다시 시도해주세요.")
+          },
+        );
+      }
     } else {
       _phoneNumFocusNode.requestFocus();
       return;
@@ -36,21 +54,31 @@ class _SignupPhoneAuthScreenState extends State<SignupPhoneAuthScreen> {
 
     if (_authNumFormKey.currentState != null &&
         _authNumFormKey.currentState!.validate()) {
-      // print(authNum);
+      if (isPhoneSubmit) {
+        setState(() {
+          isLoading = true;
+        });
+        postAppVerify(phoneNumber: phoneNum, verifyCode: authNum).then(
+          (value) => {
+            setState(() {
+              isLoading = false;
+            }),
+            if (value)
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SignupPhoneAuthComplete(),
+                ),
+              )
+            else
+              Fluttertoast.showToast(msg: "인증에 실패했습니다.\n번호 확인 후 다시 시도해주세요.")
+          },
+        );
+      }
     } else {
       _authNumNode.requestFocus();
       return;
     }
-
-    _authNumNode.unfocus();
-    _phoneNumFocusNode.unfocus();
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SignupPhoneAuthComplete(),
-      ),
-    );
   }
 
   @override
@@ -91,6 +119,7 @@ class _SignupPhoneAuthScreenState extends State<SignupPhoneAuthScreen> {
                           ),
                           Gaps.v20,
                           TextFormField(
+                            enabled: !isPhoneSubmit,
                             focusNode: _phoneNumFocusNode,
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
@@ -161,15 +190,14 @@ class _SignupPhoneAuthScreenState extends State<SignupPhoneAuthScreen> {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                _submitHandler();
-              },
+              onTap: !isLoading ? _submitHandler : null,
               child: AuthBtnWidget(
                 title: "계속하기",
                 bgColor: Theme.of(context).primaryColor,
                 borderColor: Theme.of(context).primaryColor,
                 textColor: Colors.white,
                 borderRad: 0,
+                isLoading: isLoading,
               ),
             ),
           ],
