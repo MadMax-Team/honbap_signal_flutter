@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:honbap_signal_flutter/screens/user/widgets/initial_profile_confirm_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/user/widgets/initial_profile_text_field_widget.dart';
+
+import '../../../apis/user/post_user_initial_info.dart';
+import '../../../constants/gaps.dart';
 
 class InitialProfileDialog extends StatefulWidget {
   const InitialProfileDialog({Key? key}) : super(key: key);
@@ -12,8 +17,39 @@ class InitialProfileDialog extends StatefulWidget {
 
 class _InitialProfileDialogState extends State<InitialProfileDialog> {
   final food = ['한식', '중식', '일식', '양식', '직접입력'];
+
+  Map<String, String?> formData = {};
+
   List<String> favoriteFoodList = <String>[];
   List<String> hateFoodList = <String>[];
+  String Interest = '';
+  String mbti = '';
+  String userIntro = '';
+  String preferArea = '';
+
+  setTextFieldUser(String text) {
+    setState(() {
+      userIntro = text;
+    });
+  }
+
+  setInterest(String text) {
+    setState(() {
+      Interest = text;
+    });
+  }
+
+  setMBTI(String text) {
+    setState(() {
+      mbti = text;
+    });
+  }
+
+  setPreferArea(String text) {
+    setState(() {
+      preferArea = text;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +119,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const ProfileTextField(hintWord: '자신을 소개할 수 있는 글을 작성해주세요.'),
+                    ProfileTextField(hintWord: '자신을 소개할 수 있는 글을 작성해주세요.', setter : setTextFieldUser,),
                     SizedBox(height: 16),
                     const Text(
                       '선호음식',
@@ -212,7 +248,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                       ),
                     ),
                     const SizedBox(height: 6),
-                    const ProfileTextField(hintWord: '직접입력'),
+                    ProfileTextField(hintWord: '직접입력', setter: setPreferArea,),
                     const SizedBox(height: 14),
                     const Text(
                       'MBTI',
@@ -223,7 +259,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                       ),
                     ),
                     SizedBox(height: 5),
-                    ProfileTextField(hintWord: '직접입력'),
+                    ProfileTextField(hintWord: '직접입력', setter: setMBTI,),
                     SizedBox(height: 14),
                     Text(
                       '관심사',
@@ -234,8 +270,8 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                       ),
                     ),
                     SizedBox(height: 5),
-                    ProfileTextField(hintWord: '직접입력'),
-                    SizedBox(height: 24),
+                    ProfileTextField(hintWord: '직접입력', setter: setInterest,),
+                    Gaps.v24,
                   ],
                 ),
               ),
@@ -245,7 +281,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pop();
+                        onTapConfirm();
                       },
                       child: Container(
                         decoration: const BoxDecoration(
@@ -275,4 +311,26 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
       ),
     );
   }
-}
+
+  void onTapConfirm() async {
+    formData['interest'] = Interest;
+    formData['preferArea'] = preferArea;
+    formData['mbti'] = mbti;
+    formData['userIntroduce'] = userIntro;
+    formData['taste'] = favoriteFoodList.toString();
+    formData['hateFood'] = hateFoodList.toString();
+
+    if (await getUserProfileResponse(formData: formData)) {
+      Navigator.of(context).pop();
+      //post가 성공일 때에만 다음 창 띄우고, 아니면 toast message
+      showDialog(
+          context: context,
+          builder: (_) => const InitialProfileConfirmDialog(),
+          barrierDismissible: false,
+      );
+    } else {
+      setState(() {
+        Fluttertoast.showToast(msg: "서버와의 통신에 실패했습니다.");
+      });
+  }
+}}
