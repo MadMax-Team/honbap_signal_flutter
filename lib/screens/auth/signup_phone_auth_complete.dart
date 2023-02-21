@@ -39,7 +39,7 @@ class SignupPhoneAuthComplete extends StatelessWidget {
                 alignment: Alignment.topRight,
                 children: [
                   SvgPicture.asset(
-                    'assets/icons/honbab1.svg',
+                    'assets/icons/icon_honbab1.svg',
                     width: Sizes.size72 * 2,
                     height: Sizes.size72 * 2,
                   ),

@@ -83,7 +83,7 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                                   fit: BoxFit.fill,
                                   errorBuilder: ((context, error, stackTrace) =>
                                       SvgPicture.asset(
-                                        'assets/icons/honbab1.svg',
+                                        'assets/icons/icon_honbab1.svg',
                                         alignment: Alignment.center,
                                         fit: BoxFit.fill,
                                       )),
@@ -194,15 +194,15 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                                         const EdgeInsets.fromLTRB(11, 7, 11, 9),
                                     decoration: BoxDecoration(
                                       color: reviewList.contains(review[i])
-                                          ? Color(0xffF35928)
-                                          : Color(0xffF2F2F2),
+                                          ? const Color(0xffF35928)
+                                          : const Color(0xffF2F2F2),
                                       border: Border.all(
                                         color: reviewList.contains(review[i])
-                                            ? Color(0xffF35928)
-                                            : Color(0xffE1E1E1),
+                                            ? const Color(0xffF35928)
+                                            : const Color(0xffE1E1E1),
                                         width: 1,
                                       ),
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(14),
                                       ),
                                     ),
