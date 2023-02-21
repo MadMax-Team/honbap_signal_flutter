@@ -1,5 +1,9 @@
+import 'package:encrypt/encrypt.dart' as en;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:honbap_signal_flutter/apis/auth/post_user_signup.dart';
+import 'package:honbap_signal_flutter/apis/encrypt_key.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/routes/route_navigation_widget.dart';
@@ -8,14 +12,20 @@ import 'package:honbap_signal_flutter/screens/auth/widgets/signup_double_check_b
 import 'package:honbap_signal_flutter/screens/auth/widgets/signup_gender_button.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  const SignupScreen({
+    super.key,
+    required this.phoneNum,
+  });
+
+  final String phoneNum;
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final _emailKey = GlobalKey<FormFieldState<String>>();
 
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
@@ -30,6 +40,18 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _passwordCheckChecked = false;
   bool _nicknameChecked = false;
   bool _nicknameCheckClicked = false;
+  bool _isLoading = false;
+
+  // 형식 통일을 위해
+  String _birth = '0000-00-00';
+  String? _password;
+
+  @override
+  void initState() {
+    super.initState();
+    formData['phoneNum'] = widget.phoneNum.replaceAll('-', '');
+    formData['userName'] = ''; // userName 받을 일이 없음
+  }
 
   void _onScaffoldTap() {
     FocusScope.of(context).unfocus();
@@ -38,6 +60,12 @@ class _SignupScreenState extends State<SignupScreen> {
   void _toggleObscureText() {
     _obscureText = !_obscureText;
     setState(() {});
+  }
+
+  void _checkEmailValidate() {
+    if (!_emailChecked && _emailKey.currentState != null) {
+      _emailKey.currentState!.validate();
+    }
   }
 
   String? _emailValidator(String? value) {
@@ -49,7 +77,6 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() {
         _emailChecked = false;
       });
-      _autoFocus();
       return '잘못된 이메일 형식입니다';
     }
     setState(() {
@@ -65,7 +92,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
     if (value != null && !regExp.hasMatch(value)) {
       _passwordChecked = false;
-      _autoFocus();
       return '8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.';
     }
     _passwordChecked = true;
@@ -73,9 +99,8 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   String? _passwordCheckValidator(String? value) {
-    if (value != null && formData['password'] != value) {
+    if (value != null && _password != value) {
       _passwordCheckChecked = false;
-      _autoFocus();
       return '비밀번호가 틀립니다';
     }
     _passwordCheckChecked = true;
@@ -87,16 +112,14 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() {
         _nicknameChecked = false;
       });
-      _autoFocus();
       return '사용할 수 없는 닉네임입니다';
     }
-    _autoFocus();
     if (!_nicknameCheckClicked) return "중복확인 해주세요";
     return null;
   }
 
   void _onNicknameChange(String? value) {
-    formData['nickname'] = value;
+    formData['nickName'] = value;
     setState(() {
       _nicknameChecked = false;
       _nicknameCheckClicked = false;
@@ -112,7 +135,7 @@ class _SignupScreenState extends State<SignupScreen> {
       }
     });
     _formKey.currentState!.save();
-    _autoFocus();
+    _onScaffoldTap();
   }
 
   void _autoFocus() {
@@ -145,34 +168,56 @@ class _SignupScreenState extends State<SignupScreen> {
     );
     setState(() {
       if (picked == null) {
-        formData['birth'] = null;
+        _birth = '0000-00-00';
         return;
       }
-      formData['birth'] = picked.toString().split(' ').first;
+      _birth = picked.toString().split(' ').first;
     });
   }
 
   void _onGenderBtnTap(String gender) {
     setState(() {
-      formData['gender'] = gender;
+      formData['sex'] = gender;
     });
   }
 
-  void _onSubmitTap() {
+  void _onSubmitTap() async {
     _formKey.currentState!.save();
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate() &&
-          formData['birth'] != null &&
-          formData['gender'] != null) {
+          _birth != '0000-00-00' &&
+          formData['sex'] != null) {
         //pass
+        setState(() {
+          _isLoading = true;
+        });
         _onScaffoldTap();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const RouteNavigationWidget(),
-          ),
-          (route) => false,
-        );
+        final key = en.Key.fromUtf8(ENCRYPT_KEY16);
+        final iv = en.IV.fromLength(16);
+        final encrypter = en.Encrypter(en.AES(key));
+        formData['password'] =
+            encrypter.encrypt(_password!, iv: iv).base64.toString();
+        formData['birth'] =
+            '${_birth.replaceFirst('-', '년').replaceFirst('-', '월')}일';
+
+        if (await postUserSignup(formData: formData)) {
+          // success
+          // ignore: use_build_context_synchronously
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const RouteNavigationWidget(),
+            ),
+            (route) => false,
+          );
+        } else {
+          setState(() {
+            _isLoading = false;
+          });
+          Fluttertoast.showToast(msg: "인증에 실패했습니다.\n번호 확인 후 다시 시도해주세요.");
+        }
+      } else {
+        _autoFocus();
       }
     }
   }
@@ -208,8 +253,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                   TextFormField(
+                    key: _emailKey,
                     focusNode: _emailFocus,
                     keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
                     style: const TextStyle(fontSize: Sizes.size16),
                     decoration: InputDecoration(
                       suffixIcon: Icon(
@@ -236,6 +283,14 @@ class _SignupScreenState extends State<SignupScreen> {
                       formData['email'] = newValue;
                     },
                     onEditingComplete: _onSubmitTap,
+                    onTapOutside: (PointerDownEvent _) {
+                      _checkEmailValidate();
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _emailChecked = false;
+                      });
+                    },
                   ),
                   Gaps.v40,
                   Text(
@@ -244,6 +299,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   TextFormField(
                     focusNode: _passwordFocus,
+                    textInputAction: TextInputAction.next,
                     obscureText: _obscureText,
                     style: const TextStyle(fontSize: Sizes.size16),
                     decoration: InputDecoration(
@@ -274,8 +330,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     cursorColor: Theme.of(context).primaryColor,
                     validator: (value) => _passwordValidator(value),
+                    onTap: _checkEmailValidate,
                     onSaved: (newValue) {
-                      formData['password'] = newValue;
+                      _password = newValue;
                     },
                     onEditingComplete: _onSubmitTap,
                   ),
@@ -286,6 +343,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   TextFormField(
                     focusNode: _passwordCheckFocus,
+                    textInputAction: TextInputAction.next,
                     style: const TextStyle(fontSize: Sizes.size16),
                     obscureText: _obscureText,
                     decoration: InputDecoration(
@@ -315,6 +373,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     cursorColor: Theme.of(context).primaryColor,
+                    onTap: _checkEmailValidate,
                     validator: (value) => _passwordCheckValidator(value),
                     onEditingComplete: _onSubmitTap,
                   ),
@@ -352,9 +411,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     cursorColor: Theme.of(context).primaryColor,
                     validator: (value) => _nicknameValidator(value),
+                    onTap: _checkEmailValidate,
                     onChanged: (value) => _onNicknameChange(value),
                     onSaved: (newValue) {
-                      formData['nickname'] = newValue;
+                      formData['nickName'] = newValue;
                     },
                     onEditingComplete: _onSubmitTap,
                   ),
@@ -394,9 +454,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    formData['birth'] ?? '0000-00-00',
+                                    _birth,
                                     style: TextStyle(
-                                      color: formData['birth'] != null
+                                      color: _birth != '0000-00-00'
                                           ? Colors.black
                                           : Colors.grey.shade400,
                                       fontSize: Sizes.size12,
@@ -427,7 +487,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     onTap: () => _onGenderBtnTap('M'),
                                     child: SignupGenderButton(
                                       text: '남성',
-                                      isSelected: formData['gender'] == 'M',
+                                      isSelected: formData['sex'] == 'M',
                                     ),
                                   ),
                                 ),
@@ -437,7 +497,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     onTap: () => _onGenderBtnTap('F'),
                                     child: SignupGenderButton(
                                       text: '여성',
-                                      isSelected: formData['gender'] == 'F',
+                                      isSelected: formData['sex'] == 'F',
                                     ),
                                   ),
                                 ),
@@ -465,6 +525,7 @@ class _SignupScreenState extends State<SignupScreen> {
             borderColor: Theme.of(context).primaryColor,
             textColor: Colors.white,
             borderRad: 0,
+            isLoading: _isLoading,
           ),
         ),
       ),
