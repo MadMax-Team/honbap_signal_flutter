@@ -17,13 +17,16 @@ class Gaps {
   static const v12 = SizedBox(height: Sizes.size12);
   static const v14 = SizedBox(height: Sizes.size14);
   static const v16 = SizedBox(height: Sizes.size16);
+  static const v18 = SizedBox(height: Sizes.size18);
   static const v20 = SizedBox(height: Sizes.size20);
   static const v24 = SizedBox(height: Sizes.size24);
+  static const v26 = SizedBox(height: Sizes.size26);
   static const v28 = SizedBox(height: Sizes.size28);
   static const v32 = SizedBox(height: Sizes.size32);
   static const v36 = SizedBox(height: Sizes.size36);
   static const v40 = SizedBox(height: Sizes.size40);
   static const v44 = SizedBox(height: Sizes.size44);
+  static const v46 = SizedBox(height: Sizes.size46);
   static const v48 = SizedBox(height: Sizes.size48);
   static const v52 = SizedBox(height: Sizes.size52);
   static const v56 = SizedBox(height: Sizes.size56);
@@ -48,8 +51,10 @@ class Gaps {
   static const h12 = SizedBox(width: Sizes.size12);
   static const h14 = SizedBox(width: Sizes.size14);
   static const h16 = SizedBox(width: Sizes.size16);
+  static const h18 = SizedBox(width: Sizes.size18);
   static const h20 = SizedBox(width: Sizes.size20);
   static const h24 = SizedBox(width: Sizes.size24);
+  static const h26 = SizedBox(width: Sizes.size26);
   static const h28 = SizedBox(width: Sizes.size28);
   static const h32 = SizedBox(width: Sizes.size32);
   static const h36 = SizedBox(width: Sizes.size36);
