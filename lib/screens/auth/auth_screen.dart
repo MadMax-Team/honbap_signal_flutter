@@ -21,6 +21,34 @@ class AuthScreen extends StatelessWidget {
     );
   }
 
+  void _authWithKakao() async {
+    try {
+      bool isInstalled = await isKakaoTalkInstalled();
+
+      OAuthToken token = isInstalled
+          ? await UserApi.instance.loginWithKakaoTalk()
+          : await UserApi.instance.loginWithKakaoAccount();
+
+      final url = Uri.https('kapi.kakao.com', '/v2/user/me');
+
+      final response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer ${token.accessToken}'
+        },
+      );
+
+      final profileInfo = json.decode(response.body);
+      print(profileInfo);
+
+      // ignore: unused_local_variable
+      KakaoLoginModel kakaoAccount = KakaoLoginModel.fromJson(profileInfo);
+    } catch (error) {
+      // ignore: avoid_print
+      print('카카오톡으로 로그인 실패 $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,34 +137,7 @@ class AuthScreen extends StatelessWidget {
                   ),
                   Gaps.v20,
                   GestureDetector(
-                    onTap: () async {
-                      try {
-                        bool isInstalled = await isKakaoTalkInstalled();
-
-                        OAuthToken token = isInstalled
-                            ? await UserApi.instance.loginWithKakaoTalk()
-                            : await UserApi.instance.loginWithKakaoAccount();
-
-                        final url = Uri.https('kapi.kakao.com', '/v2/user/me');
-
-                        final response = await http.get(
-                          url,
-                          headers: {
-                            HttpHeaders.authorizationHeader:
-                                'Bearer ${token.accessToken}'
-                          },
-                        );
-
-                        final profileInfo = json.decode(response.body);
-
-                        // ignore: unused_local_variable
-                        KakaoLoginModel kakaoAccount =
-                            KakaoLoginModel.fromJson(profileInfo);
-                      } catch (error) {
-                        // ignore: avoid_print
-                        print('카카오톡으로 로그인 실패 $error');
-                      }
-                    },
+                    onTap: _authWithKakao,
                     child: AuthBtnWidget(
                       title: "카카오로 로그인",
                       bgColor: const Color(0xffffe500),

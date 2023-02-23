@@ -18,6 +18,7 @@ class MatchHistoryScreen extends StatelessWidget {
         backgroundColor: const Color(0xffefefef),
         elevation: 0,
         automaticallyImplyLeading: false,
+        centerTitle: false,
         actions: [
           IconButton(
             onPressed: () => _onBackPress(context),
