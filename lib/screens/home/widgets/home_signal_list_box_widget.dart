@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../constants/gaps.dart';
+import '../../../constants/sizes.dart';
+
 class SignalListBox extends StatefulWidget {
   const SignalListBox({required this.name, required this.imgUri, Key? key})
       : super(key: key);
@@ -49,10 +52,10 @@ class _SignalListBox extends State<SignalListBox> {
               children: [
                 Row(
                   children: [
-                    const SizedBox(width: 11),
+                    Gaps.h11,
                     Container(
-                      height: 24,
-                      width: 24,
+                      height: Sizes.size24,
+                      width: Sizes.size24,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(125)),
                       child: ClipRRect(
@@ -69,12 +72,12 @@ class _SignalListBox extends State<SignalListBox> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    Gaps.h16,
                     Text(
                       widget.name,
                       textAlign: TextAlign.left,
                       style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: Sizes.size14,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     )
@@ -93,7 +96,7 @@ class _SignalListBox extends State<SignalListBox> {
                         style: TextStyle(fontSize: 12),
                       ),
                     ),
-                    const SizedBox(width: 7),
+                    Gaps.h7,
                     CupertinoButton(
                       onPressed: () {},
                       minSize: 0.0,
@@ -102,7 +105,9 @@ class _SignalListBox extends State<SignalListBox> {
                       borderRadius: BorderRadius.circular(4),
                       child: const Text(
                         '수락하기',
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(
+                            fontSize: Sizes.size12,
+                        ),
                       ),
                     ),
                   ],

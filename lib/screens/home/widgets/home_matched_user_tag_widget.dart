@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../constants/sizes.dart';
+
 class MatchedUserTag extends StatelessWidget {
   const MatchedUserTag({required this.tag, Key? key}) : super(key: key);
 
@@ -15,7 +17,10 @@ class MatchedUserTag extends StatelessWidget {
       child: Text(
         tag,
         style: const TextStyle(
-            fontSize: 9, fontWeight: FontWeight.w500, color: Color(0xff5E5E5E)),
+            fontSize: Sizes.size9,
+            fontWeight: FontWeight.w500,
+            color: Color(0xff5E5E5E),
+        ),
       ),
     );
   }

@@ -3,6 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:honbap_signal_flutter/models/home/home_list_model.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_user_tag_widget.dart';
 
+import '../../../constants/gaps.dart';
+import '../../../constants/sizes.dart';
+
 class StateCard extends StatefulWidget {
   const StateCard({
     Key? key,
@@ -38,8 +41,8 @@ class _StateCardState extends State<StateCard> {
           child: Row(
             children: [
               Container(
-                height: 48,
-                width: 48,
+                height: Sizes.size48,
+                width: Sizes.size48,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(125)),
                 child: ClipRRect(
@@ -56,12 +59,12 @@ class _StateCardState extends State<StateCard> {
                   ),
                 ),
               ),
-              const SizedBox(width: 9),
+              Gaps.h9,
               Text(
                 widget.matchedInfo.name!,
                 textAlign: TextAlign.left,
                 style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: Sizes.size18,
                     fontWeight: FontWeight.w500,
                     color: Colors.black),
               ),
@@ -69,14 +72,14 @@ class _StateCardState extends State<StateCard> {
                 ' 님과 매칭되었습니다',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: Sizes.size18,
                     fontWeight: FontWeight.w500,
                     color: Color(0xff737373)),
               )
             ],
           ),
         ),
-        const SizedBox(height: 9),
+        Gaps.v9,
         Row(
           children: [
             Flexible(
@@ -104,13 +107,13 @@ class _StateCardState extends State<StateCard> {
                     const Text(
                       '태그',
                       style: TextStyle(
-                          fontSize: 12,
+                          fontSize: Sizes.size12,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    const SizedBox(height: 8),
+                    Gaps.v8,
                     SizedBox(
-                      height: 103,
+                      height: 90,
                       width: double.infinity,
                       child: SingleChildScrollView(
                         physics: const NeverScrollableScrollPhysics(),
@@ -131,7 +134,7 @@ class _StateCardState extends State<StateCard> {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            Gaps.h10,
             Flexible(
               fit: FlexFit.tight,
               child: Container(
@@ -157,17 +160,17 @@ class _StateCardState extends State<StateCard> {
                     const Text(
                       '매너온도',
                       style: TextStyle(
-                          fontSize: 12,
+                          fontSize: Sizes.size12,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    const SizedBox(height: 8),
+                    Gaps.v8,
                     Text('${widget.matchedInfo.temperature}')
                   ],
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            Gaps.h10,
             Flexible(
               fit: FlexFit.tight,
               child: Container(
@@ -193,11 +196,11 @@ class _StateCardState extends State<StateCard> {
                     const Text(
                       '약속장소',
                       style: TextStyle(
-                          fontSize: 12,
+                          fontSize: Sizes.size12,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    const SizedBox(height: 8),
+                    Gaps.v8,
                     Text(widget.matchedInfo.location!)
                   ],
                 ),

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,6 +6,7 @@ import 'package:honbap_signal_flutter/screens/user/widgets/initial_profile_text_
 
 import '../../../apis/user/post_user_initial_info.dart';
 import '../../../constants/gaps.dart';
+import '../../../constants/sizes.dart';
 
 class InitialProfileDialog extends StatefulWidget {
   const InitialProfileDialog({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
 
   List<String> favoriteFoodList = <String>[];
   List<String> hateFoodList = <String>[];
-  String Interest = '';
+  String interest = '';
   String mbti = '';
   String userIntro = '';
   String preferArea = '';
@@ -35,7 +35,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
 
   setInterest(String text) {
     setState(() {
-      Interest = text;
+      interest = text;
     });
   }
 
@@ -56,7 +56,9 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
     return AlertDialog(
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(7.0)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(7.0),
+        ),
       ),
       contentPadding: const EdgeInsets.fromLTRB(0, 18, 0, 0),
       content: SizedBox(
@@ -77,7 +79,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                         '프로필 설정',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 18,
+                          fontSize: Sizes.size18,
                           color: Colors.black,
                         ),
                       ),
@@ -92,8 +94,8 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                         },
                         icon: SvgPicture.asset(
                           'assets/icons/user_profile_exit_icon.svg',
-                          height: 24,
-                          width: 24,
+                          height: Sizes.size24,
+                          width: Sizes.size24,
                           fit: BoxFit.fill,
                           alignment: Alignment.center,
                         ),
@@ -113,23 +115,26 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                     const Text(
                       '소개글',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: Sizes.size14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    ProfileTextField(hintWord: '자신을 소개할 수 있는 글을 작성해주세요.', setter : setTextFieldUser,),
-                    SizedBox(height: 16),
+                    Gaps.v8,
+                    ProfileTextField(
+                      hintWord: '자신을 소개할 수 있는 글을 작성해주세요.',
+                      setter: setTextFieldUser,
+                    ),
+                    Gaps.v16,
                     const Text(
                       '선호음식',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: Sizes.size14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 7),
+                    Gaps.v7,
                     Container(
                       alignment: Alignment.centerLeft,
                       width: double.maxFinite,
@@ -154,13 +159,13 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                                       const EdgeInsets.fromLTRB(12, 9, 12, 9),
                                   decoration: BoxDecoration(
                                     color: favoriteFoodList.contains(food[i])
-                                        ? Color(0xffF35928)
+                                        ? const Color(0xffF35928)
                                         : Colors.white,
                                     border: Border.all(
                                       color: favoriteFoodList.contains(food[i])
-                                          ? Color(0xffF35928)
-                                          : Color(0xffE1E1E1),
-                                      width: 1,
+                                          ? const Color(0xffF35928)
+                                          : const Color(0xffE1E1E1),
+                                      width: Sizes.size1,
                                     ),
                                   ),
                                   child: Text(
@@ -168,8 +173,8 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                                     style: TextStyle(
                                       color: favoriteFoodList.contains(food[i])
                                           ? Colors.white
-                                          : Color(0xff737373),
-                                      fontSize: 10,
+                                          : const Color(0xff737373),
+                                      fontSize: Sizes.size10,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -179,16 +184,16 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 17),
-                    Text(
+                    Gaps.v17,
+                    const Text(
                       '블호음식',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: Sizes.size14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 7),
+                    Gaps.v7,
                     Container(
                       alignment: Alignment.centerLeft,
                       width: double.maxFinite,
@@ -213,13 +218,13 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                                       const EdgeInsets.fromLTRB(12, 9, 12, 9),
                                   decoration: BoxDecoration(
                                     color: hateFoodList.contains(food[i])
-                                        ? Color(0xffF35928)
+                                        ? const Color(0xffF35928)
                                         : Colors.white,
                                     border: Border.all(
                                       color: hateFoodList.contains(food[i])
-                                          ? Color(0xffF35928)
-                                          : Color(0xffE1E1E1),
-                                      width: 1,
+                                          ? const Color(0xffF35928)
+                                          : const Color(0xffE1E1E1),
+                                      width: Sizes.size1,
                                     ),
                                   ),
                                   child: Text(
@@ -227,8 +232,8 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                                     style: TextStyle(
                                       color: hateFoodList.contains(food[i])
                                           ? Colors.white
-                                          : Color(0xff737373),
-                                      fontSize: 10,
+                                          : const Color(0xff737373),
+                                      fontSize: Sizes.size10,
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
@@ -238,39 +243,48 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 14),
+                    Gaps.v14,
                     const Text(
                       '선호장소',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: Sizes.size14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(height: 6),
-                    ProfileTextField(hintWord: '직접입력', setter: setPreferArea,),
-                    const SizedBox(height: 14),
+                    Gaps.v6,
+                    ProfileTextField(
+                      hintWord: '직접입력',
+                      setter: setPreferArea,
+                    ),
+                    Gaps.v14,
                     const Text(
                       'MBTI',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: Sizes.size14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 5),
-                    ProfileTextField(hintWord: '직접입력', setter: setMBTI,),
-                    SizedBox(height: 14),
-                    Text(
+                    Gaps.v5,
+                    ProfileTextField(
+                      hintWord: '직접입력',
+                      setter: setMBTI,
+                    ),
+                    Gaps.v14,
+                    const Text(
                       '관심사',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: Sizes.size14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 5),
-                    ProfileTextField(hintWord: '직접입력', setter: setInterest,),
+                    Gaps.v5,
+                    ProfileTextField(
+                      hintWord: '직접입력',
+                      setter: setInterest,
+                    ),
                     Gaps.v24,
                   ],
                 ),
@@ -286,7 +300,9 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                       child: Container(
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.vertical(
-                              top: Radius.zero, bottom: Radius.circular(7)),
+                            top: Radius.zero,
+                            bottom: Radius.circular(7),
+                          ),
                           color: Color(0xffFF4B26),
                         ),
                         alignment: Alignment.center,
@@ -295,7 +311,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                         child: const Text(
                           '프로필 설정 완료',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: Sizes.size14,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                           ),
@@ -313,7 +329,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
   }
 
   void onTapConfirm() async {
-    formData['interest'] = Interest;
+    formData['interest'] = interest;
     formData['preferArea'] = preferArea;
     formData['mbti'] = mbti;
     formData['userIntroduce'] = userIntro;
@@ -321,16 +337,20 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
     formData['hateFood'] = hateFoodList.toString();
 
     if (await getUserProfileResponse(formData: formData)) {
+      if (!mounted) return; //위젯이 mount 되지 않은 경우
+
       Navigator.of(context).pop();
+      print(formData);
       //post가 성공일 때에만 다음 창 띄우고, 아니면 toast message
       showDialog(
-          context: context,
-          builder: (_) => const InitialProfileConfirmDialog(),
-          barrierDismissible: false,
+        context: context,
+        builder: (_) => const InitialProfileConfirmDialog(),
+        barrierDismissible: false,
       );
     } else {
       setState(() {
         Fluttertoast.showToast(msg: "서버와의 통신에 실패했습니다.");
       });
+    }
   }
-}}
+}
