@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: createMaterialColor(const Color(0xffff4b25)),
+        fontFamily: 'Pretendard',
         textTheme: const TextTheme(
           // 2022 sets
           // displayLarge, displayMedium, displaySmall
