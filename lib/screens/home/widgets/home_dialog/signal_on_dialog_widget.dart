@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
 
+import '../../../../constants/gaps.dart';
+import '../../../../constants/sizes.dart';
+
 class SignalOnDialog extends StatefulWidget {
   const SignalOnDialog({Key? key}) : super(key: key);
 
@@ -22,26 +25,26 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 35),
+            Gaps.v35,
             const Text(
               '시그널을 켜시겠습니까?',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: Sizes.size14,
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
               ),
             ),
-            const SizedBox(height: 19),
+            Gaps.v19,
             const Text(
               textAlign: TextAlign.center,
               '시그널을 켜시면 내 프로필이 반경 10km에 있는 상대방에게 보이며, DM 요청과 시그널 요청이 올 수 있습니다.',
               style: TextStyle(
-                fontSize: 12,
+                fontSize: Sizes.size12,
                 fontWeight: FontWeight.w400,
                 color: Color(0xff737373),
               ),
             ),
-            const SizedBox(height: 17),
+            Gaps.v17,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -53,12 +56,12 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
                     behavior: HitTestBehavior.opaque,
                     child: Container(
                       alignment: Alignment.center,
-                      height: 46,
+                      height: Sizes.size46,
                       width: double.maxFinite,
                       child: const Text(
                         '아니오',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: Sizes.size14,
                           color: Color(0xffC4C4C4),
                           fontWeight: FontWeight.w500,
                         ),
@@ -78,12 +81,12 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
                     behavior: HitTestBehavior.opaque,
                     child: Container(
                       alignment: Alignment.center,
-                      height: 46,
+                      height: Sizes.size46,
                       width: double.maxFinite,
                       child: const Text(
                         '네',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: Sizes.size14,
                           color: Color(0xffF35928),
                           fontWeight: FontWeight.w500,
                         ),
