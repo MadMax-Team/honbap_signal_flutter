@@ -67,7 +67,9 @@ class _SignupPhoneAuthScreenState extends State<SignupPhoneAuthScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const SignupPhoneAuthComplete(),
+                  builder: (context) => SignupPhoneAuthComplete(
+                    phoneNum: phoneNum,
+                  ),
                 ),
               )
             else
