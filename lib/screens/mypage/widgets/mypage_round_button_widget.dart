@@ -32,7 +32,7 @@ class MyPageRoundButton extends StatelessWidget {
           text,
           style: TextStyle(
             color: isTransparent ? Colors.white : Colors.black,
-            fontSize: Sizes.size12,
+            fontSize: Sizes.size11,
           ),
         ),
       ),

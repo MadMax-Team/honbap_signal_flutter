@@ -3,6 +3,7 @@ import 'package:honbap_signal_flutter/apis/mypage/get_mypage_user_myinfo.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/mypage/mypage_user_myinfo_model.dart';
+import 'package:honbap_signal_flutter/screens/mypage/match_history/match_history_screen.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_menu_button_widget.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_round_button_widget.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_setting_button_widget.dart';
@@ -28,6 +29,15 @@ class _MyPageScreenState extends State<MyPageScreen> {
   void initState() {
     super.initState();
     _getUserMyInfo = getMyPageMyInfo();
+  }
+
+  void _onMatchHistoryTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MatchHistoryScreen(),
+      ),
+    );
   }
 
   @override
@@ -145,6 +155,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: const [
+                          Gaps.v3,
                           MyPageRoundButton(
                             isTransparent: false,
                             text: '프로필 설정',
@@ -154,7 +165,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                             isTransparent: true,
                             text: '계정관리',
                           ),
-                          Gaps.v5,
+                          Gaps.v7,
                           MyPageRoundButton(
                             isTransparent: true,
                             text: '로그아웃',
@@ -171,9 +182,10 @@ class _MyPageScreenState extends State<MyPageScreen> {
                       text: '매너온도',
                     ),
                     _hSeperator,
-                    const MyPageMenuButton(
+                    MyPageMenuButton(
                       imgLink: 'assets/icons/mypage_matching_history.png',
                       text: '매칭전적',
+                      onTap: _onMatchHistoryTap,
                     ),
                     _hSeperator,
                     const MyPageMenuButton(

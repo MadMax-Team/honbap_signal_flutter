@@ -17,16 +17,13 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
     const HomeScreen(),
     const MyPageScreen(),
     const SignalListScreen(),
-    const Center(
-      child: Text('signal'),
-    ),
     const ChatListScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Stack(
         children: [
           const SizedBox(
@@ -39,49 +36,50 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
               children: screens,
             ),
             bottomNavigationBar: SafeArea(
-              child: TabBar(
-                tabs: const [
-                  Tab(
-                    icon: Icon(
-                      Icons.home_outlined,
-                      color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
+                child: TabBar(
+                  tabs: [
+                    Tab(
+                      icon: Image.asset(
+                        'assets/icons/route_home.png',
+                        width: Sizes.size28,
+                        height: Sizes.size28,
+                      ),
                     ),
-                  ),
-                  Tab(
-                    icon: Icon(
-                      Icons.person_outline,
-                      color: Colors.black,
+                    Tab(
+                      icon: Image.asset(
+                        'assets/icons/route_mypage.png',
+                        width: Sizes.size28,
+                        height: Sizes.size28,
+                      ),
                     ),
-                  ),
-                  Tab(
-                    icon: Icon(
-                      Icons.location_on,
-                      color: Colors.black,
+                    Tab(
+                      icon: Image.asset(
+                        'assets/icons/route_signal.png',
+                        width: Sizes.size28,
+                        height: Sizes.size28,
+                      ),
                     ),
-                  ),
-                  Tab(
-                    icon: Icon(
-                      Icons.wifi_tethering_outlined,
-                      color: Colors.black,
+                    Tab(
+                      icon: Image.asset(
+                        'assets/icons/route_chats.png',
+                        width: Sizes.size28,
+                        height: Sizes.size28,
+                      ),
                     ),
-                  ),
-                  Tab(
-                    icon: Icon(
-                      Icons.chat_outlined,
-                      color: Colors.black,
+                  ],
+                  labelColor: Theme.of(context).primaryColor,
+                  indicator: UnderlineTabIndicator(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                      width: Sizes.size3,
                     ),
+                    insets: const EdgeInsets.only(
+                        bottom: Sizes.size44 + Sizes.size1),
                   ),
-                ],
-                labelColor: Theme.of(context).primaryColor,
-                indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                    width: Sizes.size3,
-                  ),
-                  insets:
-                      const EdgeInsets.only(bottom: Sizes.size44 + Sizes.size1),
+                  unselectedLabelColor: Colors.black,
                 ),
-                unselectedLabelColor: Colors.black,
               ),
             ),
           ),

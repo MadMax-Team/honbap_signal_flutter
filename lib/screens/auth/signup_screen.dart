@@ -43,14 +43,12 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _isLoading = false;
 
   // 형식 통일을 위해
-  String _birth = '0000-00-00';
   String? _password;
 
   @override
   void initState() {
     super.initState();
     formData['phoneNum'] = widget.phoneNum.replaceAll('-', '');
-    formData['userName'] = ''; // userName 받을 일이 없음
   }
 
   void _onScaffoldTap() {
@@ -168,10 +166,10 @@ class _SignupScreenState extends State<SignupScreen> {
     );
     setState(() {
       if (picked == null) {
-        _birth = '0000-00-00';
+        formData['birth'] = null;
         return;
       }
-      _birth = picked.toString().split(' ').first;
+      formData['birth'] = picked.toString().split(' ').first;
     });
   }
 
@@ -185,7 +183,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _formKey.currentState!.save();
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate() &&
-          _birth != '0000-00-00' &&
+          formData['birth'] != null &&
           formData['sex'] != null) {
         //pass
         setState(() {
@@ -197,10 +195,9 @@ class _SignupScreenState extends State<SignupScreen> {
         final encrypter = en.Encrypter(en.AES(key));
         formData['password'] =
             encrypter.encrypt(_password!, iv: iv).base64.toString();
-        formData['birth'] =
-            '${_birth.replaceFirst('-', '년').replaceFirst('-', '월')}일';
 
-        if (await postUserSignup(formData: formData)) {
+        var resJson = await postUserSignup(formData: formData);
+        if (resJson.code == 1000) {
           // success
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
@@ -214,7 +211,7 @@ class _SignupScreenState extends State<SignupScreen> {
           setState(() {
             _isLoading = false;
           });
-          Fluttertoast.showToast(msg: "인증에 실패했습니다.\n번호 확인 후 다시 시도해주세요.");
+          Fluttertoast.showToast(msg: "회원가입에 실패했습니다.\n${resJson.message}");
         }
       } else {
         _autoFocus();
@@ -454,9 +451,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    _birth,
+                                    formData['birth'] ?? '0000-00-00',
                                     style: TextStyle(
-                                      color: _birth != '0000-00-00'
+                                      color: formData['birth'] != null
                                           ? Colors.black
                                           : Colors.grey.shade400,
                                       fontSize: Sizes.size12,
