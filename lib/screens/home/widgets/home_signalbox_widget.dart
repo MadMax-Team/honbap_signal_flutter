@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
+import '../../../constants/gaps.dart';
+import '../../../constants/sizes.dart';
+
 class SignalBox extends StatefulWidget {
   const SignalBox({Key? key, required this.signal}) : super(key: key);
 
@@ -65,7 +68,7 @@ class _SignalBoxState extends State<SignalBox>
                   SvgPicture.asset('assets/icons/home_signal_box_off_trans.svg')
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_off.svg'),
-                const SizedBox(width: 11),
+                Gaps.h11,
                 FlutterSwitch(
                   width: 105,
                   height: 42,
@@ -81,7 +84,7 @@ class _SignalBoxState extends State<SignalBox>
                     });
                   },
                 ),
-                const SizedBox(width: 15),
+                Gaps.h15,
                 if (_isOn)
                   SvgPicture.asset('assets/icons/home_signal_box_on.svg')
                 else

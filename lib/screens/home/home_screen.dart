@@ -5,6 +5,8 @@ import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_state_wi
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signalbox_widget.dart';
 
+import '../../constants/gaps.dart';
+import '../../constants/sizes.dart';
 import '../../models/home/home_list_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -52,16 +54,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start, //왼쪽 정렬
                   children: [
-                    const SizedBox(height: 7),
+                    Gaps.v7,
                     const Text(
                       '시그널 온오프',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: Sizes.size18,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    const SizedBox(height: 14),
+                    Gaps.v14,
                     InkWell(
                       onTap: () => showDialog(
                           context: context,
@@ -71,11 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         signal: snapshot.data!.signal!,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    Gaps.v16,
                     const Text(
                       ' *시그널을 켜두면 상대방이 나의 프로필을 확인할 수 있습니다. 시그널은 1시간 후 자동으로 꺼집니다',
                       style: TextStyle(
-                          fontSize: 9,
+                          fontSize: Sizes.size9,
                           fontWeight: FontWeight.w400,
                           color: Color(0xff8E8E8E)),
                     ),
@@ -84,11 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       '나의 매칭 상태',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: Sizes.size18,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    const SizedBox(height: 11),
+                    Gaps.v11,
                     snapshot.data!.matchedInfo != null
                         ? StateCard(
                             matchedInfo: snapshot.data!.matchedInfo!,
@@ -113,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: const Text(
                               '매칭된 상대가 없습니다',
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: Sizes.size18,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.black),
                             )),
@@ -122,11 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       '나에게 온 시그널',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: Sizes.size18,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    const SizedBox(height: 11),
+                    Gaps.v11,
                     snapshot.data!.signalToMe!.isNotEmpty
                         ? ListView.builder(
                             shrinkWrap: true,
@@ -166,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text(
                                   '시그널 찾기',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: Sizes.size18,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black),
                                 )
@@ -178,11 +180,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       '내가 보낸 요청',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: Sizes.size18,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    const SizedBox(height: 11),
+                    Gaps.v11,
                     ListView.builder(
                       shrinkWrap: true,
                       physics:
