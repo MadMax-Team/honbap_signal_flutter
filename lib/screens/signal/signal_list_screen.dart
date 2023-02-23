@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:honbap_signal_flutter/apis/signal/get_signalfind_list.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/screens/signal/signal_userprofile_dialog.dart';
@@ -80,38 +81,53 @@ class _SignalListScreenState extends State<SignalListScreen> {
             ],
           ),
           Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.all(Sizes.size16),
-                  sliver: SliverGrid(
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: Sizes.size96 * 3,
-                      mainAxisSpacing: Sizes.size20,
-                      crossAxisSpacing: Sizes.size20,
-                      childAspectRatio: 4 / 5,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (context) {
-                                return const SignalUserDialog();
-                              },
-                            );
-                          },
-                          child: const SignalUserCard(),
-                        );
-                      },
-                      childCount: 10,
-                    ),
-                  ),
-                ),
-              ],
+            child: FutureBuilder(
+              future: getSignalFindList(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return CustomScrollView(
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.all(Sizes.size16),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: Sizes.size96 * 3,
+                            mainAxisSpacing: Sizes.size20,
+                            crossAxisSpacing: Sizes.size20,
+                            childAspectRatio: 4 / 5,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) {
+                                      return SignalUserDialog(
+                                        signal: snapshot.data![index],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: SignalUserCard(
+                                  signal: snapshot.data![index],
+                                ),
+                              );
+                            },
+                            childCount: snapshot.data!.length,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
           ),
         ],

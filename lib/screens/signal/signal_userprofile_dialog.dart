@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_signal_list_model.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_dialog_usertag_widget.dart';
 
 class SignalUserDialog extends StatefulWidget {
   const SignalUserDialog({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.signal,
+  });
+
+  final SignalSignalListModel signal;
 
   @override
   State<SignalUserDialog> createState() => _SignalUserDialogState();
@@ -15,7 +19,6 @@ class SignalUserDialog extends StatefulWidget {
 class _SignalUserDialogState extends State<SignalUserDialog> {
   final ScrollController _scrollController = ScrollController();
   bool isTop = true;
-  bool isOrange = true;
 
   @override
   void initState() {
@@ -110,20 +113,20 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                               ),
                             ),
                             Gaps.v16,
-                            const Text(
-                              "웅인데웅",
-                              style: TextStyle(
+                            Text(
+                              widget.signal.nickName,
+                              style: const TextStyle(
                                 fontSize: Sizes.size14,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
                               ),
                             ),
                             Gaps.v16,
-                            const Text(
-                              '혼밥마스터 이지만 오늘은 누군가 대화하며 밥을 먹고 싶습니다! 한식, 중식, 일식 좋아합니다.',
+                            Text(
+                              widget.signal.userIntroduce,
                               textAlign: TextAlign.center,
                             ),
-                            if (isOrange)
+                            if (widget.signal.checkSigWrite != 0)
                               Container(
                                 margin:
                                     const EdgeInsets.only(top: Sizes.size32),
@@ -137,18 +140,18 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                                       BorderRadius.circular(Sizes.size7),
                                 ),
                                 child: Column(
-                                  children: const [
+                                  children: [
                                     InfoRow(
                                       title: '만남위치',
                                       icon: Icons.location_on_outlined,
-                                      info: '공덕역 2번출구',
+                                      info: widget.signal.sigPromiseArea!,
                                     ),
                                     InfoRow(
                                       title: '약속시간',
                                       icon: Icons.access_time_rounded,
-                                      info: '19:00',
+                                      info: widget.signal.sigPromiseTime!,
                                     ),
-                                    InfoRow(
+                                    const InfoRow(
                                       title: '메뉴',
                                       icon: Icons.restaurant_menu_rounded,
                                       info: '스시, 해산물',
@@ -179,14 +182,14 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                               width: double.infinity,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text('불호음식: 땅콩, 회, 복숭아'),
+                                children: [
+                                  Text('불호음식: ${widget.signal.hateFood}'),
                                   Gaps.v3,
-                                  Text('선호음식: 국물류'),
+                                  Text('선호음식: ${widget.signal.taste}'),
                                   Gaps.v3,
-                                  Text('선호장소: 2호선, 7호선, 강남근처'),
+                                  Text('선호장소: ${widget.signal.preferArea}'),
                                   Gaps.v3,
-                                  Text('MBTI: ISFJ'),
+                                  Text('MBTI: ${widget.signal.mbti}'),
                                 ],
                               ),
                             ),

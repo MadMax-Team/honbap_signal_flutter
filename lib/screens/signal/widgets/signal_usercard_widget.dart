@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_signal_list_model.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_card_usertag_widget.dart';
 
 class SignalUserCard extends StatelessWidget {
   const SignalUserCard({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.signal,
+  });
+
+  final SignalSignalListModel signal;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: signal.checkSigWrite == 0
+            ? Colors.white
+            : Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(Sizes.size16),
         boxShadow: [
           BoxShadow(
@@ -60,11 +66,13 @@ class SignalUserCard extends StatelessWidget {
                 ),
               ),
               Gaps.v7,
-              const Text(
-                '웅인데웅',
+              Text(
+                signal.nickName,
                 style: TextStyle(
                   fontSize: Sizes.size14,
                   fontWeight: FontWeight.w600,
+                  color:
+                      signal.checkSigWrite == 0 ? Colors.black : Colors.white,
                 ),
               ),
               Gaps.v3,
