@@ -6,6 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_third_widget.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../constants/gaps.dart';
+import '../../../../constants/sizes.dart';
+
 class SignalSecondDialog extends StatefulWidget {
   const SignalSecondDialog({Key? key}) : super(key: key);
 
@@ -41,14 +44,14 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                 },
                 icon: SvgPicture.asset(
                   'assets/icons/user_profile_exit_icon.svg',
-                  height: 24,
-                  width: 24,
+                  height: Sizes.size24,
+                  width: Sizes.size24,
                   fit: BoxFit.fill,
                   alignment: Alignment.center,
                 ),
               ),
             ),
-            const SizedBox(height: 26),
+            Gaps.v26,
             Container(
               width: double.maxFinite,
               alignment: Alignment.centerLeft,
@@ -59,21 +62,21 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                   const Text(
                     '시그널 글 작성',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: Sizes.size18,
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  Gaps.v6,
                   const Text(
                     '구체적인 시그널을 작성하여 매칭상대를 빠르게 찾아보세요',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: Sizes.size12,
                       fontWeight: FontWeight.w400,
                       color: Color(0xff737373),
                     ),
                   ),
-                  const SizedBox(height: 46),
+                  Gaps.v46,
                   Row(
                     children: [
                       Column(
@@ -82,70 +85,70 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                           Text(
                             '약속시간',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: Sizes.size16,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xff737373)),
                           ),
-                          SizedBox(height: 18),
+                          Gaps.v18,
                           Text(
                             '만날장소',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: Sizes.size16,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xff737373)),
                           ),
-                          SizedBox(height: 18),
+                          Gaps.v18,
                           Text(
                             '메뉴',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: Sizes.size16,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xff737373)),
                           ),
                         ],
                       ),
-                      const SizedBox(width: 6),
+                      Gaps.h6,
                       Column(
                         children: const [
                           Icon(
                             Icons.schedule,
                             color: Color(0xff737373),
-                            size: 20,
+                            size: Sizes.size20,
                           ),
-                          SizedBox(height: 18),
+                          Gaps.v18,
                           Icon(
                             Icons.place,
                             color: Color(0xff737373),
-                            size: 20,
+                            size: Sizes.size20,
                           ),
-                          SizedBox(height: 18),
+                          Gaps.v18,
                           Icon(
                             Icons.restaurant,
                             color: Color(0xff737373),
-                            size: 20,
+                            size: Sizes.size20,
                           ),
                         ],
                       ),
-                      const SizedBox(width: 15),
+                      Gaps.h15,
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             getCalculateTime(context),
                             style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: Sizes.size16,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
-                          const SizedBox(height: 18),
+                          Gaps.v18,
                           const Text(
                             '압구정역',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: Sizes.size16,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
-                          const SizedBox(height: 18),
+                          Gaps.v18,
                           DropdownButton(
                             elevation: 0, //remove floating shadow
                             value: _selectedValue,
@@ -166,7 +169,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                             },
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: 16,
+                              fontSize: Sizes.size16,
                               color: Color(0xff737373),
                             ),
                             icon: SvgPicture.asset(
@@ -191,11 +194,11 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                 '시그널 생성일자 ${checkTime(context)}',
                 style: const TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 9,
+                    fontSize: Sizes.size9,
                     color: Color(0xff8E8E8E)),
               ),
             ),
-            const SizedBox(height: 20),
+            Gaps.v20,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -205,23 +208,19 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => const SignalThirdBox(
-                                nowTime: null,
-                                location: null,
-                                menu: null,
-                              ),
+                          builder: (_) => const SignalThirdBox(),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 22),
                       alignment: Alignment.center,
-                      height: 46,
+                      height: Sizes.size46,
                       width: double.maxFinite,
                       child: const Text(
                         '건너뛰기',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: Sizes.size14,
                           color: Color(0xffC4C4C4),
                           fontWeight: FontWeight.w500,
                         ),
@@ -235,23 +234,19 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => SignalThirdBox(
-                                nowTime: DateTime.now(),
-                                location: '압구정역',
-                                menu: '피자',
-                              ),
+                          builder: (_) => SignalThirdBox(),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 22),
                       alignment: Alignment.center,
-                      height: 46,
+                      height: Sizes.size46,
                       width: double.maxFinite,
                       child: const Text(
                         '작성완료',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: Sizes.size14,
                           color: Color(0xffF35928),
                           fontWeight: FontWeight.w500,
                         ),

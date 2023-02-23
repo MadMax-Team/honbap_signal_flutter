@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../constants/gaps.dart';
+import '../../../../constants/sizes.dart';
+
 class SignalThirdBox extends StatefulWidget {
-  const SignalThirdBox(
-      {required this.nowTime,
-      required this.location,
-      required this.menu,
-      Key? key})
-      : super(key: key);
-
-  final DateTime? nowTime;
-  final String? location;
-  final String? menu;
-
+  const SignalThirdBox({Key? key}) : super(key: key);
   @override
   State<SignalThirdBox> createState() => _SignalThirdBoxState();
 }
@@ -31,40 +24,40 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 35),
+            Gaps.v35,
             Container(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: Column(
                 children: [
                   SizedBox(
-                    width: 96,
-                    height: 96,
+                    width: Sizes.size96,
+                    height: Sizes.size96,
                     child: SvgPicture.asset(
                       'assets/icons/home_signal_box_dialog.svg',
                       alignment: Alignment.center,
                       fit: BoxFit.fill,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  Gaps.v10,
                   const Text(
                     '시그널 on 상태가 되었습니다',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: Sizes.size16,
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  Gaps.v6,
                   const Text(
                     textAlign: TextAlign.center,
                     '매칭 상대가 나타나지 않으면 1시간 이후 자동으로 Off됩니다',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: Sizes.size12,
                       fontWeight: FontWeight.w400,
                       color: Color(0xff737373),
                     ),
                   ),
-                  const SizedBox(height: 25),
+                  Gaps.v25,
                 ],
               ),
             ),
@@ -83,12 +76,12 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                         color: Color(0xffF35928),
                       ),
                       alignment: Alignment.center,
-                      height: 46,
+                      height: Sizes.size46,
                       width: double.maxFinite,
                       child: const Text(
                         '확인',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: Sizes.size14,
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                         ),
