@@ -150,6 +150,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                           ),
                           Gaps.v18,
                           DropdownButton(
+                            isDense : true,
                             elevation: 0, //remove floating shadow
                             value: _selectedValue,
                             items: _valueList.map(
