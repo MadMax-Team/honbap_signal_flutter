@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants/sizes.dart';
+
 class ProfileTextField extends StatefulWidget {
-  const ProfileTextField({required this.hintWord, this.setter, Key? key}) : super(key: key);
+  const ProfileTextField({required this.hintWord, this.setter, Key? key})
+      : super(key: key);
 
   final String hintWord;
   final setter;
@@ -30,30 +32,44 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
   Widget build(BuildContext context) {
     return TextField(
       controller: _controller,
-      onChanged: (text) {widget.setter(text);},
+      onChanged: (text) {
+        widget.setter(text);
+      },
       textAlign: TextAlign.left,
       style: const TextStyle(
-          fontSize: 11, fontWeight: FontWeight.w500, color: Colors.black),
+        fontSize: Sizes.size11,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      ),
       decoration: InputDecoration(
         hintText: widget.hintWord,
         isDense: true,
         contentPadding: const EdgeInsets.fromLTRB(10, 9, 10, 10),
         hintStyle: const TextStyle(
           fontWeight: FontWeight.w500,
-          fontSize: 11,
+          fontSize: Sizes.size11,
           color: Color(0xff737373),
         ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(width: 1, color: Colors.black),
+          borderSide: BorderSide(
+            width: Sizes.size1,
+            color: Colors.black,
+          ),
         ),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(width: 1, color: Color(0xffE1E1E1)),
+          borderSide: BorderSide(
+            width: Sizes.size1,
+            color: Color(0xffE1E1E1),
+          ),
         ),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(width: 1, color: Color(0xffE1E1E1)),
+          borderSide: BorderSide(
+            width: Sizes.size1,
+            color: Color(0xffE1E1E1),
+          ),
         ),
       ),
     );
