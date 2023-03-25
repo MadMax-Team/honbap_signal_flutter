@@ -50,3 +50,6 @@ kakao_api_key.dart
 encrypt_key.dart
 Debug.xcconfig
 Release.xcconfig
+
+# For text
+lib/legacy/

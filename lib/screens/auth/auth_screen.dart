@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_phone_auth_screen.dart';
-import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
+import 'package:honbap_signal_flutter/legacy/auth/widgets/auth_button_widget.dart';
+import 'package:honbap_signal_flutter/repository/auth/auth_signup_repository.dart';
+import 'package:honbap_signal_flutter/screens/auth/auth_signup_route_screen.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,7 +20,19 @@ class AuthScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const SignupPhoneAuthScreen(),
+        builder: (context) => MultiBlocProvider(
+          providers: [
+            BlocProvider<SignupUserBloc>(
+              create: (context) => SignupUserBloc(
+                authSignupRepository: AuthSignupRepository(),
+              ),
+            ),
+            BlocProvider<AuthScreenBloc>(
+              create: (context) => AuthScreenBloc(),
+            ),
+          ],
+          child: const AuthSignupRouteScreen(),
+        ),
       ),
     );
   }
