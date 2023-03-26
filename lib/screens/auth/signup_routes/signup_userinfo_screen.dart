@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_state.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/auth_button_widget.dart';
 
 class SignupUserInfoScreen extends StatefulWidget {
@@ -13,6 +15,14 @@ class SignupUserInfoScreen extends StatefulWidget {
 }
 
 class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
+  @override
+  void initState() {
+    super.initState();
+    SignupUserInfoNormalState state =
+        context.read<SignupUserBloc>().state as SignupUserInfoNormalState;
+    print(state.formData.toString());
+  }
+
   void _onNextBtnTap() {
     context
         .read<AuthScreenBloc>()

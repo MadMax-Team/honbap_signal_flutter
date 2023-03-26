@@ -10,7 +10,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
   SignupUserBloc({
     required this.authSignupRepository,
   }) : super(SignupUserInfoNormalState(formData: AuthSignupModel())) {
-    on<SignupButtonPressedEvent>(_handleSignupUserCreateAccountEvent);
+    on<SignupButtonTabEvent>(_handleSignupUserCreateAccountEvent);
     on<SignupEmailChangedEvent>(_handleSignupUserEmailChangeEvent);
     on<SignupPasswordChangedEvent>(_handleSignupUserPasswordChangeEvent);
     on<SignupNickNameChangedEvent>(_handleSignupUserNickNameChangeEvent);
@@ -21,7 +21,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
 
   // 회원가입 버튼 터치 이벤트 핸들러
   Future<void> _handleSignupUserCreateAccountEvent(
-    SignupButtonPressedEvent event,
+    SignupButtonTabEvent event,
     Emitter<SignupUserInfoState> emit,
   ) async {
     try {

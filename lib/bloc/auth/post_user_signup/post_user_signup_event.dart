@@ -9,10 +9,10 @@ abstract class SignupUserEvent extends Equatable {
 }
 
 // 회원가입 버튼 터치 이벤트
-class SignupButtonPressedEvent extends SignupUserEvent {
+class SignupButtonTabEvent extends SignupUserEvent {
   final AuthSignupModel formData;
 
-  const SignupButtonPressedEvent({required this.formData});
+  const SignupButtonTabEvent({required this.formData});
 
   @override
   List<Object?> get props => [formData];

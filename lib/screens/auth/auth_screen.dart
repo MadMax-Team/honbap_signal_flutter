@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_app_send_veri/post_app_send_veri_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
@@ -22,13 +23,18 @@ class AuthScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => MultiBlocProvider(
           providers: [
+            BlocProvider<AuthScreenBloc>(
+              create: (context) => AuthScreenBloc(),
+            ),
             BlocProvider<SignupUserBloc>(
               create: (context) => SignupUserBloc(
                 authSignupRepository: AuthSignupRepository(),
               ),
             ),
-            BlocProvider<AuthScreenBloc>(
-              create: (context) => AuthScreenBloc(),
+            BlocProvider<SignupPhoneBloc>(
+              create: (context) => SignupPhoneBloc(
+                authSignupRepository: AuthSignupRepository(),
+              ),
             ),
           ],
           child: const AuthSignupRouteScreen(),
