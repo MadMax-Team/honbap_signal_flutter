@@ -16,8 +16,19 @@ class SignupUserInfoEmail extends StatefulWidget {
 class _SignupUserInfoEmailState extends State<SignupUserInfoEmail> {
   String _email = '';
   bool _emailChecked = false;
-  final _formKey = GlobalKey<FormState>();
+  final _fieldKey = GlobalKey<FormFieldState<String>>();
   final _emailFocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailFocus.addListener(_checkEmailValidate);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   String? _emailValidator(String? value) {
     String pattern =
@@ -45,8 +56,8 @@ class _SignupUserInfoEmailState extends State<SignupUserInfoEmail> {
   void _checkEmailValidate() {
     if (_email == '') return;
 
-    if (!_emailChecked && _formKey.currentState != null) {
-      _formKey.currentState!.validate();
+    if (!_emailChecked && _fieldKey.currentState != null) {
+      _fieldKey.currentState!.validate();
     }
   }
 
@@ -61,51 +72,58 @@ class _SignupUserInfoEmailState extends State<SignupUserInfoEmail> {
     });
   }
 
+  void _onFieldSubmitted(String value) {
+    if (_emailValidator(value) != null) return;
+
+    FocusScope.of(context).nextFocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignupUserBloc, SignupUserInfoState>(
-      builder: (context, state) => Form(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '사용하실 이메일 아이디를 입력해 주세요',
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
-            TextFormField(
-              key: _formKey,
-              focusNode: _emailFocus,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              style: const TextStyle(fontSize: Sizes.size16),
-              decoration: InputDecoration(
-                suffixIcon: Icon(
-                  Icons.check_circle_rounded,
-                  color: _emailChecked
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey.shade300,
-                ),
-                hintText: 'username@example.com',
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                  ),
+      builder: (context, state) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '사용하실 이메일 아이디를 입력해 주세요',
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
+          TextFormField(
+            key: _fieldKey,
+            focusNode: _emailFocus,
+            keyboardType: TextInputType.emailAddress,
+            autocorrect: false,
+            enableSuggestions: false,
+            textInputAction: TextInputAction.next,
+            style: const TextStyle(fontSize: Sizes.size16),
+            decoration: InputDecoration(
+              suffixIcon: Icon(
+                Icons.check_circle_rounded,
+                color: _emailChecked
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey.shade300,
+              ),
+              hintText: 'username@example.com',
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey.shade400,
                 ),
               ),
-              cursorColor: Theme.of(context).primaryColor,
-              onChanged: _onChanged,
-              validator: (value) => _emailValidator(value),
-              onEditingComplete: _checkEmailValidate,
-              onTapOutside: (_) => _checkEmailValidate(),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
             ),
-            Gaps.v60,
-          ],
-        ),
+            cursorColor: Theme.of(context).primaryColor,
+            onChanged: _onChanged,
+            validator: (value) => _emailValidator(value),
+            onEditingComplete: _checkEmailValidate,
+            onTapOutside: (_) => _checkEmailValidate(),
+            onFieldSubmitted: _onFieldSubmitted,
+          ),
+          Gaps.v60,
+        ],
       ),
     );
   }

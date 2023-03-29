@@ -17,10 +17,22 @@ class SignupUserInfoPassword extends StatefulWidget {
 class _SignupUserInfoPasswordState extends State<SignupUserInfoPassword> {
   String _password = '';
   bool _obscureText = true;
-  final _passwordKey = GlobalKey<FormState>();
-  final _passwordCheckKey = GlobalKey<FormState>();
+  final _passwordKey = GlobalKey<FormFieldState<String>>();
+  final _passwordCheckKey = GlobalKey<FormFieldState<String>>();
   final _passwordFocus = FocusNode();
   final _passwordCheckFocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordFocus.addListener(_checkPasswordValidate);
+    _passwordCheckFocus.addListener(_checkPasswordCheckValidate);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   void _toggleObscureText() {
     setState(() {
@@ -28,6 +40,7 @@ class _SignupUserInfoPasswordState extends State<SignupUserInfoPassword> {
     });
   }
 
+  /// Password ///
   String? _passwordValidator(String? value) {
     String pattern =
         r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$';
@@ -39,9 +52,6 @@ class _SignupUserInfoPasswordState extends State<SignupUserInfoPassword> {
     }
 
     // Valid
-    context
-        .read<SignupUserBloc>()
-        .add(SignupPasswordChangedEvent(password: value ?? ''));
     return null;
   }
 
@@ -61,18 +71,23 @@ class _SignupUserInfoPasswordState extends State<SignupUserInfoPassword> {
         .add(const SignupPasswordChangedEvent(password: ''));
   }
 
-  String? _passwordCheckValidator(String? value) {
-    var currPassword =
-        (context.read<SignupUserBloc>().state as SignupUserInfoNormalState)
-            .formData
-            .password;
+  void _onPasswordFieldSubmitted(String value) {
+    if (_passwordValidator(value) != null) return;
 
+    FocusScope.of(context).nextFocus();
+  }
+
+  /// Password Check ///
+  String? _passwordCheckValidator(String? value) {
     // Invaled
-    if (value != currPassword) {
+    if (value != _password) {
       return '비밀번호가 일치하지 않습니다.';
     }
 
     // Valid
+    context
+        .read<SignupUserBloc>()
+        .add(SignupPasswordChangedEvent(password: value ?? ''));
     return null;
   }
 
@@ -84,111 +99,118 @@ class _SignupUserInfoPasswordState extends State<SignupUserInfoPassword> {
     }
   }
 
+  void _onPasswordCheckChanged(String value) {
+    context
+        .read<SignupUserBloc>()
+        .add(const SignupPasswordChangedEvent(password: ''));
+
+    _checkPasswordCheckValidate();
+  }
+
+  void _onPasswordCheckFieldSubmitted(String value) {
+    if (_passwordCheckValidator(value) != null) return;
+
+    FocusScope.of(context).nextFocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignupUserBloc, SignupUserInfoState>(
       builder: (context, state) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Form(
+          Text(
+            '비밀번호를 설정해 주세요',
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
+          TextFormField(
             key: _passwordKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '비밀번호를 설정해 주세요',
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-                TextFormField(
-                  focusNode: _passwordFocus,
-                  obscureText: _obscureText,
-                  textInputAction: TextInputAction.next,
-                  style: const TextStyle(fontSize: Sizes.size16),
-                  decoration: InputDecoration(
-                    suffixIcon: GestureDetector(
-                      onTap: _toggleObscureText,
-                      child: Container(
-                        width: Sizes.size28,
-                        alignment: Alignment.center,
-                        child: FaIcon(
-                          _obscureText
-                              ? FontAwesomeIcons.eye
-                              : FontAwesomeIcons.eyeSlash,
-                          color: Colors.grey.shade300,
-                          size: Sizes.size20,
-                        ),
-                      ),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey.shade400,
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+            focusNode: _passwordFocus,
+            autocorrect: false,
+            enableSuggestions: false,
+            obscureText: _obscureText,
+            textInputAction: TextInputAction.next,
+            style: const TextStyle(fontSize: Sizes.size16),
+            decoration: InputDecoration(
+              suffixIcon: GestureDetector(
+                onTap: _toggleObscureText,
+                child: Container(
+                  width: Sizes.size28,
+                  alignment: Alignment.center,
+                  child: FaIcon(
+                    _obscureText
+                        ? FontAwesomeIcons.eye
+                        : FontAwesomeIcons.eyeSlash,
+                    color: Colors.grey.shade300,
+                    size: Sizes.size20,
                   ),
-                  cursorColor: Theme.of(context).primaryColor,
-                  onChanged: _onPasswordChanged,
-                  validator: (value) => _passwordValidator(value),
-                  onEditingComplete: _checkPasswordValidate,
-                  onTapOutside: (_) => _checkPasswordValidate(),
                 ),
-                Gaps.v60,
-              ],
+              ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey.shade400,
+                ),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
             ),
+            cursorColor: Theme.of(context).primaryColor,
+            onChanged: _onPasswordChanged,
+            validator: (value) => _passwordValidator(value),
+            onEditingComplete: _checkPasswordValidate,
+            onTapOutside: (_) => _checkPasswordValidate(),
+            onFieldSubmitted: _onPasswordFieldSubmitted,
           ),
-          Form(
+          Gaps.v60,
+          Text(
+            '비밀번호를 확인해 주세요',
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
+          TextFormField(
             key: _passwordCheckKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '비밀번호를 확인해 주세요',
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-                TextFormField(
-                  focusNode: _passwordCheckFocus,
-                  obscureText: _obscureText,
-                  textInputAction: TextInputAction.next,
-                  style: const TextStyle(fontSize: Sizes.size16),
-                  decoration: InputDecoration(
-                    suffixIcon: GestureDetector(
-                      onTap: _toggleObscureText,
-                      child: Container(
-                        width: Sizes.size28,
-                        alignment: Alignment.center,
-                        child: FaIcon(
-                          _obscureText
-                              ? FontAwesomeIcons.eye
-                              : FontAwesomeIcons.eyeSlash,
-                          color: Colors.grey.shade300,
-                          size: Sizes.size20,
-                        ),
-                      ),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey.shade400,
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+            focusNode: _passwordCheckFocus,
+            autocorrect: false,
+            enableSuggestions: false,
+            obscureText: _obscureText,
+            textInputAction: TextInputAction.next,
+            style: const TextStyle(fontSize: Sizes.size16),
+            decoration: InputDecoration(
+              suffixIcon: GestureDetector(
+                onTap: _toggleObscureText,
+                child: Container(
+                  width: Sizes.size28,
+                  alignment: Alignment.center,
+                  child: FaIcon(
+                    _obscureText
+                        ? FontAwesomeIcons.eye
+                        : FontAwesomeIcons.eyeSlash,
+                    color: Colors.grey.shade300,
+                    size: Sizes.size20,
                   ),
-                  cursorColor: Theme.of(context).primaryColor,
-                  onChanged: (_) => _checkPasswordCheckValidate(),
-                  validator: (value) => _passwordCheckValidator(value),
-                  onEditingComplete: _checkPasswordCheckValidate,
-                  onTapOutside: (_) => _checkPasswordCheckValidate(),
                 ),
-                Gaps.v60,
-              ],
+              ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey.shade400,
+                ),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
             ),
+            cursorColor: Theme.of(context).primaryColor,
+            onChanged: _onPasswordCheckChanged,
+            validator: (value) => _passwordCheckValidator(value),
+            onEditingComplete: _checkPasswordCheckValidate,
+            onTapOutside: (_) => _checkPasswordCheckValidate(),
+            onFieldSubmitted: _onPasswordCheckFieldSubmitted,
           ),
+          Gaps.v60,
         ],
       ),
     );

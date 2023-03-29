@@ -16,10 +16,7 @@ class SignupUserInfoScreen extends StatefulWidget {
 }
 
 class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final _formKey = GlobalKey<FormState>();
 
   void _onNextBtnTap() {
     SignupUserInfoNormalState state =
@@ -45,8 +42,15 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Gaps.v36,
-                const SignupUserInfoEmail(),
-                const SignupUserInfoPassword(),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: const [
+                      SignupUserInfoEmail(),
+                      SignupUserInfoPassword(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
