@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/models/auth/auth_signup_model.dart';
@@ -10,7 +11,10 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
   SignupUserBloc({
     required this.authSignupRepository,
   }) : super(SignupUserInfoNormalState(formData: AuthSignupModel())) {
-    on<SignupButtonTabEvent>(_handleSignupUserCreateAccountEvent);
+    on<SignupButtonTabEvent>(
+      _handleSignupUserCreateAccountEvent,
+      transformer: droppable(),
+    );
     on<SignupEmailChangedEvent>(_handleSignupUserEmailChangeEvent);
     on<SignupPasswordChangedEvent>(_handleSignupUserPasswordChangeEvent);
     on<SignupNickNameChangedEvent>(_handleSignupUserNickNameChangeEvent);
@@ -25,20 +29,73 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     Emitter<SignupUserInfoState> emit,
   ) async {
     try {
-      emit(SignupUserInfoLoadingState());
+      // Check if the form is valid
+      if (!_isValid(event, emit)) return;
 
-      await Future.delayed(const Duration(seconds: 1));
+      emit(SignupUserInfoLoadingState());
 
       var res =
           await authSignupRepository.postUserSignup(formData: event.formData);
-      print(event.formData);
 
       emit(SignupUserInfoLoadedState(resCode: res));
       // code 핸들링
     } catch (e) {
       // 통신 실패 핸들링
-      emit(SignupUserInfoErrorState(message: e.toString()));
+      emit(SignupUserInfoErrorState(
+        code: 4001,
+        message: e.toString(),
+      ));
+    } finally {
+      emit(SignupUserInfoNormalState(formData: event.formData));
     }
+  }
+
+  bool _isValid(
+    SignupButtonTabEvent event,
+    Emitter<SignupUserInfoState> emit,
+  ) {
+    if (event.formData.email == '') {
+      emit(SignupUserInfoErrorState(
+        code: 1001,
+        message: '이메일을 입력해주세요.',
+      ));
+      emit(SignupUserInfoNormalState(formData: event.formData));
+      return false;
+    }
+    if (event.formData.password == '') {
+      emit(SignupUserInfoErrorState(
+        code: 1002,
+        message: '비밀번호를 입력해주세요.',
+      ));
+      emit(SignupUserInfoNormalState(formData: event.formData));
+      return false;
+    }
+    if (event.formData.nickName == '') {
+      emit(SignupUserInfoErrorState(
+        code: 1003,
+        message: '닉네임을 입력해주세요.',
+      ));
+      emit(SignupUserInfoNormalState(formData: event.formData));
+      return false;
+    }
+    if (event.formData.birth == '') {
+      emit(SignupUserInfoErrorState(
+        code: 1004,
+        message: '생일을 선택해주세요.',
+      ));
+      emit(SignupUserInfoNormalState(formData: event.formData));
+      return false;
+    }
+    if (event.formData.sex == '') {
+      emit(SignupUserInfoErrorState(
+        code: 1005,
+        message: '성별을 선택해주세요.',
+      ));
+      emit(SignupUserInfoNormalState(formData: event.formData));
+      return false;
+    }
+
+    return true;
   }
 
   // 이메일 주소 변경 이벤트 핸들러
@@ -46,6 +103,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     SignupEmailChangedEvent event,
     Emitter<SignupUserInfoState> emit,
   ) async {
+    if (state is! SignupUserInfoNormalState) return;
     emit(
       SignupUserInfoNormalState(
         formData: (state as SignupUserInfoNormalState)
@@ -60,6 +118,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     SignupPasswordChangedEvent event,
     Emitter<SignupUserInfoState> emit,
   ) async {
+    if (state is! SignupUserInfoNormalState) return;
     emit(
       SignupUserInfoNormalState(
         formData: (state as SignupUserInfoNormalState)
@@ -74,6 +133,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     SignupNickNameChangedEvent event,
     Emitter<SignupUserInfoState> emit,
   ) async {
+    if (state is! SignupUserInfoNormalState) return;
     emit(
       SignupUserInfoNormalState(
         formData: (state as SignupUserInfoNormalState)
@@ -88,6 +148,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     SignupBirthChangedEvent event,
     Emitter<SignupUserInfoState> emit,
   ) async {
+    if (state is! SignupUserInfoNormalState) return;
     emit(
       SignupUserInfoNormalState(
         formData: (state as SignupUserInfoNormalState)
@@ -102,6 +163,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     SignupPhoneNumChangedEvent event,
     Emitter<SignupUserInfoState> emit,
   ) async {
+    if (state is! SignupUserInfoNormalState) return;
     emit(
       SignupUserInfoNormalState(
         formData: (state as SignupUserInfoNormalState)
@@ -116,6 +178,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     SignupSexChangedEvent event,
     Emitter<SignupUserInfoState> emit,
   ) async {
+    if (state is! SignupUserInfoNormalState) return;
     emit(
       SignupUserInfoNormalState(
         formData: (state as SignupUserInfoNormalState)

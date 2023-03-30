@@ -41,14 +41,25 @@ class SignupUserInfoLoadingState extends SignupUserInfoState {
 }
 
 class SignupUserInfoErrorState extends SignupUserInfoState {
+  /// 1001: 이메일 입력 필요
+  /// 1002: 비밀번호 입력 필요
+  /// 1003: 닉네임 입력 필요
+  /// 1004: 생일 입력 필요
+  /// 1005: 성별 입력 필요
+  /// 4001: 통신 실패
+  final int code;
   final String message;
 
   SignupUserInfoErrorState({
+    required this.code,
     required this.message,
   });
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [
+        code,
+        message,
+      ];
 }
 
 class SignupUserInfoLoadedState extends SignupUserInfoState {

@@ -36,7 +36,22 @@ class _SignupUserInfoBirthState extends State<SignupUserInfoBirth> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignupUserBloc, SignupUserInfoState>(
+    return BlocConsumer<SignupUserBloc, SignupUserInfoState>(
+      listener: (context, state) {
+        if (state is SignupUserInfoErrorState && state.code == 1004) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              elevation: 0,
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+          );
+        }
+      },
+      buildWhen: (previous, current) {
+        if (current is SignupUserInfoNormalState) return true;
+        return false;
+      },
       builder: (context, state) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

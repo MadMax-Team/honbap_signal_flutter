@@ -116,7 +116,26 @@ class _SignupUserInfoPasswordState extends State<SignupUserInfoPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignupUserBloc, SignupUserInfoState>(
+    return BlocConsumer<SignupUserBloc, SignupUserInfoState>(
+      listener: (context, state) {
+        if (state is SignupUserInfoErrorState && state.code == 1002) {
+          String message = '';
+          if (_passwordValidator(_password) == null) {
+            _passwordCheckFocus.requestFocus();
+            message = '비밀번호를 확인해주세요.';
+          } else {
+            _passwordFocus.requestFocus();
+            message = state.message;
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+              elevation: 0,
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+          );
+        }
+      },
       builder: (context, state) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

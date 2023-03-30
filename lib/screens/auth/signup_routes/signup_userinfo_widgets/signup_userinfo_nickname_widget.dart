@@ -49,6 +49,7 @@ class _SignupUserInfoNickNameState extends State<SignupUserInfoNickName> {
   }
 
   void _nicknameCheck() async {
+    FocusScope.of(context).unfocus();
     if (_nicknameChecked || _nickname == '') return;
 
     // TODO: 닉네임 중복확인 로직 추가
@@ -87,9 +88,27 @@ class _SignupUserInfoNickNameState extends State<SignupUserInfoNickName> {
     });
   }
 
+  void _onFieldSubmitted(String value) {
+    if (_nicknameValidator(value) != null) return;
+
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignupUserBloc, SignupUserInfoState>(
+    return BlocConsumer<SignupUserBloc, SignupUserInfoState>(
+      listener: (context, state) {
+        if (state is SignupUserInfoErrorState && state.code == 1003) {
+          _nickNameFocus.requestFocus();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              elevation: 0,
+              backgroundColor: Theme.of(context).primaryColor,
+            ),
+          );
+        }
+      },
       builder: (context, state) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -131,7 +150,7 @@ class _SignupUserInfoNickNameState extends State<SignupUserInfoNickName> {
               validator: (value) => _nicknameValidator(value),
               onEditingComplete: _checkNicknameValidate,
               onTapOutside: (_) => _checkNicknameValidate(),
-              onFieldSubmitted: (_) => _checkNicknameValidate(),
+              onFieldSubmitted: _onFieldSubmitted,
             ),
           ),
         ],

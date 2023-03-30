@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
@@ -22,10 +23,16 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
   final _formKey = GlobalKey<FormState>();
 
   void _onNextBtnTap() {
-    SignupUserInfoNormalState state =
+    if (context.read<SignupUserBloc>().state is! SignupUserInfoNormalState) {
+      return;
+    }
+
+    var state =
         context.read<SignupUserBloc>().state as SignupUserInfoNormalState;
 
-    print(state.formData.toString());
+    context
+        .read<SignupUserBloc>()
+        .add(SignupButtonTabEvent(formData: state.formData));
   }
 
   @override
@@ -81,16 +88,40 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-          color: Theme.of(context).primaryColor,
-          child: GestureDetector(
-            onTap: _onNextBtnTap,
-            child: AuthBtnWidget(
-              title: "계속하기",
-              bgColor: Theme.of(context).primaryColor,
-              borderColor: Theme.of(context).primaryColor,
-              textColor: Colors.white,
-              borderRad: 0,
+        bottomNavigationBar: BlocConsumer<SignupUserBloc, SignupUserInfoState>(
+          listener: (context, state) {
+            if (state is SignupUserInfoErrorState && state.code == 4001) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('통신에 실패했습니다.\n잠시 후 다시 시도해 주세요.'),
+                  elevation: 0,
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              );
+            }
+            if (state is SignupUserInfoLoadedState &&
+                !state.resCode.isSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('회원가입에 실패했습니다.\n${state.resCode.message}'),
+                  elevation: 0,
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              );
+            }
+          },
+          builder: (context, state) => BottomAppBar(
+            color: Theme.of(context).primaryColor,
+            child: GestureDetector(
+              onTap: _onNextBtnTap,
+              child: AuthBtnWidget(
+                title: "계속하기",
+                bgColor: Theme.of(context).primaryColor,
+                borderColor: Theme.of(context).primaryColor,
+                textColor: Colors.white,
+                borderRad: 0,
+                isLoading: state is SignupUserInfoLoadingState,
+              ),
             ),
           ),
         ),

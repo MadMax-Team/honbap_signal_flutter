@@ -57,7 +57,7 @@ class AuthSignupRepository {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
     };
-    final body = formData.toJson().toString();
+    final body = jsonEncode(formData.toJson());
 
     final res = await http.post(
       Uri.parse('http://49.50.167.52:3001/user/signup'),
