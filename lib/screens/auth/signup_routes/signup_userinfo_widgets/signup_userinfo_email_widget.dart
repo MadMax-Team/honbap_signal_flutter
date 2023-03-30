@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
-import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 
 class SignupUserInfoEmail extends StatefulWidget {
@@ -27,6 +26,7 @@ class _SignupUserInfoEmailState extends State<SignupUserInfoEmail> {
 
   @override
   void dispose() {
+    _emailFocus.dispose();
     super.dispose();
   }
 
@@ -88,41 +88,43 @@ class _SignupUserInfoEmailState extends State<SignupUserInfoEmail> {
             '사용하실 이메일 아이디를 입력해 주세요',
             style: Theme.of(context).textTheme.labelSmall,
           ),
-          TextFormField(
-            key: _fieldKey,
-            focusNode: _emailFocus,
-            keyboardType: TextInputType.emailAddress,
-            autocorrect: false,
-            enableSuggestions: false,
-            textInputAction: TextInputAction.next,
-            style: const TextStyle(fontSize: Sizes.size16),
-            decoration: InputDecoration(
-              suffixIcon: Icon(
-                Icons.check_circle_rounded,
-                color: _emailChecked
-                    ? Theme.of(context).primaryColor
-                    : Colors.grey.shade300,
-              ),
-              hintText: 'username@example.com',
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.grey.shade400,
+          SizedBox(
+            height: Sizes.size80,
+            child: TextFormField(
+              key: _fieldKey,
+              focusNode: _emailFocus,
+              keyboardType: TextInputType.emailAddress,
+              autocorrect: false,
+              enableSuggestions: false,
+              textInputAction: TextInputAction.next,
+              style: const TextStyle(fontSize: Sizes.size16),
+              decoration: InputDecoration(
+                suffixIcon: Icon(
+                  Icons.check_circle_rounded,
+                  color: _emailChecked
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey.shade300,
+                ),
+                hintText: 'username@example.com',
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey.shade400,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
+              cursorColor: Theme.of(context).primaryColor,
+              onChanged: _onChanged,
+              validator: (value) => _emailValidator(value),
+              onEditingComplete: _checkEmailValidate,
+              onTapOutside: (_) => _checkEmailValidate(),
+              onFieldSubmitted: _onFieldSubmitted,
             ),
-            cursorColor: Theme.of(context).primaryColor,
-            onChanged: _onChanged,
-            validator: (value) => _emailValidator(value),
-            onEditingComplete: _checkEmailValidate,
-            onTapOutside: (_) => _checkEmailValidate(),
-            onFieldSubmitted: _onFieldSubmitted,
           ),
-          Gaps.v60,
         ],
       ),
     );

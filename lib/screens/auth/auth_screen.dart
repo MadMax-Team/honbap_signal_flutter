@@ -8,9 +8,9 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
-import 'package:honbap_signal_flutter/legacy/auth/widgets/auth_button_widget.dart';
 import 'package:honbap_signal_flutter/repository/auth/auth_signup_repository.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_signup_route_screen.dart';
+import 'package:honbap_signal_flutter/screens/auth/widgets/auth_login_button.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:http/http.dart' as http;
 
@@ -110,7 +110,7 @@ class AuthScreen extends StatelessWidget {
                   Gaps.v10,
                   GestureDetector(
                     onTap: () => _onSignUpTap(context),
-                    child: AuthBtnWidget(
+                    child: AuthLoginButton(
                       title: "회원가입 하기",
                       bgColor: Theme.of(context).primaryColor,
                       borderColor: Theme.of(context).primaryColor,
@@ -118,7 +118,7 @@ class AuthScreen extends StatelessWidget {
                     ),
                   ),
                   Gaps.v10,
-                  AuthBtnWidget(
+                  AuthLoginButton(
                     title: "로그인 하기",
                     bgColor: Colors.white,
                     borderColor: Theme.of(context).primaryColor,
@@ -160,7 +160,7 @@ class AuthScreen extends StatelessWidget {
                   Gaps.v20,
                   GestureDetector(
                     onTap: _authWithKakao,
-                    child: AuthBtnWidget(
+                    child: AuthLoginButton(
                       title: "카카오로 로그인",
                       bgColor: const Color(0xffffe500),
                       borderColor: const Color(0xffffe500),

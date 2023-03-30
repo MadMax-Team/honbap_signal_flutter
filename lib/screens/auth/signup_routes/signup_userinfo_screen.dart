@@ -4,8 +4,11 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_birth_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_email_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_nickname_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_password_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_sex_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/auth_button_widget.dart';
 
 class SignupUserInfoScreen extends StatefulWidget {
@@ -33,25 +36,48 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Gaps.v20,
-                Text(
-                  '계정 정보를 입력해 주세요',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Gaps.v36,
-                Form(
-                  key: _formKey,
-                  child: Column(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gaps.v20,
+                  Text(
+                    '계정 정보를 입력해 주세요',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Gaps.v36,
+                  const SignupUserInfoEmail(),
+                  const SignupUserInfoPassword(),
+                  Gaps.v20,
+                  Text(
+                    '사용하실 닉네임을 설정해 주세요',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Gaps.v10,
+                  const SignupUserInfoNickName(),
+                  Gaps.v20,
+                  Text(
+                    '생년월일과 성별을\n선택해 주세요',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Gaps.v20,
+                  Row(
                     children: const [
-                      SignupUserInfoEmail(),
-                      SignupUserInfoPassword(),
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: SignupUserInfoBirth(),
+                      ),
+                      Gaps.h20,
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: SignupUserInfoSex(),
+                      ),
                     ],
                   ),
-                ),
-              ],
+                  Gaps.v96,
+                ],
+              ),
             ),
           ),
         ),

@@ -30,7 +30,11 @@ class _AuthSignupRouteScreenState extends State<AuthSignupRouteScreen> {
     return BlocBuilder<AuthScreenBloc, AuthScreenState>(
       builder: (context, state) => Scaffold(
         appBar: AppBar(
-          title: const Text('회원가입'),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(
+            color: Colors.black, // <-- SEE HERE
+          ),
         ),
         body: _screenRouter(state.screen),
       ),
