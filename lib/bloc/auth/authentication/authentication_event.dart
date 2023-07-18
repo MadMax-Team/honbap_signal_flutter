@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 
-class AuthenticationEvent extends Equatable {
+abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
 
   @override

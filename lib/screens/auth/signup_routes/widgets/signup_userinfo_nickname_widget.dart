@@ -4,7 +4,7 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_double_check_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_double_check_button_widget.dart';
 
 class SignupUserInfoNickName extends StatefulWidget {
   const SignupUserInfoNickName({super.key});

@@ -5,7 +5,7 @@ import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_event.da
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/auth_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 
 class SignupPhoneCompleteScreen extends StatefulWidget {
   const SignupPhoneCompleteScreen({super.key});

@@ -4,7 +4,7 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_gender_button.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_gender_button.dart';
 
 class SignupUserInfoSex extends StatefulWidget {
   const SignupUserInfoSex({super.key});

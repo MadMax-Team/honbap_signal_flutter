@@ -6,6 +6,7 @@ import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bl
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_app_send_veri/post_app_send_veri_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_user_signin/post_user_signin_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
@@ -13,7 +14,8 @@ import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
 import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
-import 'package:honbap_signal_flutter/screens/auth/auth_signup_route_screen.dart';
+import 'package:honbap_signal_flutter/screens/auth/signin/auth_signin_screen.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/auth_signup_route_screen.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_login_button.dart';
 
 class AuthScreen extends StatelessWidget {
@@ -43,6 +45,18 @@ class AuthScreen extends StatelessWidget {
           ],
           child: const AuthSignupRouteScreen(),
         ),
+      ),
+    );
+  }
+
+  void _onSignInTap(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlocProvider(
+            create: (context) =>
+                SigninUserBloc(context.read<HonbabAuthRepository>()),
+            child: const AuthSigninScreen()),
       ),
     );
   }
@@ -135,11 +149,14 @@ class AuthScreen extends StatelessWidget {
                     ),
                   ),
                   Gaps.v10,
-                  AuthLoginButton(
-                    title: "로그인 하기",
-                    bgColor: Colors.white,
-                    borderColor: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).primaryColor,
+                  GestureDetector(
+                    onTap: () => _onSignInTap(context),
+                    child: AuthLoginButton(
+                      title: "로그인 하기",
+                      bgColor: Colors.white,
+                      borderColor: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ],
               ),

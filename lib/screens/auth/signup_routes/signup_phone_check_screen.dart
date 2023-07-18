@@ -11,7 +11,7 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/auth_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 import 'package:honbap_signal_flutter/tools/phone_format_updater.dart';
 
 class SignupPhoneCheckScreen extends StatefulWidget {

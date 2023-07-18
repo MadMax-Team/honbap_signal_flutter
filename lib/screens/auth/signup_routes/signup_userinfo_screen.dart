@@ -8,12 +8,12 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_birth_widget.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_email_widget.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_nickname_widget.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_password_widget.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_widgets/signup_userinfo_sex_widget.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/auth_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_userinfo_birth_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_userinfo_email_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_userinfo_nickname_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_userinfo_password_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_userinfo_sex_widget.dart';
+import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 
 class SignupUserInfoScreen extends StatefulWidget {
   const SignupUserInfoScreen({super.key});
