@@ -3,7 +3,7 @@ import 'package:honbap_signal_flutter/models/auth/auth_signup_model.dart';
 import 'package:honbap_signal_flutter/models/res_code_model.dart';
 import 'package:http/http.dart' as http;
 
-class AuthSignupRepository {
+class HonbabAuthSignupRepository {
   Future<bool> postAppSend({required String phoneNumber}) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
@@ -60,7 +60,8 @@ class AuthSignupRepository {
     final body = jsonEncode(formData.toJson());
 
     final res = await http.post(
-      Uri.parse('http://49.50.167.52:3001/user/signup'),
+      Uri.parse(
+          'https://544391a2-1b1e-4e12-a33d-d8ff653f40b1.mock.pstmn.io/user/signup/success'),
       headers: headers,
       body: body,
     );

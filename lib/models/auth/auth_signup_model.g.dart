@@ -6,17 +6,17 @@ part of 'auth_signup_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AuthSignupModel _$$_AuthSignupModelFromJson(Map<String, dynamic> json) =>
-    _$_AuthSignupModel(
-      email: json['email'] as String? ?? '',
-      password: json['password'] as String? ?? '',
-      nickName: json['nickName'] as String? ?? '',
-      birth: json['birth'] as String? ?? '',
-      phoneNum: json['phoneNum'] as String? ?? '',
-      sex: json['sex'] as String? ?? '',
+AuthSignupModel _$AuthSignupModelFromJson(Map<String, dynamic> json) =>
+    AuthSignupModel(
+      email: json['email'] as String?,
+      password: json['password'] as String?,
+      nickName: json['nickName'] as String?,
+      birth: json['birth'] as String?,
+      phoneNum: json['phoneNum'] as String?,
+      sex: json['sex'] as String?,
     );
 
-Map<String, dynamic> _$$_AuthSignupModelToJson(_$_AuthSignupModel instance) =>
+Map<String, dynamic> _$AuthSignupModelToJson(AuthSignupModel instance) =>
     <String, dynamic>{
       'email': instance.email,
       'password': instance.password,

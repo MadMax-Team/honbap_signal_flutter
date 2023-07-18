@@ -64,11 +64,16 @@ class SignupUserInfoErrorState extends SignupUserInfoState {
 
 class SignupUserInfoLoadedState extends SignupUserInfoState {
   final ResCodeModel resCode;
+  final AuthSignupModel formData;
 
   SignupUserInfoLoadedState({
     required this.resCode,
+    required this.formData,
   });
 
   @override
-  List<Object?> get props => [resCode];
+  List<Object?> get props => [
+        resCode,
+        formData,
+      ];
 }

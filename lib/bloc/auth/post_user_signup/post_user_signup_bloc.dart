@@ -3,14 +3,14 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/models/auth/auth_signup_model.dart';
-import 'package:honbap_signal_flutter/repository/auth/auth_signup_repository.dart';
+import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
 
 class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
-  final AuthSignupRepository authSignupRepository;
+  final HonbabAuthSignupRepository authSignupRepository;
 
   SignupUserBloc({
     required this.authSignupRepository,
-  }) : super(SignupUserInfoNormalState(formData: AuthSignupModel())) {
+  }) : super(SignupUserInfoNormalState(formData: const AuthSignupModel())) {
     on<SignupButtonTabEvent>(
       _handleSignupUserCreateAccountEvent,
       transformer: droppable(),
@@ -37,7 +37,17 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       var res =
           await authSignupRepository.postUserSignup(formData: event.formData);
 
-      emit(SignupUserInfoLoadedState(resCode: res));
+      if (res.code == 4000) {
+        emit(SignupUserInfoErrorState(
+          code: res.code,
+          message: res.message,
+        ));
+      } else {
+        emit(SignupUserInfoLoadedState(
+          resCode: res,
+          formData: event.formData,
+        ));
+      }
       // code 핸들링
     } catch (e) {
       // 통신 실패 핸들링
@@ -54,7 +64,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     SignupButtonTabEvent event,
     Emitter<SignupUserInfoState> emit,
   ) {
-    if (event.formData.email == '') {
+    if (event.formData.email == null || event.formData.email == '') {
       emit(SignupUserInfoErrorState(
         code: 1001,
         message: '이메일을 입력해주세요.',
@@ -62,7 +72,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       emit(SignupUserInfoNormalState(formData: event.formData));
       return false;
     }
-    if (event.formData.password == '') {
+    if (event.formData.password == null || event.formData.password == '') {
       emit(SignupUserInfoErrorState(
         code: 1002,
         message: '비밀번호를 입력해주세요.',
@@ -70,7 +80,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       emit(SignupUserInfoNormalState(formData: event.formData));
       return false;
     }
-    if (event.formData.nickName == '') {
+    if (event.formData.nickName == null || event.formData.nickName == '') {
       emit(SignupUserInfoErrorState(
         code: 1003,
         message: '닉네임을 입력해주세요.',
@@ -78,7 +88,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       emit(SignupUserInfoNormalState(formData: event.formData));
       return false;
     }
-    if (event.formData.birth == '') {
+    if (event.formData.birth == null || event.formData.birth == '') {
       emit(SignupUserInfoErrorState(
         code: 1004,
         message: '생일을 선택해주세요.',
@@ -86,7 +96,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       emit(SignupUserInfoNormalState(formData: event.formData));
       return false;
     }
-    if (event.formData.sex == '') {
+    if (event.formData.sex == null || event.formData.sex == '') {
       emit(SignupUserInfoErrorState(
         code: 1005,
         message: '성별을 선택해주세요.',

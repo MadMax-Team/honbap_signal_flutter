@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
@@ -69,8 +72,8 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Gaps.v20,
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Flexible(
                         fit: FlexFit.tight,
                         child: SignupUserInfoBirth(),
@@ -90,7 +93,8 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
         ),
         bottomNavigationBar: BlocConsumer<SignupUserBloc, SignupUserInfoState>(
           listener: (context, state) {
-            if (state is SignupUserInfoErrorState && state.code == 4001) {
+            if (state is SignupUserInfoErrorState &&
+                (state.code == 4000 || state.code == 4001)) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Text('통신에 실패했습니다.\n잠시 후 다시 시도해 주세요.'),
@@ -108,6 +112,15 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
                   backgroundColor: Theme.of(context).primaryColor,
                 ),
               );
+            }
+
+            if (state is SignupUserInfoLoadedState &&
+                state.resCode.code == 1000) {
+              context.read<AuthenticationBloc>().add(AuthenticationLogin(
+                    platform: AuthenticationWith.honbab,
+                    email: state.formData.email,
+                    password: state.formData.password,
+                  ));
             }
           },
           builder: (context, state) => BottomAppBar(

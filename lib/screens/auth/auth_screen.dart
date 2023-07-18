@@ -8,7 +8,7 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
-import 'package:honbap_signal_flutter/repository/auth/auth_signup_repository.dart';
+import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_signup_route_screen.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_login_button.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -28,12 +28,14 @@ class AuthScreen extends StatelessWidget {
             ),
             BlocProvider<SignupUserBloc>(
               create: (context) => SignupUserBloc(
-                authSignupRepository: AuthSignupRepository(),
+                authSignupRepository:
+                    context.read<HonbabAuthSignupRepository>(),
               ),
             ),
             BlocProvider<SignupPhoneBloc>(
               create: (context) => SignupPhoneBloc(
-                authSignupRepository: AuthSignupRepository(),
+                authSignupRepository:
+                    context.read<HonbabAuthSignupRepository>(),
               ),
             ),
           ],

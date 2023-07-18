@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_app_send_veri/post_app_send_veri_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_app_send_veri/post_app_send_veri_state.dart';
-import 'package:honbap_signal_flutter/repository/auth/auth_signup_repository.dart';
+import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
 
 class SignupPhoneBloc extends Bloc<SignupPhoneEvent, SignupPhoneState> {
-  final AuthSignupRepository authSignupRepository;
+  final HonbabAuthSignupRepository authSignupRepository;
 
   SignupPhoneBloc({
     required this.authSignupRepository,

@@ -78,9 +78,10 @@ class _SignupUserInfoBirthState extends State<SignupUserInfoBirth> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  (state as SignupUserInfoNormalState).formData.birth == ''
+                  ((state as SignupUserInfoNormalState).formData.birth ?? '') ==
+                          ''
                       ? '0000-00-00'
-                      : state.formData.birth,
+                      : state.formData.birth ?? '',
                   style: TextStyle(
                     color: state.formData.birth == ''
                         ? Colors.black
