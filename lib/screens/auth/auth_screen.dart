@@ -1,13 +1,22 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_app_send_veri/post_app_send_veri_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_user_signin/post_user_signin_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_phone_auth_screen.dart';
-import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:http/http.dart' as http;
+import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
+import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
+import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
+import 'package:honbap_signal_flutter/screens/auth/signin/auth_signin_screen.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/auth_signup_route_screen.dart';
+import 'package:honbap_signal_flutter/screens/auth/widgets/auth_login_button.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -16,37 +25,81 @@ class AuthScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const SignupPhoneAuthScreen(),
+        builder: (context) => MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthScreenBloc>(
+              create: (context) => AuthScreenBloc(),
+            ),
+            BlocProvider<SignupUserBloc>(
+              create: (context) => SignupUserBloc(
+                authSignupRepository:
+                    context.read<HonbabAuthSignupRepository>(),
+              ),
+            ),
+            BlocProvider<SignupPhoneBloc>(
+              create: (context) => SignupPhoneBloc(
+                authSignupRepository:
+                    context.read<HonbabAuthSignupRepository>(),
+              ),
+            ),
+          ],
+          child: const AuthSignupRouteScreen(),
+        ),
       ),
     );
   }
 
-  void _authWithKakao() async {
-    try {
-      bool isInstalled = await isKakaoTalkInstalled();
+  void _onSignInTap(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlocProvider(
+            create: (context) =>
+                SigninUserBloc(context.read<HonbabAuthRepository>()),
+            child: const AuthSigninScreen()),
+      ),
+    );
+  }
 
-      OAuthToken token = isInstalled
-          ? await UserApi.instance.loginWithKakaoTalk()
-          : await UserApi.instance.loginWithKakaoAccount();
+  void _authWithKakao(BuildContext context) async {
+    KakaoLoginModel? kakaoModel =
+        await context.read<KakaoRepository>().authWithKakao();
 
-      final url = Uri.https('kapi.kakao.com', '/v2/user/me');
-
-      final response = await http.get(
-        url,
-        headers: {
-          HttpHeaders.authorizationHeader: 'Bearer ${token.accessToken}'
-        },
+    if (kakaoModel == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('카카오톡 로그인에 실패했습니다.'),
+          elevation: 0,
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
       );
-
-      final profileInfo = json.decode(response.body);
-      print(profileInfo);
-
-      // ignore: unused_local_variable
-      KakaoLoginModel kakaoAccount = KakaoLoginModel.fromJson(profileInfo);
-    } catch (error) {
-      // ignore: avoid_print
-      print('카카오톡으로 로그인 실패 $error');
+      return;
     }
+
+    var jwt = await context.read<HonbabAuthRepository>().signin(
+          platform: AuthenticationWith.kakao,
+          kakaoModel: kakaoModel,
+        );
+
+    if (jwt == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('로그인에 실패했습니다.'),
+          elevation: 0,
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
+      );
+      return;
+    }
+
+    // jwt 저장
+    const storage = FlutterSecureStorage();
+    await storage.write(key: 'jwt', value: jwt);
+
+    // splash 화면으로 돌아가기
+    context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+          status: AuthenticationStatus.init,
+        ));
   }
 
   @override
@@ -88,7 +141,7 @@ class AuthScreen extends StatelessWidget {
                   Gaps.v10,
                   GestureDetector(
                     onTap: () => _onSignUpTap(context),
-                    child: AuthBtnWidget(
+                    child: AuthLoginButton(
                       title: "회원가입 하기",
                       bgColor: Theme.of(context).primaryColor,
                       borderColor: Theme.of(context).primaryColor,
@@ -96,11 +149,14 @@ class AuthScreen extends StatelessWidget {
                     ),
                   ),
                   Gaps.v10,
-                  AuthBtnWidget(
-                    title: "로그인 하기",
-                    bgColor: Colors.white,
-                    borderColor: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).primaryColor,
+                  GestureDetector(
+                    onTap: () => _onSignInTap(context),
+                    child: AuthLoginButton(
+                      title: "로그인 하기",
+                      bgColor: Colors.white,
+                      borderColor: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ],
               ),
@@ -137,8 +193,8 @@ class AuthScreen extends StatelessWidget {
                   ),
                   Gaps.v20,
                   GestureDetector(
-                    onTap: _authWithKakao,
-                    child: AuthBtnWidget(
+                    onTap: () => _authWithKakao(context),
+                    child: AuthLoginButton(
                       title: "카카오로 로그인",
                       bgColor: const Color(0xffffe500),
                       borderColor: const Color(0xffffe500),

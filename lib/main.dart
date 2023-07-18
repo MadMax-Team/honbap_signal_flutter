@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
-import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/routes/route_navigation_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/app.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/splash/splash_bloc.dart';
+import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
+import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
+import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:path_provider/path_provider.dart';
 import 'apis/kakao_api_key.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Kakao SDK initialize
   KakaoSdk.init(nativeAppKey: KAKAO_API_KEY);
+
+  // for hydrated_bloc
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getApplicationDocumentsDirectory(),
+  );
 
   runApp(const MyApp());
 }
@@ -21,45 +31,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '혼밥시그널',
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('ko'),
-      ],
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        primarySwatch: createMaterialColor(const Color(0xffff4b25)),
-        fontFamily: 'Pretendard',
-        textTheme: const TextTheme(
-          // 2022 sets
-          // displayLarge, displayMedium, displaySmall
-          // headlineLarge, headlineMedium, headlineSmall
-          // titleLarge, titleMedium, titleSmall
-          // bodyLarge, bodyMedium, bodySmall
-          // labelLarge, labelMedium, labelSmall
-          titleMedium: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: Sizes.size20,
-          ),
-          titleSmall: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: Sizes.size16,
-          ),
-          labelSmall: TextStyle(
-            color: Color(0xFFB8B8B8),
-            fontSize: Sizes.size10,
-            letterSpacing: Sizes.size1 / Sizes.size2,
-          ),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => KakaoRepository(),
         ),
+        RepositoryProvider(
+          create: (context) => HonbabAuthSignupRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => HonbabAuthRepository(),
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                AuthenticationBloc(context.read<HonbabAuthRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => SplashBloc(),
+          )
+        ],
+        child: const App(),
       ),
-      home: const RouteNavigationWidget(),
     );
   }
 }

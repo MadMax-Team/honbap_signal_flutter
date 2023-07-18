@@ -1,52 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_event.dart';
+import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_screen.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
 
-class SignupPhoneAuthComplete extends StatelessWidget {
-  const SignupPhoneAuthComplete({
-    super.key,
-    required this.phoneNum,
-  });
+class SignupPhoneCompleteScreen extends StatefulWidget {
+  const SignupPhoneCompleteScreen({super.key});
 
-  final String phoneNum;
+  @override
+  State<SignupPhoneCompleteScreen> createState() =>
+      _SignupPhoneCompleteScreenState();
+}
 
-  void _onContinueTap(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SignupScreen(
-          phoneNum: phoneNum,
-        ),
-      ),
-    );
+class _SignupPhoneCompleteScreenState extends State<SignupPhoneCompleteScreen> {
+  void _onNextBtnTap() {
+    context
+        .read<AuthScreenBloc>()
+        .add(const AuthScreenEvent(screen: AuthScreenEnum.userInfo));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        iconTheme: const IconThemeData(
-          color: Colors.black, // <-- SEE HERE
-        ),
-      ),
       body: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Gaps.v64,
-            Gaps.v64,
             SizedBox(
               width: Sizes.size72 * 2,
               height: Sizes.size72 * 2,
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/icon_honbab1.svg',
+                  Image.asset(
+                    'assets/images/honbab_smile.png',
                     width: Sizes.size72 * 2,
                     height: Sizes.size72 * 2,
                   ),
@@ -84,14 +74,17 @@ class SignupPhoneAuthComplete extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: GestureDetector(
-        onTap: () => _onContinueTap(context),
-        child: AuthBtnWidget(
-          title: "계속하기",
-          bgColor: Theme.of(context).primaryColor,
-          borderColor: Theme.of(context).primaryColor,
-          textColor: Colors.white,
-          borderRad: 0,
+      bottomNavigationBar: BottomAppBar(
+        color: Theme.of(context).primaryColor,
+        child: GestureDetector(
+          onTap: _onNextBtnTap,
+          child: AuthBtnWidget(
+            title: "계속하기",
+            bgColor: Theme.of(context).primaryColor,
+            borderColor: Theme.of(context).primaryColor,
+            textColor: Colors.white,
+            borderRad: 0,
+          ),
         ),
       ),
     );
