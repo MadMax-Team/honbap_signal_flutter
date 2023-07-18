@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_state.dart';
@@ -36,8 +35,8 @@ class _SignupPhoneCompleteScreenState extends State<SignupPhoneCompleteScreen> {
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/icon_honbab1.svg',
+                  Image.asset(
+                    'assets/images/honbab_smile.png',
                     width: Sizes.size72 * 2,
                     height: Sizes.size72 * 2,
                   ),
