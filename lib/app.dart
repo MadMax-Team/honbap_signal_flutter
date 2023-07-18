@@ -31,6 +31,7 @@ class _AppState extends State<App> {
 
         switch (authState) {
           case AuthenticationStatus.init:
+            return '/';
           case AuthenticationStatus.loading:
           case AuthenticationStatus.error:
             break;

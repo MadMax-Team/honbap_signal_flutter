@@ -186,6 +186,24 @@ class _SignupPhoneCheckScreenState extends State<SignupPhoneCheckScreen> {
             listener: (context, state) {
               if (state is SignupPhoneVerifiedState) _toNextPage();
               if (state is SignupPhoneSendedState) _authNumNode.requestFocus();
+              if (state is SignupPhoneSendErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    elevation: 0,
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                );
+              }
+              if (state is SignupPhoneVerifyErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    elevation: 0,
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                );
+              }
             },
             builder: (context, state) => GestureDetector(
               onTap: () => _submitHandler(state),

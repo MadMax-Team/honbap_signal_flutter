@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:honbap_signal_flutter/constants/api.dart';
 import 'package:honbap_signal_flutter/models/auth/auth_signup_model.dart';
 import 'package:honbap_signal_flutter/models/res_code_model.dart';
 import 'package:http/http.dart' as http;
@@ -13,8 +14,7 @@ class HonbabAuthSignupRepository {
     });
 
     final res = await http.post(
-      Uri.parse(
-          'https://61a5ce82-a5aa-4ae7-ad16-eb51bad03e46.mock.pstmn.io/app/send'),
+      Uri.parse('${ApiEndpoint.honbab}/app/send'),
       headers: headers,
       body: body,
     );
@@ -38,8 +38,7 @@ class HonbabAuthSignupRepository {
     });
 
     final res = await http.post(
-      Uri.parse(
-          'https://61a5ce82-a5aa-4ae7-ad16-eb51bad03e46.mock.pstmn.io/app/verify'),
+      Uri.parse('${ApiEndpoint.honbab}/app/verify'),
       headers: headers,
       body: body,
     );
@@ -60,8 +59,7 @@ class HonbabAuthSignupRepository {
     final body = jsonEncode(formData.toJson());
 
     final res = await http.post(
-      Uri.parse(
-          'https://544391a2-1b1e-4e12-a33d-d8ff653f40b1.mock.pstmn.io/user/signup/success'),
+      Uri.parse('${ApiEndpoint.honbab}/user/signup'),
       headers: headers,
       body: body,
     );

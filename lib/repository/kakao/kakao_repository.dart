@@ -24,7 +24,6 @@ class KakaoRepository {
 
       final profileInfo = json.decode(response.body);
       print(profileInfo);
-
       // ignore: unused_local_variable
       KakaoLoginModel kakaoAccount = KakaoLoginModel.fromJson(profileInfo);
       return kakaoAccount;

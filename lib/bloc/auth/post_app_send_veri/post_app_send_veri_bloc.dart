@@ -25,6 +25,13 @@ class SignupPhoneBloc extends Bloc<SignupPhoneEvent, SignupPhoneState> {
         phoneNumber: event.phoneNumber,
       );
 
+      if (!res) {
+        emit(SignupPhoneSendErrorState(
+          message: 'SMS 전송에 실패했습니다.\n잠시 후 다시 시도해주세요.',
+        ));
+        return;
+      }
+
       emit(SignupPhoneSendedState(isSuccess: res));
     } catch (e) {
       emit(SignupPhoneSendErrorState(message: e.toString()));
@@ -43,6 +50,13 @@ class SignupPhoneBloc extends Bloc<SignupPhoneEvent, SignupPhoneState> {
         phoneNumber: event.phoneNumber,
         verifyCode: event.verifyCode,
       );
+
+      if (!res) {
+        emit(SignupPhoneVerifyErrorState(
+          message: 'SMS 인증에 실패했습니다.',
+        ));
+        return;
+      }
 
       emit(SignupPhoneVerifiedState(isSuccess: res));
     } catch (e) {
