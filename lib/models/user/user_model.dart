@@ -5,17 +5,19 @@ part 'user_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class UserModel extends Equatable {
+  final String? jwt;
   final int? userId;
   final String? userName;
   final String? birth;
   final String? email;
   final String? phoneNum;
   final String? sex;
-  final DateTime? createAt;
-  final DateTime? updateAt;
+  final String? createAt;
+  final String? updateAt;
   final UserProfileModel? userProfile;
 
   const UserModel({
+    this.jwt,
     this.userId,
     this.userName,
     this.birth,
@@ -28,17 +30,19 @@ class UserModel extends Equatable {
   });
 
   UserModel copyWith({
+    String? jwt,
     int? userId,
     String? userName,
     String? birth,
     String? email,
     String? phoneNum,
     String? sex,
-    DateTime? createAt,
-    DateTime? updateAt,
+    String? createAt,
+    String? updateAt,
     UserProfileModel? userProfile,
   }) =>
       UserModel(
+        jwt: jwt ?? this.jwt,
         userId: userId ?? this.userId,
         userName: userName ?? this.userName,
         birth: birth ?? this.birth,
@@ -57,6 +61,7 @@ class UserModel extends Equatable {
 
   @override
   List<Object?> get props => [
+        jwt,
         userId,
         userName,
         birth,
@@ -79,7 +84,7 @@ class UserProfileModel extends Equatable {
   final String? preferArea;
   final String? mbti;
   final String? userIntroduce;
-  final DateTime? updateAt;
+  final String? updateAt;
 
   const UserProfileModel({
     this.profileImg,
@@ -102,7 +107,7 @@ class UserProfileModel extends Equatable {
     String? preferArea,
     String? mbti,
     String? userIntroduce,
-    DateTime? updateAt,
+    String? updateAt,
   }) =>
       UserProfileModel(
         profileImg: profileImg ?? this.profileImg,

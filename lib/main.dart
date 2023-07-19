@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/app.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/splash/splash_bloc.dart';
+import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
 import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
@@ -48,6 +49,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 AuthenticationBloc(context.read<HonbabAuthRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => UserCubit(),
           ),
           BlocProvider(
             create: (context) => SplashBloc(),
