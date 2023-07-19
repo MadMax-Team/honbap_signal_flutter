@@ -3,7 +3,7 @@ import 'package:honbap_signal_flutter/bloc/splash/splash_state.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
-  SplashBloc() : super(const SplashState(status: LoadStatus.loadingAuth)) {
+  SplashBloc() : super(const SplashState(status: LoadStatus.init)) {
     on<SplashChangeLoadStateEvent>(_splashChangeLoadStateEventHandler);
   }
 

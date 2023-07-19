@@ -7,18 +7,15 @@ part of 'user_model.dart';
 // **************************************************************************
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
+      jwt: json['jwt'] as String?,
       userId: json['userId'] as int?,
       userName: json['userName'] as String?,
       birth: json['birth'] as String?,
       email: json['email'] as String?,
       phoneNum: json['phoneNum'] as String?,
       sex: json['sex'] as String?,
-      createAt: json['createAt'] == null
-          ? null
-          : DateTime.parse(json['createAt'] as String),
-      updateAt: json['updateAt'] == null
-          ? null
-          : DateTime.parse(json['updateAt'] as String),
+      createAt: json['createAt'] as String?,
+      updateAt: json['updateAt'] as String?,
       userProfile: json['userProfile'] == null
           ? null
           : UserProfileModel.fromJson(
@@ -26,14 +23,15 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+      'jwt': instance.jwt,
       'userId': instance.userId,
       'userName': instance.userName,
       'birth': instance.birth,
       'email': instance.email,
       'phoneNum': instance.phoneNum,
       'sex': instance.sex,
-      'createAt': instance.createAt?.toIso8601String(),
-      'updateAt': instance.updateAt?.toIso8601String(),
+      'createAt': instance.createAt,
+      'updateAt': instance.updateAt,
       'userProfile': instance.userProfile?.toJson(),
     };
 
@@ -47,9 +45,7 @@ UserProfileModel _$UserProfileModelFromJson(Map<String, dynamic> json) =>
       preferArea: json['preferArea'] as String?,
       mbti: json['mbti'] as String?,
       userIntroduce: json['userIntroduce'] as String?,
-      updateAt: json['updateAt'] == null
-          ? null
-          : DateTime.parse(json['updateAt'] as String),
+      updateAt: json['updateAt'] as String?,
     );
 
 Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
@@ -62,5 +58,5 @@ Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
       'preferArea': instance.preferArea,
       'mbti': instance.mbti,
       'userIntroduce': instance.userIntroduce,
-      'updateAt': instance.updateAt?.toIso8601String(),
+      'updateAt': instance.updateAt,
     };
