@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
-import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_state_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_widget.dart';
@@ -46,13 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.black,
             onPressed: () {
               // TODO: for test
-              const storage = FlutterSecureStorage();
-              storage.delete(key: 'jwt');
               context
                   .read<AuthenticationBloc>()
-                  .add(const AuthenticaionSetState(
-                    status: AuthenticationStatus.unauthenticated,
-                  ));
+                  .add(const AuthenticationLogout());
             },
           )
         ],

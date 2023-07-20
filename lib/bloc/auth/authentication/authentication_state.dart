@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 enum AuthenticationStatus {
   init,
+  loading,
   unauthenticated,
   authenticated,
-  loading,
   error,
 }
 

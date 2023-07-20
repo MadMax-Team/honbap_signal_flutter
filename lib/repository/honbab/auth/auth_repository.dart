@@ -9,7 +9,7 @@ class HonbabAuthRepository {
     // TODO: sign in with jwt
     await Future.delayed(const Duration(seconds: 1));
 
-    print('jwt auto login');
+    print('[JWT auto login]');
 
     return true;
   }
@@ -23,12 +23,16 @@ class HonbabAuthRepository {
     // TODO: sign in with account
     await Future.delayed(const Duration(seconds: 1));
 
+    print('[Get JWT] Platform: $platform');
+
     if (platform == AuthenticationWith.kakao) {
+      print(kakaoModel?.kakaoAccount.email);
       // 카카로 로그인 api
       return 'jwt-kakao';
     }
 
     if (platform == AuthenticationWith.honbab) {
+      print('$email, $password');
       // honbab 로그인 api
       return 'jwt-honbab';
     }

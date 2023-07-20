@@ -31,8 +31,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>
   ) async {
     emit(const AuthenticationState(status: AuthenticationStatus.loading));
 
-    // TODO: login
-    print('${event.platform}, ${event.email}, ${event.password}');
     var jwt = await _honbabAuthRepository.signin(
       platform: event.platform,
       email: event.email,
@@ -58,9 +56,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>
     emit(const AuthenticationState(status: AuthenticationStatus.loading));
 
     // TODO: Logout
+    // jwt 삭제
+    const storage = FlutterSecureStorage();
+    storage.delete(key: 'jwt');
 
     emit(const AuthenticationState(
       status: AuthenticationStatus.unauthenticated,
     ));
+
+    notifyListeners();
   }
 }

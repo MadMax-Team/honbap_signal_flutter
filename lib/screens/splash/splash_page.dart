@@ -22,7 +22,7 @@ class SplashPage extends StatelessWidget {
       const storage = FlutterSecureStorage();
       String? jwt = await storage.read(key: 'jwt');
 
-      print(jwt);
+      print('자동 로그인 - jwt 유효성 검사 [jwt: $jwt]');
 
       if (jwt?.isNotEmpty == true) {
         var res =
@@ -84,58 +84,73 @@ class SplashPage extends StatelessWidget {
           ));
     }
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Center(
-        child: BlocConsumer<SplashBloc, SplashState>(
-          listener: (context, state) {
-            if (state.status == LoadStatus.loadingAuth) {
-              // 자동 로그인 - jwt 유효성 검사
-              print('자동 로그인 - jwt 유효성 검사');
-              autoSignin(context);
-            }
-            if (state.status == LoadStatus.loadingUserData) {
-              // 기본 사용자 정보 로드
-              print('기본 사용자 정보 로드');
-              getUserData(context);
-            }
-            if (state.status == LoadStatus.loadingUserProfileData) {
-              // 사용자 프로필 정보 로드
-              print('사용자 프로필 정보 로드');
-              getUserProfileData(context);
-            }
-          },
-          buildWhen: (previous, current) => previous.status != current.status,
-          builder: (context, state) {
-            if (state.status == LoadStatus.init) {
-              context.read<SplashBloc>().add(const SplashChangeLoadStateEvent(
-                    status: LoadStatus.loadingAuth,
-                  ));
-            }
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/honbab_smile.png',
-                  width: Sizes.size72 * 2,
-                  height: Sizes.size72 * 2,
-                ),
-                Text(
-                  "${state.status.message} 중입니다.",
-                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        color: Colors.white,
-                      ),
-                ),
-                Gaps.v24,
-                const CircularProgressIndicator(
-                  strokeWidth: Sizes.size1,
-                  color: Colors.white,
-                )
-              ],
-            );
-          },
-        ),
-      ),
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        if (state.status == AuthenticationStatus.init) {
+          context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+                status: AuthenticationStatus.loading,
+              ));
+          context.read<SplashBloc>().add(const SplashChangeLoadStateEvent(
+                status: LoadStatus.init,
+              ));
+        }
+        return Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          body: Center(
+            child: BlocConsumer<SplashBloc, SplashState>(
+              listener: (context, state) {
+                if (state.status == LoadStatus.loadingAuth) {
+                  // 자동 로그인 - jwt 유효성 검사
+                  print('자동 로그인 - jwt 유효성 검사');
+                  autoSignin(context);
+                }
+                if (state.status == LoadStatus.loadingUserData) {
+                  // 기본 사용자 정보 로드
+                  print('기본 사용자 정보 로드');
+                  getUserData(context);
+                }
+                if (state.status == LoadStatus.loadingUserProfileData) {
+                  // 사용자 프로필 정보 로드
+                  print('사용자 프로필 정보 로드');
+                  getUserProfileData(context);
+                }
+              },
+              buildWhen: (previous, current) =>
+                  previous.status != current.status,
+              builder: (context, state) {
+                if (state.status == LoadStatus.init) {
+                  context
+                      .read<SplashBloc>()
+                      .add(const SplashChangeLoadStateEvent(
+                        status: LoadStatus.loadingAuth,
+                      ));
+                }
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/honbab_smile.png',
+                      width: Sizes.size72 * 2,
+                      height: Sizes.size72 * 2,
+                    ),
+                    Text(
+                      "${state.status.message} 중입니다.",
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            color: Colors.white,
+                          ),
+                    ),
+                    Gaps.v24,
+                    const CircularProgressIndicator(
+                      strokeWidth: Sizes.size1,
+                      color: Colors.white,
+                    )
+                  ],
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
