@@ -1,6 +1,6 @@
 class SignalSignalListModel {
   final int userIdx, signalIdx, checkSigWrite;
-  final String nickName, userIntroduce;
+  final String userName, userIntroduce;
   final String taste, hateFood, interest, avgSpeed, preferArea, mbti, updateAt;
   final String? sigPromiseArea, sigPromiseTime;
 
@@ -14,7 +14,7 @@ class SignalSignalListModel {
         mbti = json['mbti'],
         userIntroduce = json['userIntroduce'],
         updateAt = json['updateAt'],
-        nickName = json['nickName'],
+        userName = json['userName'],
         signalIdx = json['signalIdx'],
         sigPromiseArea = json['sigPromiseArea'],
         sigPromiseTime = json['sigPromiseTime'],

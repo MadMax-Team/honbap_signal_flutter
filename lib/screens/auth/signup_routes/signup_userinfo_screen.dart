@@ -65,7 +65,7 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Gaps.v10,
-                  const SignupUserInfoNickName(),
+                  const SignupUserInfoUserName(),
                   Gaps.v20,
                   Text(
                     '생년월일과 성별을\n선택해 주세요',

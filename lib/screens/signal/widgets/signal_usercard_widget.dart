@@ -67,7 +67,7 @@ class SignalUserCard extends StatelessWidget {
               ),
               Gaps.v7,
               Text(
-                signal.nickName,
+                signal.userName,
                 style: TextStyle(
                   fontSize: Sizes.size14,
                   fontWeight: FontWeight.w600,
@@ -84,15 +84,15 @@ class SignalUserCard extends StatelessWidget {
                 ),
               ),
               Gaps.v5,
-              Padding(
-                padding: const EdgeInsets.all(Sizes.size7),
+              const Padding(
+                padding: EdgeInsets.all(Sizes.size7),
                 child: SizedBox(
                   width: double.infinity,
                   child: Wrap(
                     direction: Axis.horizontal,
                     spacing: Sizes.size4,
                     runSpacing: Sizes.size4,
-                    children: const <Widget>[
+                    children: <Widget>[
                       CardUserTag(tag: '양꼬치'),
                       CardUserTag(tag: '삼각지역'),
                       CardUserTag(tag: '반주사랑'),

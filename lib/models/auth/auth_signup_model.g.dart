@@ -10,7 +10,7 @@ AuthSignupModel _$AuthSignupModelFromJson(Map<String, dynamic> json) =>
     AuthSignupModel(
       email: json['email'] as String?,
       password: json['password'] as String?,
-      nickName: json['nickName'] as String?,
+      userName: json['userName'] as String?,
       birth: json['birth'] as String?,
       phoneNum: json['phoneNum'] as String?,
       sex: json['sex'] as String?,
@@ -20,7 +20,7 @@ Map<String, dynamic> _$AuthSignupModelToJson(AuthSignupModel instance) =>
     <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
-      'nickName': instance.nickName,
+      'userName': instance.userName,
       'birth': instance.birth,
       'phoneNum': instance.phoneNum,
       'sex': instance.sex,

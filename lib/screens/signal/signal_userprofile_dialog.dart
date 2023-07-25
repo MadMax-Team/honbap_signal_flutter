@@ -114,7 +114,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                             ),
                             Gaps.v16,
                             Text(
-                              widget.signal.nickName,
+                              widget.signal.userName,
                               style: const TextStyle(
                                 fontSize: Sizes.size14,
                                 fontWeight: FontWeight.w600,
@@ -162,13 +162,13 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                             else
                               Container(),
                             Gaps.v32,
-                            SizedBox(
+                            const SizedBox(
                               width: double.infinity,
                               child: Wrap(
                                 direction: Axis.horizontal,
                                 spacing: Sizes.size4,
                                 runSpacing: Sizes.size4,
-                                children: const <Widget>[
+                                children: <Widget>[
                                   DialogUserTag(tag: '양꼬치'),
                                   DialogUserTag(tag: '삼각지역'),
                                   DialogUserTag(tag: '반주사랑'),

@@ -39,13 +39,13 @@ class SignupPasswordChangedEvent extends SignupUserEvent {
 }
 
 // 닉네임 변경 이벤트
-class SignupNickNameChangedEvent extends SignupUserEvent {
-  final String nickName;
+class SignupUserNameChangedEvent extends SignupUserEvent {
+  final String userName;
 
-  const SignupNickNameChangedEvent({required this.nickName});
+  const SignupUserNameChangedEvent({required this.userName});
 
   @override
-  List<Object?> get props => [nickName];
+  List<Object?> get props => [userName];
 }
 
 // 생일 변경 이벤트
