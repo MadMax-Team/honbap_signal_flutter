@@ -48,7 +48,7 @@ class HonbabAuthRepository {
     return const UserModel(
       userId: 1,
       userName: 'test-woong',
-      birth: '2000년06월11일',
+      birth: '2000-06-11',
       email: 'wjlee611@gmail.com',
       phoneNum: '01012341234',
       sex: 'M',

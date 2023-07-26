@@ -4,32 +4,29 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/mypage/match_history/match_history_screen.dart';
-import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_menu_button_widget.dart';
+import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_menu_divider.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_round_button_widget.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_setting_button_widget.dart';
 
-class MyPageScreen extends StatefulWidget {
+class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});
 
-  @override
-  State<MyPageScreen> createState() => _MyPageScreenState();
-}
-
-class _MyPageScreenState extends State<MyPageScreen> {
-  final _mannerTmp = 100;
-
-  final _hSeperator = Container(
-    color: Colors.grey.shade400,
-    width: Sizes.size1,
-    height: Sizes.size96,
-  );
-
-  @override
-  void initState() {
-    super.initState();
+  Widget _horizontalDivider() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: Sizes.size40),
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            width: Sizes.size1,
+            color: Colors.grey.shade300,
+          ),
+        ),
+      ),
+    );
   }
 
-  void _onMatchHistoryTap() {
+  void _onMatchHistoryTap(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -47,13 +44,15 @@ class _MyPageScreenState extends State<MyPageScreen> {
           style: TextStyle(
             fontSize: Sizes.size16 + Sizes.size2,
             fontWeight: FontWeight.w700,
+            color: Colors.black,
           ),
         ),
         elevation: 0,
         centerTitle: false,
+        backgroundColor: Colors.transparent,
       ),
-      body: BlocBuilder<UserCubit, UserState>(
-        builder: (context, state) => Column(
+      body: SingleChildScrollView(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
@@ -62,19 +61,14 @@ class _MyPageScreenState extends State<MyPageScreen> {
                 right: Sizes.size20,
                 bottom: Sizes.size20,
               ),
-              color: Theme.of(context).primaryColor,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
+              child: BlocBuilder<UserCubit, UserState>(
+                builder: (context, state) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(
-                            width: Sizes.size4,
-                            color: Colors.white,
-                          ),
                         ),
                         child: Container(
                           clipBehavior: Clip.hardEdge,
@@ -90,167 +84,97 @@ class _MyPageScreenState extends State<MyPageScreen> {
                           ),
                         ),
                       ),
-                      Gaps.v5,
-                      Text(
-                        '$_mannerTmp도',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: Sizes.size12,
+                      Gaps.h20,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              state.user!.userName!,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                fontSize: Sizes.size16 + Sizes.size2,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Gaps.v20,
+                            Text(
+                              state.user!.email!,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                fontSize: Sizes.size12,
+                              ),
+                            ),
+                            Gaps.v3,
+                            Text(
+                              state.user!.birth!.replaceAll('-', '.'),
+                              maxLines: 1,
+                              style: const TextStyle(
+                                fontSize: Sizes.size12,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Gaps.v3,
+                          MyPageRoundButton(
+                            isTransparent: false,
+                            text: '프로필 설정',
+                          ),
+                          Gaps.v7,
+                          MyPageRoundButton(
+                            isTransparent: true,
+                            text: '계정관리',
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                  Gaps.h20,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          state.user!.userName!,
-                          maxLines: 1,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: Sizes.size16 + Sizes.size2,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        Gaps.v20,
-                        Text(
-                          state.user!.email!,
-                          maxLines: 1,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: Sizes.size12,
-                          ),
-                        ),
-                        Gaps.v3,
-                        Text(
-                          state.user!.birth!
-                              .replaceAll('년', '.')
-                              .replaceAll('월', '.')
-                              .replaceAll('일', ''),
-                          maxLines: 1,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: Sizes.size12,
-                          ),
-                        ),
-                        Gaps.v3,
-                        const Text(
-                          '주소인데 api에서 받아와야..',
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: Sizes.size12,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Gaps.v3,
-                      MyPageRoundButton(
-                        isTransparent: false,
-                        text: '프로필 설정',
-                      ),
-                      Gaps.v16,
-                      MyPageRoundButton(
-                        isTransparent: true,
-                        text: '계정관리',
-                      ),
-                      Gaps.v7,
-                      MyPageRoundButton(
-                        isTransparent: true,
-                        text: '로그아웃',
-                      ),
-                    ],
-                  ),
-                ],
+                  );
+                },
               ),
             ),
-            Row(
+            Column(
               children: [
-                const MyPageMenuButton(
-                  imgLink: 'assets/icons/mypage_manner_temperature.png',
-                  text: '매너온도',
-                ),
-                _hSeperator,
-                MyPageMenuButton(
-                  imgLink: 'assets/icons/mypage_matching_history.png',
+                const MyPageMenuDivider(title: '매칭관리'),
+                MyPageSettingButton(
+                  imgLink: 'assets/icons/icon_match_history.png',
                   text: '매칭전적',
-                  onTap: _onMatchHistoryTap,
+                  onTap: () => _onMatchHistoryTap(context),
                 ),
-                _hSeperator,
-                const MyPageMenuButton(
-                  imgLink: 'assets/icons/mypage_signal_marker.png',
-                  text: '시그널 마커',
+                _horizontalDivider(),
+                const MyPageSettingButton(
+                  imgLink: 'assets/icons/icon_ban_list.png',
+                  text: '차단 목록 관리',
                 ),
-                _hSeperator,
-                const MyPageMenuButton(
-                  imgLink: 'assets/icons/mypage_badge.png',
-                  text: '뱃지',
+                const MyPageMenuDivider(title: '설정'),
+                const MyPageSettingButton(
+                  imgLink: 'assets/icons/icon_notification.png',
+                  text: '알림 설정',
+                ),
+                _horizontalDivider(),
+                const MyPageSettingButton(
+                  imgLink: 'assets/icons/icon_screen_bright.png',
+                  text: '화면 설정',
+                ),
+                const MyPageMenuDivider(title: '설정'),
+                const MyPageSettingButton(
+                  imgLink: 'assets/icons/icon_notice.png',
+                  text: '공지사항',
+                ),
+                _horizontalDivider(),
+                const MyPageSettingButton(
+                  imgLink: 'assets/icons/icon_mail.png',
+                  text: '의견보내기',
+                ),
+                _horizontalDivider(),
+                const MyPageSettingButton(
+                  imgLink: 'assets/icons/icon_mail.png',
+                  text: '개인정보 처리방침',
                 ),
               ],
-            ),
-            Container(
-              color: Colors.grey.shade400,
-              width: double.infinity,
-              height: Sizes.size1,
-            ),
-            Gaps.v32,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '설정',
-                    style: TextStyle(
-                      fontSize: Sizes.size20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Gaps.v14,
-                  Container(
-                    padding: const EdgeInsets.all(Sizes.size10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: Sizes.size2,
-                        color: const Color(0xffE1E1E1),
-                      ),
-                      borderRadius: BorderRadius.circular(Sizes.size10),
-                    ),
-                    child: const Column(
-                      children: [
-                        MyPageSettingButton(
-                          imgLink: 'assets/icons/mypage_banned_list.png',
-                          text: '차단 목록 관리',
-                        ),
-                        MyPageSettingButton(
-                          imgLink:
-                              'assets/icons/mypage_notification_setting.png',
-                          text: '알림 설정',
-                        ),
-                        MyPageSettingButton(
-                          imgLink: 'assets/icons/mypage_announcement.png',
-                          text: '화면 설정 - 색, 다크, 글자크기 조절',
-                        ),
-                        MyPageSettingButton(
-                          imgLink: 'assets/icons/mypage_screen_setting.png',
-                          text: '공지사항',
-                        ),
-                        MyPageSettingButton(
-                          imgLink: 'assets/icons/mypage_send_opinion.png',
-                          text: '의견보내기',
-                          isLast: true,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
           ],
         ),

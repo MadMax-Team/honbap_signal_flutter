@@ -11,6 +11,7 @@ class AuthSignupModel extends Equatable {
   final String? birth;
   final String? phoneNum;
   final String? sex;
+  final String? userId;
 
   const AuthSignupModel({
     this.email,
@@ -19,6 +20,7 @@ class AuthSignupModel extends Equatable {
     this.birth,
     this.phoneNum,
     this.sex,
+    this.userId = 'Null',
   });
 
   AuthSignupModel copyWith({
@@ -51,5 +53,6 @@ class AuthSignupModel extends Equatable {
         birth,
         phoneNum,
         sex,
+        userId,
       ];
 }

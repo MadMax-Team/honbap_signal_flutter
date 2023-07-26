@@ -15,15 +15,16 @@ class MyPageRoundButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        vertical: Sizes.size4,
+        vertical: Sizes.size3,
         horizontal: Sizes.size10,
       ),
       width: Sizes.size80,
       decoration: BoxDecoration(
-        color: isTransparent ? Theme.of(context).primaryColor : Colors.white,
+        color:
+            isTransparent ? Colors.transparent : Theme.of(context).primaryColor,
         border: Border.all(
           width: 1,
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
         ),
         borderRadius: BorderRadius.circular(Sizes.size20),
       ),
@@ -31,8 +32,9 @@ class MyPageRoundButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: isTransparent ? Colors.white : Colors.black,
-            fontSize: Sizes.size11,
+            color:
+                isTransparent ? Theme.of(context).primaryColor : Colors.white,
+            fontSize: Sizes.size12,
           ),
         ),
       ),

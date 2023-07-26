@@ -14,6 +14,7 @@ AuthSignupModel _$AuthSignupModelFromJson(Map<String, dynamic> json) =>
       birth: json['birth'] as String?,
       phoneNum: json['phoneNum'] as String?,
       sex: json['sex'] as String?,
+      userId: json['userId'] as String? ?? 'Null',
     );
 
 Map<String, dynamic> _$AuthSignupModelToJson(AuthSignupModel instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$AuthSignupModelToJson(AuthSignupModel instance) =>
       'birth': instance.birth,
       'phoneNum': instance.phoneNum,
       'sex': instance.sex,
+      'userId': instance.userId,
     };
