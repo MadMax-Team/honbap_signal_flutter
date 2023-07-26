@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/models/signal/signal_signal_list_model.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_list_model.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_card_usertag_widget.dart';
 
 class SignalUserCard extends StatelessWidget {
@@ -10,7 +10,7 @@ class SignalUserCard extends StatelessWidget {
     required this.signal,
   });
 
-  final SignalSignalListModel signal;
+  final SignalListModel signal;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class SignalUserCard extends StatelessWidget {
               ),
               Gaps.v7,
               Text(
-                signal.userName,
+                signal.userName ?? '',
                 style: TextStyle(
                   fontSize: Sizes.size14,
                   fontWeight: FontWeight.w600,
@@ -79,13 +79,15 @@ class SignalUserCard extends StatelessWidget {
               Text(
                 '나와 400m   19분 전',
                 style: TextStyle(
-                  color: Colors.grey.shade600,
+                  color: signal.checkSigWrite == 0
+                      ? Colors.grey.shade600
+                      : Colors.white,
                   fontSize: Sizes.size9,
                 ),
               ),
               Gaps.v5,
               const Padding(
-                padding: EdgeInsets.all(Sizes.size7),
+                padding: EdgeInsets.all(Sizes.size10),
                 child: SizedBox(
                   width: double.infinity,
                   child: Wrap(
