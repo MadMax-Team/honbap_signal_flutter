@@ -6,29 +6,29 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_double_check_button_widget.dart';
 
-class SignupUserInfoNickName extends StatefulWidget {
-  const SignupUserInfoNickName({super.key});
+class SignupUserInfoUserName extends StatefulWidget {
+  const SignupUserInfoUserName({super.key});
 
   @override
-  State<SignupUserInfoNickName> createState() => _SignupUserInfoNickNameState();
+  State<SignupUserInfoUserName> createState() => _SignupUserInfoUserNameState();
 }
 
-class _SignupUserInfoNickNameState extends State<SignupUserInfoNickName> {
+class _SignupUserInfoUserNameState extends State<SignupUserInfoUserName> {
   String _nickname = '';
   bool _nicknameChecked = false;
   bool _isChecking = false;
   final _fieldKey = GlobalKey<FormFieldState<String>>();
-  final _nickNameFocus = FocusNode();
+  final _userNameFocus = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _nickNameFocus.addListener(_checkNicknameValidate);
+    _userNameFocus.addListener(_checkNicknameValidate);
   }
 
   @override
   void dispose() {
-    _nickNameFocus.dispose();
+    _userNameFocus.dispose();
     super.dispose();
   }
 
@@ -44,7 +44,7 @@ class _SignupUserInfoNickNameState extends State<SignupUserInfoNickName> {
     // Valid
     context
         .read<SignupUserBloc>()
-        .add(SignupNickNameChangedEvent(nickName: value ?? ''));
+        .add(SignupUserNameChangedEvent(userName: value ?? ''));
     return null;
   }
 
@@ -82,7 +82,7 @@ class _SignupUserInfoNickNameState extends State<SignupUserInfoNickName> {
 
     context
         .read<SignupUserBloc>()
-        .add(const SignupNickNameChangedEvent(nickName: ''));
+        .add(const SignupUserNameChangedEvent(userName: ''));
     setState(() {
       _nicknameChecked = false;
     });
@@ -99,7 +99,7 @@ class _SignupUserInfoNickNameState extends State<SignupUserInfoNickName> {
     return BlocConsumer<SignupUserBloc, SignupUserInfoState>(
       listener: (context, state) {
         if (state is SignupUserInfoErrorState && state.code == 1003) {
-          _nickNameFocus.requestFocus();
+          _userNameFocus.requestFocus();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
@@ -120,7 +120,7 @@ class _SignupUserInfoNickNameState extends State<SignupUserInfoNickName> {
             height: Sizes.size80,
             child: TextFormField(
               key: _fieldKey,
-              focusNode: _nickNameFocus,
+              focusNode: _userNameFocus,
               keyboardType: TextInputType.emailAddress,
               autocorrect: false,
               enableSuggestions: false,

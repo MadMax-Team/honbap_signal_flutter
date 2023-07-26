@@ -7,24 +7,26 @@ part 'auth_signup_model.g.dart';
 class AuthSignupModel extends Equatable {
   final String? email;
   final String? password;
-  final String? nickName;
+  final String? userName;
   final String? birth;
   final String? phoneNum;
   final String? sex;
+  final String? userId;
 
   const AuthSignupModel({
     this.email,
     this.password,
-    this.nickName,
+    this.userName,
     this.birth,
     this.phoneNum,
     this.sex,
+    this.userId = 'Null',
   });
 
   AuthSignupModel copyWith({
     String? email,
     String? password,
-    String? nickName,
+    String? userName,
     String? birth,
     String? phoneNum,
     String? sex,
@@ -32,7 +34,7 @@ class AuthSignupModel extends Equatable {
       AuthSignupModel(
         email: email ?? this.email,
         password: password ?? this.password,
-        nickName: nickName ?? this.nickName,
+        userName: userName ?? this.userName,
         birth: birth ?? this.birth,
         phoneNum: phoneNum ?? this.phoneNum,
         sex: sex ?? this.sex,
@@ -47,9 +49,10 @@ class AuthSignupModel extends Equatable {
   List<Object?> get props => [
         email,
         password,
-        nickName,
+        userName,
         birth,
         phoneNum,
         sex,
+        userId,
       ];
 }

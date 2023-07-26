@@ -17,7 +17,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     );
     on<SignupEmailChangedEvent>(_handleSignupUserEmailChangeEvent);
     on<SignupPasswordChangedEvent>(_handleSignupUserPasswordChangeEvent);
-    on<SignupNickNameChangedEvent>(_handleSignupUserNickNameChangeEvent);
+    on<SignupUserNameChangedEvent>(_handleSignupUserUserNameChangeEvent);
     on<SignupBirthChangedEvent>(_handleSignupUserBirthChangeEvent);
     on<SignupPhoneNumChangedEvent>(_handleSignupUserPhoneNumChangeEvent);
     on<SignupSexChangedEvent>(_handleSignupUserSexChangeEvent);
@@ -80,7 +80,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       emit(SignupUserInfoNormalState(formData: event.formData));
       return false;
     }
-    if (event.formData.nickName == null || event.formData.nickName == '') {
+    if (event.formData.userName == null || event.formData.userName == '') {
       emit(SignupUserInfoErrorState(
         code: 1003,
         message: '닉네임을 입력해주세요.',
@@ -139,8 +139,8 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
   }
 
   // 닉네임 변경 이벤트 핸들러
-  Future<void> _handleSignupUserNickNameChangeEvent(
-    SignupNickNameChangedEvent event,
+  Future<void> _handleSignupUserUserNameChangeEvent(
+    SignupUserNameChangedEvent event,
     Emitter<SignupUserInfoState> emit,
   ) async {
     if (state is! SignupUserInfoNormalState) return;
@@ -148,7 +148,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       SignupUserInfoNormalState(
         formData: (state as SignupUserInfoNormalState)
             .formData
-            .copyWith(nickName: event.nickName),
+            .copyWith(userName: event.userName),
       ),
     );
   }
@@ -178,7 +178,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       SignupUserInfoNormalState(
         formData: (state as SignupUserInfoNormalState)
             .formData
-            .copyWith(phoneNum: event.phoneNum),
+            .copyWith(phoneNum: event.phoneNum.replaceAll('-', '')),
       ),
     );
   }

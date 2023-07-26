@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:honbap_signal_flutter/apis/signal/get_signalfind_list.dart';
-import 'package:honbap_signal_flutter/constants/gaps.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_list_event.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_list_state.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/signal/signal_userprofile_dialog.dart';
-import 'package:honbap_signal_flutter/screens/signal/widgets/signal_filtertag_widget.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_usercard_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SignalListScreen extends StatefulWidget {
   const SignalListScreen({super.key});
@@ -14,6 +17,9 @@ class SignalListScreen extends StatefulWidget {
 }
 
 class _SignalListScreenState extends State<SignalListScreen> {
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,111 +32,82 @@ class _SignalListScreenState extends State<SignalListScreen> {
         centerTitle: false,
         backgroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Gaps.v10,
-          Row(
-            children: [
-              Expanded(
-                child: ShaderMask(
-                  shaderCallback: (Rect rect) {
-                    return const LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Colors.purple,
-                        Colors.transparent,
-                        Colors.transparent,
-                        Colors.purple
-                      ],
-                      stops: [
-                        0.0,
-                        0.01,
-                        0.99,
-                        1.0
-                      ], // 10% purple, 80% transparent, 10% purple
-                    ).createShader(rect);
-                  },
-                  blendMode: BlendMode.dstOut,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                        Sizes.size14,
-                        Sizes.size5,
-                        0,
-                        Sizes.size5,
-                      ),
-                      child: Row(
-                        children: const [
-                          FilterTag(tag: '인생선배'),
-                          FilterTag(tag: '푸드파이터'),
-                          FilterTag(tag: '이구역토박이'),
-                          FilterTag(tag: '김치ㅁㄴㅇㅁㄴㅇ'),
-                        ],
-                      ),
+      body: BlocBuilder<SignalListBloc, SignalListState>(
+        buildWhen: (previous, current) => previous.signals != current.signals,
+        builder: (context, state) {
+          if (state.status == SignalListStatus.init) {
+            context.read<SignalListBloc>().add(SignalListGetEvent(
+                  jwt: context.read<UserCubit>().state.user!.jwt!,
+                ));
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+            );
+          }
+          if (state.status == SignalListStatus.loading &&
+              state.signals.isEmpty) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+            );
+          }
+          if (state.status == SignalListStatus.error) {
+            return Center(
+              child: Text(state.message ?? 'error'),
+            );
+          }
+          return SmartRefresher(
+            controller: _refreshController,
+            onRefresh: () {
+              context.read<SignalListBloc>().add(SignalListGetEvent(
+                    jwt: context.read<UserCubit>().state.user!.jwt!,
+                  ));
+              _refreshController.refreshCompleted();
+            },
+            onLoading: () {
+              _refreshController.loadComplete();
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.all(Sizes.size16),
+                  sliver: SliverGrid(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: Sizes.size96 * 3,
+                      mainAxisSpacing: Sizes.size20,
+                      crossAxisSpacing: Sizes.size20,
+                      childAspectRatio: 4 / 5,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return SignalUserDialog(
+                                  signal: state.signals[index],
+                                );
+                              },
+                            );
+                          },
+                          child: SignalUserCard(
+                            signal: state.signals[index],
+                          ),
+                        );
+                      },
+                      childCount: state.signals.length,
                     ),
                   ),
                 ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.filter_alt_sharp),
-              ),
-              Gaps.h4,
-            ],
-          ),
-          Expanded(
-            child: FutureBuilder(
-              future: getSignalFindList(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return CustomScrollView(
-                    slivers: [
-                      SliverPadding(
-                        padding: const EdgeInsets.all(Sizes.size16),
-                        sliver: SliverGrid(
-                          gridDelegate:
-                              const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: Sizes.size96 * 3,
-                            mainAxisSpacing: Sizes.size20,
-                            crossAxisSpacing: Sizes.size20,
-                            childAspectRatio: 4 / 5,
-                          ),
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (context) {
-                                      return SignalUserDialog(
-                                        signal: snapshot.data![index],
-                                      );
-                                    },
-                                  );
-                                },
-                                child: SignalUserCard(
-                                  signal: snapshot.data![index],
-                                ),
-                              );
-                            },
-                            childCount: snapshot.data!.length,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+              ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

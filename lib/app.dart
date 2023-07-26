@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/repository/honbab/signal/signal_list_repository.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
 import 'package:honbap_signal_flutter/screens/splash/splash_page.dart';
@@ -53,7 +55,22 @@ class _AppState extends State<App> {
         ),
         GoRoute(
           path: '/home',
-          builder: (context, state) => const RouteNavigationWidget(),
+          builder: (context, state) => MultiRepositoryProvider(
+            providers: [
+              RepositoryProvider(
+                create: (context) => HonbabSignalListRepository(),
+              ),
+            ],
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => SignalListBloc(
+                      context.read<HonbabSignalListRepository>()),
+                ),
+              ],
+              child: const RouteNavigationWidget(),
+            ),
+          ),
         ),
       ],
     );

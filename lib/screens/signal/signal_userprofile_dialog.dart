@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/models/signal/signal_signal_list_model.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_list_model.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_dialog_usertag_widget.dart';
 
 class SignalUserDialog extends StatefulWidget {
@@ -10,7 +10,7 @@ class SignalUserDialog extends StatefulWidget {
     required this.signal,
   });
 
-  final SignalSignalListModel signal;
+  final SignalListModel signal;
 
   @override
   State<SignalUserDialog> createState() => _SignalUserDialogState();
@@ -114,7 +114,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                             ),
                             Gaps.v16,
                             Text(
-                              widget.signal.nickName,
+                              widget.signal.userName ?? '',
                               style: const TextStyle(
                                 fontSize: Sizes.size14,
                                 fontWeight: FontWeight.w600,
@@ -123,7 +123,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                             ),
                             Gaps.v16,
                             Text(
-                              widget.signal.userIntroduce,
+                              widget.signal.userIntroduce ?? '',
                               textAlign: TextAlign.center,
                             ),
                             if (widget.signal.checkSigWrite != 0)
@@ -144,12 +144,12 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                                     InfoRow(
                                       title: '만남위치',
                                       icon: Icons.location_on_outlined,
-                                      info: widget.signal.sigPromiseArea!,
+                                      info: widget.signal.sigPromiseArea ?? '',
                                     ),
                                     InfoRow(
                                       title: '약속시간',
                                       icon: Icons.access_time_rounded,
-                                      info: widget.signal.sigPromiseTime!,
+                                      info: widget.signal.sigPromiseTime ?? '',
                                     ),
                                     const InfoRow(
                                       title: '메뉴',
@@ -162,13 +162,13 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                             else
                               Container(),
                             Gaps.v32,
-                            SizedBox(
+                            const SizedBox(
                               width: double.infinity,
                               child: Wrap(
                                 direction: Axis.horizontal,
                                 spacing: Sizes.size4,
                                 runSpacing: Sizes.size4,
-                                children: const <Widget>[
+                                children: <Widget>[
                                   DialogUserTag(tag: '양꼬치'),
                                   DialogUserTag(tag: '삼각지역'),
                                   DialogUserTag(tag: '반주사랑'),

@@ -14,7 +14,7 @@ class SignupUserInfoNormalState extends SignupUserInfoState {
   SignupUserInfoNormalState copyWith({
     String? email,
     String? password,
-    String? nickName,
+    String? userName,
     String? birth,
     String? phoneNum,
     String? sex,
@@ -23,7 +23,7 @@ class SignupUserInfoNormalState extends SignupUserInfoState {
       formData: formData.copyWith(
         email: email ?? formData.email,
         password: password ?? formData.password,
-        nickName: nickName ?? formData.nickName,
+        userName: userName ?? formData.userName,
         birth: birth ?? formData.birth,
         phoneNum: phoneNum ?? formData.phoneNum,
         sex: sex ?? formData.sex,
