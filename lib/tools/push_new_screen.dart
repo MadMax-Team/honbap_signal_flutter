@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_bloc.dart';
+import 'package:honbap_signal_flutter/repository/honbab/chat/chat_room_repository.dart';
 import 'package:honbap_signal_flutter/screens/chats/chat_room_screen.dart';
 
 class PushNewScreen {
@@ -22,16 +25,26 @@ class PushNewScreen {
   }
 
   static void openChatRoom({
-    required String nickname,
-    required String profileImage,
+    required String roomId,
+    required String userName,
+    required String profileImg,
     required dynamic context,
   }) {
     Navigator.push(
       context,
       _createRoute(
-        ChatRoomScreen(
-          nickname: nickname,
-          profileImage: profileImage,
+        RepositoryProvider(
+          create: (context) => ChatRoomRepository(),
+          child: BlocProvider(
+            create: (context) => ChatRoomBloc(
+              context.read<ChatRoomRepository>(),
+              roomId,
+            ),
+            child: ChatRoomScreen(
+              userName: userName,
+              profileImg: profileImg,
+            ),
+          ),
         ),
       ),
     );
