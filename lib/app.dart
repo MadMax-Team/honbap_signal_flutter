@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
+import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/repository/honbab/chat/chat_list_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/signal/signal_list_repository.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
@@ -60,12 +62,19 @@ class _AppState extends State<App> {
               RepositoryProvider(
                 create: (context) => HonbabSignalListRepository(),
               ),
+              RepositoryProvider(
+                create: (context) => ChatListRepository(),
+              ),
             ],
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(
                   create: (context) => SignalListBloc(
                       context.read<HonbabSignalListRepository>()),
+                ),
+                BlocProvider(
+                  create: (context) =>
+                      ChatListBloc(context.read<ChatListRepository>()),
                 ),
               ],
               child: const RouteNavigationWidget(),

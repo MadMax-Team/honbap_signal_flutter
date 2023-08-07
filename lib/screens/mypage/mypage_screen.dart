@@ -39,17 +39,13 @@ class MyPageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '마이페이지',
-          style: TextStyle(
-            fontSize: Sizes.size16 + Sizes.size2,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         elevation: 0,
         centerTitle: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
