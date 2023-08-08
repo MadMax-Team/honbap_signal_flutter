@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
@@ -93,8 +92,8 @@ class AuthScreen extends StatelessWidget {
     }
 
     // jwt 저장
-    const storage = FlutterSecureStorage();
-    await storage.write(key: 'jwt', value: jwt);
+    // const storage = FlutterSecureStorage();
+    // await storage.write(key: 'jwt', value: jwt);
 
     // splash 화면으로 돌아가기
     context.read<AuthenticationBloc>().add(const AuthenticaionSetState(

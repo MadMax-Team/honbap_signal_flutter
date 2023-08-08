@@ -5,7 +5,9 @@ import 'package:honbap_signal_flutter/models/res_code_model.dart';
 import 'package:http/http.dart' as http;
 
 class HonbabAuthSignupRepository {
-  Future<bool> postAppSend({required String phoneNumber}) async {
+  Future<bool> postAppSend({
+    required String phoneNumber,
+  }) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
     };
@@ -27,8 +29,10 @@ class HonbabAuthSignupRepository {
     return false;
   }
 
-  Future<bool> postAppVerify(
-      {required String phoneNumber, required String verifyCode}) async {
+  Future<bool> postAppVerify({
+    required String phoneNumber,
+    required String verifyCode,
+  }) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
     };
@@ -51,14 +55,15 @@ class HonbabAuthSignupRepository {
     return false;
   }
 
-  Future<ResCodeModel> postUserSignup(
-      {required AuthSignupModel formData}) async {
+  Future<ResCodeModel> postUserSignup({
+    required AuthSignupModel formData,
+  }) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
     };
     final body = jsonEncode(formData.toJson());
 
-    print(body);
+    print('req: $body');
 
     final res = await http.post(
       Uri.parse('${ApiEndpoint.honbab}/user/signup'),
@@ -66,7 +71,7 @@ class HonbabAuthSignupRepository {
       body: body,
     );
 
-    print(res.body);
+    print('res: ${res.body}');
 
     return ResCodeModel.fromJson(json.decode(res.body));
   }

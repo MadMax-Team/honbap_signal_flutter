@@ -26,22 +26,23 @@ class SigninUserBloc extends Bloc<SinginUserEvent, SigninUserState> {
         password: state.password,
       ));
 
-      var jwt = await _honbabAuthRepository.signin(
+      var res = await _honbabAuthRepository.signin(
         platform: AuthenticationWith.honbab,
         email: state.email,
         password: state.password,
       );
 
-      if (jwt == null) {
+      if (res?.result?.jwt == null || res?.result?.userIdx == null) {
         emit(SigninUserErrorState(
           code: 1003,
-          message: '로그인에 실패했습니다.',
+          message: res?.message ?? '로그인에 실패했습니다.',
           email: state.email,
           password: state.password,
         ));
       } else {
         emit(SigninUserSuccessState(
-          jwt: jwt,
+          userIdx: res!.result!.userIdx,
+          jwt: res.result!.jwt,
           email: state.email,
           password: state.password,
         ));

@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
+import 'package:honbap_signal_flutter/constants/api.dart';
+import 'package:honbap_signal_flutter/models/auth/auth_signin_model.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
 import 'package:honbap_signal_flutter/models/user/user_model.dart';
+import 'package:http/http.dart' as http;
 
 class HonbabAuthRepository {
   Future<bool> autoSignin({
@@ -14,27 +18,36 @@ class HonbabAuthRepository {
     return true;
   }
 
-  Future<String?> signin({
+  Future<AuthSigninModel?> signin({
     required AuthenticationWith platform,
     KakaoLoginModel? kakaoModel,
     String? email,
     String? password,
   }) async {
-    // TODO: sign in with account
-    await Future.delayed(const Duration(seconds: 1));
-
     print('[Get JWT] Platform: $platform');
 
     if (platform == AuthenticationWith.kakao) {
       print(kakaoModel?.kakaoAccount.email);
       // 카카로 로그인 api
-      return 'jwt-kakao';
+      return null;
     }
 
     if (platform == AuthenticationWith.honbab) {
-      print('$email, $password');
-      // honbab 로그인 api
-      return 'jwt-honbab';
+      final Map<String, String> headers = {
+        "Content-Type": "application/json",
+      };
+      final body = jsonEncode({
+        "email": email,
+        "password": password,
+      });
+
+      final res = await http.post(
+        Uri.parse('${ApiEndpoint.honbab}/user/login'),
+        headers: headers,
+        body: body,
+      );
+
+      return AuthSigninModel.fromJson(json.decode(res.body));
     }
 
     return null;

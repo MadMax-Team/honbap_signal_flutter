@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,6 +11,7 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signin/post_user_signi
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signin/post_user_signin_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/models/auth/auth_signin_model.dart';
 import 'package:honbap_signal_flutter/screens/auth/signin/widgets/auth_signin_email_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/signin/widgets/auth_signin_password_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
@@ -31,10 +34,18 @@ class _AuthSigninScreenState extends State<AuthSigninScreen> {
     context.read<SigninUserBloc>().add(const SigninButtonTapEvent());
   }
 
-  void _onLoginSuccess({required String jwt}) async {
+  void _onLoginSuccess({
+    required SigninUserSuccessState user,
+  }) async {
     // jwt 저장
     const storage = FlutterSecureStorage();
-    storage.write(key: 'jwt', value: jwt);
+    storage.write(
+      key: 'userAuth',
+      value: jsonEncode(AuthSigninUserDataModel(
+        jwt: user.jwt,
+        userIdx: user.userIdx,
+      ).toJson()),
+    );
 
     // splash 화면으로 돌아가기
     context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
@@ -87,7 +98,7 @@ class _AuthSigninScreenState extends State<AuthSigninScreen> {
               );
             }
             if (state is SigninUserSuccessState) {
-              _onLoginSuccess(jwt: state.jwt!);
+              _onLoginSuccess(user: state);
             }
           },
           builder: (context, state) => BottomAppBar(

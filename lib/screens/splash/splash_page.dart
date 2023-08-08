@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -10,6 +12,7 @@ import 'package:honbap_signal_flutter/bloc/splash/splash_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
+import 'package:honbap_signal_flutter/models/auth/auth_signin_model.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
 
 class SplashPage extends StatelessWidget {
@@ -20,27 +23,33 @@ class SplashPage extends StatelessWidget {
     // 자동 로그인 - jwt 유효성 검사
     Future<void> autoSignin(BuildContext context) async {
       const storage = FlutterSecureStorage();
-      String? jwt = await storage.read(key: 'jwt');
+      String? userAuth = await storage.read(key: 'userAuth');
 
-      print('자동 로그인 - jwt 유효성 검사 [jwt: $jwt]');
-
-      if (jwt?.isNotEmpty == true) {
-        var res =
-            await context.read<HonbabAuthRepository>().autoSignin(jwt: jwt!);
-        if (res) {
-          // 로그인 성공
-          context.read<UserCubit>().setJWT(jwt);
-          context.read<SplashBloc>().add(const SplashChangeLoadStateEvent(
-                status: LoadStatus.loadingUserData,
-              ));
-
-          return;
-        }
+      if (userAuth == null) {
+        // 로그인 실패
+        context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+              status: AuthenticationStatus.unauthenticated,
+            ));
+        return;
       }
-      // 로그인 실패
-      context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
-            status: AuthenticationStatus.unauthenticated,
-          ));
+
+      final userAuthModel =
+          AuthSigninUserDataModel.fromJson(await jsonDecode(userAuth));
+
+      print('자동 로그인 - jwt 유효성 검사 [jwt: ${userAuthModel.jwt}]');
+
+      var res = await context
+          .read<HonbabAuthRepository>()
+          .autoSignin(jwt: userAuthModel.jwt!);
+      if (res) {
+        // 로그인 성공
+        context.read<UserCubit>().setJWT(userAuthModel.jwt!);
+        context.read<SplashBloc>().add(const SplashChangeLoadStateEvent(
+              status: LoadStatus.loadingUserData,
+            ));
+
+        return;
+      }
     }
 
     // 기본 사용자 정보 로드
