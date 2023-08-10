@@ -7,10 +7,13 @@ import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bl
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/signal/signal_list_repository.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
 import 'package:honbap_signal_flutter/screens/splash/splash_page.dart';
+
+import 'bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -60,12 +63,19 @@ class _AppState extends State<App> {
               RepositoryProvider(
                 create: (context) => HonbabSignalListRepository(),
               ),
+              RepositoryProvider(
+                create: (context) => HomeSignalApplyRepository(),
+              ),
             ],
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(
                   create: (context) => SignalListBloc(
                       context.read<HonbabSignalListRepository>()),
+                ),
+                BlocProvider(
+                  create: (context) => HomeSignalApplyBloc(
+                      context.read<HomeSignalApplyRepository>()),
                 ),
               ],
               child: const RouteNavigationWidget(),

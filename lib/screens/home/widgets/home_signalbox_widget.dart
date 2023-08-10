@@ -4,6 +4,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
+import 'home_dialog/signal_on_dialog_widget.dart';
 
 class SignalBox extends StatefulWidget {
   const SignalBox({Key? key, required this.signal}) : super(key: key);
@@ -78,10 +79,12 @@ class _SignalBoxState extends State<SignalBox>
                   toggleColor: const Color(0xffF8280B),
                   value: _isOn,
                   padding: 3,
-                  onToggle: (bool value) {
-                    setState(() {
-                      _isOn = value;
-                    });
+                  onToggle: (value) {
+                    showDialog(
+                    context: context,
+                    builder: (_) => const SignalOnDialog(),
+                    barrierDismissible: false,
+                    );
                   },
                 ),
                 Gaps.h15,

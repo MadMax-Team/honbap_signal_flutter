@@ -20,7 +20,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: const Color(0xFFFFFFFF),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(7.0)),
       ),
@@ -76,53 +76,64 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                   Gaps.v46,
                   Row(
                     children: [
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            '약속시간',
-                            style: TextStyle(
-                                fontSize: Sizes.size16,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff737373)),
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '약속시간',
+                                style: TextStyle(
+                                    fontSize: Sizes.size16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xff737373)),
+                              ),
+                              Gaps.h6,
+                              Icon(
+                                Icons.schedule,
+                                color: Color(0xff737373),
+                                size: Sizes.size20,
+                              ),
+                            ],
                           ),
                           Gaps.v18,
-                          Text(
-                            '만날장소',
-                            style: TextStyle(
-                                fontSize: Sizes.size16,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff737373)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '만날장소',
+                                style: TextStyle(
+                                    fontSize: Sizes.size16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xff737373)),
+                              ),
+                              Gaps.h6,
+                              Icon(
+                                Icons.place,
+                                color: Color(0xff737373),
+                                size: Sizes.size20,
+                              ),
+                            ],
                           ),
                           Gaps.v18,
-                          Text(
-                            '메뉴',
-                            style: TextStyle(
-                                fontSize: Sizes.size16,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff737373)),
-                          ),
-                        ],
-                      ),
-                      Gaps.h6,
-                      Column(
-                        children: const [
-                          Icon(
-                            Icons.schedule,
-                            color: Color(0xff737373),
-                            size: Sizes.size20,
-                          ),
-                          Gaps.v18,
-                          Icon(
-                            Icons.place,
-                            color: Color(0xff737373),
-                            size: Sizes.size20,
-                          ),
-                          Gaps.v18,
-                          Icon(
-                            Icons.restaurant,
-                            color: Color(0xff737373),
-                            size: Sizes.size20,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '메뉴',
+                                style: TextStyle(
+                                    fontSize: Sizes.size16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xff737373)),
+                              ),
+                              Gaps.h6,
+                              Icon(
+                                Icons.restaurant,
+                                color: Color(0xff737373),
+                                size: Sizes.size20,
+                              ),
+                            ],
                           ),
                         ],
                       ),

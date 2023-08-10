@@ -14,7 +14,7 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: const Color(0xFFFFFFFF),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(7.0)),
       ),
@@ -32,8 +32,8 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                   SizedBox(
                     width: Sizes.size96,
                     height: Sizes.size96,
-                    child: SvgPicture.asset(
-                      'assets/icons/home_signal_box_dialog.svg',
+                    child: Image.asset(
+                      'assets/icons/home_signal_box_dialog.png',
                       alignment: Alignment.center,
                       fit: BoxFit.fill,
                     ),

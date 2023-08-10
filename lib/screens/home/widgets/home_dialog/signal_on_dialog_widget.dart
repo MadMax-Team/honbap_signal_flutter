@@ -15,7 +15,7 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: const Color(0xFFFFFFFF),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(7.0)),
       ),
