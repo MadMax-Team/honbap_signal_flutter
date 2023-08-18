@@ -5,6 +5,9 @@ import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bl
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_event.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_state_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_widget.dart';
@@ -76,14 +79,37 @@ class _HomeScreenState extends State<HomeScreen> {
                   showDialog(
                     context: context,
                     builder: (_) => const SignalOnDialog(),
-                    barrierDismissible: false
+                    barrierDismissible: false,
                   );
                 },
-                child: SignalBox(
-                  signal: false,
-                  //signal: snapshot.data!.signal!,
+                child: BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
+                  builder: (context, state) {
+                    if (state.status == SignalBoxDialogStatus.init) {
+                      return SignalBox(
+                        signal: false,
+                      );
+                    }
+                    else {
+                      return SignalBox(
+                        signal: true,
+                      );
+                    }
+                  },
                 ),
               ),
+              // GestureDetector(
+              //   onTap: () {
+              //     showDialog(
+              //       context: context,
+              //       builder: (_) => const SignalOnDialog(),
+              //       barrierDismissible: false
+              //     );
+              //   },
+              //   child: SignalBox(
+              //     signal: false,
+              //     //signal: snapshot.data!.signal!,
+              //   ),
+              // ),
               Gaps.v16,
               const Text(
                 ' *시그널을 켜두면 상대방이 나의 프로필을 확인할 수 있습니다. 시그널은 1시간 후 자동으로 꺼집니다',

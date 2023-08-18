@@ -14,8 +14,18 @@ class SignalSecondDialog extends StatefulWidget {
 }
 
 class _SignalSecondDialogState extends State<SignalSecondDialog> {
+  late String time;
+  late String location;
+
   final _valueList = ['직접입력', '프로필 불러오기'];
   var _selectedValue = '직접입력';
+
+  @override
+  void initState() {
+    super.initState();
+    // getCalculateTime() 함수를 호출하여 calculatedTime 변수에 저장
+    time = getCalculateTime(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +152,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            getCalculateTime(context),
+                            time,
                             style: const TextStyle(
                                 fontSize: Sizes.size16,
                                 fontWeight: FontWeight.w500,
@@ -243,7 +253,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => SignalThirdBox(),
+                          builder: (_) => SignalThirdBox(time: time, location: "압구정역", favoriteFood: _selectedValue),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,

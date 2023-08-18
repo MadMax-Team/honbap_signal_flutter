@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
@@ -81,9 +84,9 @@ class _SignalBoxState extends State<SignalBox>
                   padding: 3,
                   onToggle: (value) {
                     showDialog(
-                    context: context,
-                    builder: (_) => const SignalOnDialog(),
-                    barrierDismissible: false,
+                      context: context,
+                      builder: (_) => const SignalOnDialog(),
+                      barrierDismissible: false,
                     );
                   },
                 ),
@@ -93,7 +96,8 @@ class _SignalBoxState extends State<SignalBox>
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_on_trans.svg')
               ],
-            ))
+            ),
+        ),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_circle_button.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
@@ -92,23 +93,17 @@ class _SignalListBox extends State<SignalListBox> {
                       color: const Color(0xffFF4B26),
                       borderRadius: BorderRadius.circular(4),
                       child: const Text(
-                        '프로필 보기',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                    Gaps.h7,
-                    CupertinoButton(
-                      onPressed: () {},
-                      minSize: 0.0,
-                      padding: const EdgeInsets.fromLTRB(7, 2, 6, 3),
-                      color: const Color(0xffFF4B26),
-                      borderRadius: BorderRadius.circular(4),
-                      child: const Text(
                         '수락하기',
                         style: TextStyle(
                             fontSize: Sizes.size12,
                         ),
                       ),
+                    ),
+                    Gaps.h8,
+                    HomeCircleButton(
+                        onTap: () async {
+                          print('dd');
+                        },
                     ),
                   ],
                 )

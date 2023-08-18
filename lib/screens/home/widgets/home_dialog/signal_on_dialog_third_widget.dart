@@ -5,7 +5,11 @@ import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
 class SignalThirdBox extends StatefulWidget {
-  const SignalThirdBox({Key? key}) : super(key: key);
+  final String? time;
+  final String? location;
+  final String? favoriteFood;
+
+  const SignalThirdBox({Key? key, this.time, this.location, this.favoriteFood}) : super(key: key);
   @override
   State<SignalThirdBox> createState() => _SignalThirdBoxState();
 }
@@ -67,6 +71,12 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      if (widget.time != null) print('Time: ${widget.time}');
+                      if (widget.location != null) print('Location: ${widget.location}');
+                      if (widget.favoriteFood != null) print('Favorite Food: ${widget.favoriteFood}');
+
+
+
                       Navigator.of(context).pop();
                     },
                     child: Container(

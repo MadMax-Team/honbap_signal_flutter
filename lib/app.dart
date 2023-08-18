@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
@@ -76,6 +77,10 @@ class _AppState extends State<App> {
                 BlocProvider(
                   create: (context) => HomeSignalApplyBloc(
                       context.read<HomeSignalApplyRepository>()),
+                ),
+                BlocProvider(
+                    create: (context) => SignalBoxDialogBloc(
+                      )
                 ),
               ],
               child: const RouteNavigationWidget(),
