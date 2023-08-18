@@ -30,5 +30,5 @@ class SignalBoxDialogBloc extends Bloc<SignalBoxDialogEvent, SignalBoxDialogStat
         message: 'Error occurred: $error',
       );
     }
-    }
+  }
 }

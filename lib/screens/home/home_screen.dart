@@ -65,15 +65,54 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start, //왼쪽 정렬
             children: [
               Gaps.v7,
-              const Text(
-                '시그널 온오프',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: Sizes.size18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
+              SizedBox(
+                height: 30,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      '시그널 온오프',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: Sizes.size18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
+                    BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
+                        builder: (context, state) {
+                          if(state.status == SignalBoxDialogStatus.init) {
+                            return OutlinedButton(
+                              onPressed: null,
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+                                side: const BorderSide(
+                                  width: 1,
+                                  color: Color(0xFFFF4B26),
+                                ),
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                              ),
+                              child: const Text(
+                                "시그널 글 수정",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFFFF4B26),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        }
+                    ),
+                  ],
+                ),
               ),
-              Gaps.v14,
+              Gaps.v11,
               GestureDetector(
                 onTap: () {
                   showDialog(
@@ -230,6 +269,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               name:
                               state.signalApply[index].nickName!,
                               imgUri: state.signalApply[index].nickName!,
+                              onTap: () async {
+                                print('text click');
+                              },
                             ),//snapshot.data!.signalToMe![index].image!),
                           );
                         },

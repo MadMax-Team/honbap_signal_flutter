@@ -12,6 +12,10 @@ class ChatCard extends StatelessWidget {
 
   final ChatListModel chat;
 
+  DateTime _strToDT(String sdt) {
+    return DateTime.parse(sdt);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,7 +36,7 @@ class ChatCard extends StatelessWidget {
                 ),
                 // Image.network로 변경하면 됨
                 child: Image.asset(
-                  "assets/test/${chat.profileImage}.jpg",
+                  "assets/test/test_image.jpg",
                   fit: BoxFit.fill,
                 ),
               ),
@@ -45,7 +49,7 @@ class ChatCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          chat.nickname,
+                          chat.userName ?? '',
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: Sizes.size14,
@@ -53,7 +57,7 @@ class ChatCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          diffDatetime(chat.laseSendedAt),
+                          diffDatetime(_strToDT(chat.lastSendedAt!)),
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: Sizes.size10,
@@ -68,7 +72,7 @@ class ChatCard extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            chat.lastMessage,
+                            chat.lastMessage ?? '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -78,27 +82,27 @@ class ChatCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        if (chat.unreadMessages != 0)
-                          Container(
-                            width: Sizes.size16,
-                            height: Sizes.size16,
-                            margin: const EdgeInsets.only(left: Sizes.size10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            child: Text(
-                              '${chat.unreadMessages}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: Sizes.size10,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        else
-                          Container(),
+                        // if (chat.unreadMessages != 0)
+                        //   Container(
+                        //     width: Sizes.size16,
+                        //     height: Sizes.size16,
+                        //     margin: const EdgeInsets.only(left: Sizes.size10),
+                        //     alignment: Alignment.center,
+                        //     decoration: BoxDecoration(
+                        //       shape: BoxShape.circle,
+                        //       color: Theme.of(context).primaryColor,
+                        //     ),
+                        //     child: Text(
+                        //       '${chat.unreadMessages}',
+                        //       style: const TextStyle(
+                        //         fontWeight: FontWeight.w400,
+                        //         fontSize: Sizes.size10,
+                        //         color: Colors.white,
+                        //       ),
+                        //     ),
+                        //   )
+                        // else
+                        //   Container(),
                       ],
                     ),
                   ],

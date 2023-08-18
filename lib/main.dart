@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => SplashBloc(),
-          )
+          ),
         ],
         child: const App(),
       ),

@@ -9,11 +9,13 @@ import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dia
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
+import 'package:honbap_signal_flutter/repository/honbab/chat/chat_list_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/signal/signal_list_repository.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
 import 'package:honbap_signal_flutter/screens/splash/splash_page.dart';
 
+import 'bloc/chat/chat_list/chat_list_bloc.dart';
 import 'bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
 
 class App extends StatefulWidget {
@@ -67,6 +69,9 @@ class _AppState extends State<App> {
               RepositoryProvider(
                 create: (context) => HomeSignalApplyRepository(),
               ),
+              RepositoryProvider(
+                create: (context) => ChatListRepository(),
+              ),
             ],
             child: MultiBlocProvider(
               providers: [
@@ -79,8 +84,11 @@ class _AppState extends State<App> {
                       context.read<HomeSignalApplyRepository>()),
                 ),
                 BlocProvider(
-                    create: (context) => SignalBoxDialogBloc(
-                      )
+                    create: (context) => SignalBoxDialogBloc(),
+                ),
+                BlocProvider(
+                  create: (context) =>
+                      ChatListBloc(context.read<ChatListRepository>()),
                 ),
               ],
               child: const RouteNavigationWidget(),

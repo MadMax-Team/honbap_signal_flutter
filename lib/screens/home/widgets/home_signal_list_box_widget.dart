@@ -7,17 +7,23 @@ import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
 class SignalListBox extends StatefulWidget {
-  const SignalListBox({required this.name, required this.imgUri, Key? key})
-      : super(key: key);
+  const SignalListBox({
+    required this.name,
+    required this.imgUri,
+    required this.onTap,
+    Key? key
+  }) : super(key: key);
 
   final String name;
   final String imgUri;
+  final onTap;
 
   @override
   State<SignalListBox> createState() => _SignalListBox();
 }
 
 class _SignalListBox extends State<SignalListBox> {
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -74,14 +80,21 @@ class _SignalListBox extends State<SignalListBox> {
                       ),
                     ),
                     Gaps.h16,
-                    Text(
-                      widget.name,
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                          fontSize: Sizes.size14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    )
+                    GestureDetector(
+                      onTap: () async {
+                        if(widget.onTap != null) {
+                          widget.onTap();
+                        }
+                      },
+                      child: Text(
+                        widget.name,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                            fontSize: Sizes.size14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
                   ],
                 ),
                 Row(
