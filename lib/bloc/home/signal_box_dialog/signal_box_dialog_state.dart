@@ -2,10 +2,8 @@ import 'package:equatable/equatable.dart';
 
 enum SignalBoxDialogStatus {
   init('초기화'),
-  onState('on 상태'),
-  offState('off 상태'),
-  onSuccess('on 성공'),
-  offSuccess('off 성공'),
+  onState('on'),
+  offState('off'),
   loading('로딩'),
   error('에러');
 
