@@ -7,6 +7,7 @@ import 'package:honbap_signal_flutter/screens/mypage/match_history/match_history
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_menu_divider.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_round_button_widget.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_setting_button_widget.dart';
+import 'package:honbap_signal_flutter/tools/push_new_screen.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});
@@ -112,16 +113,20 @@ class MyPageScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Gaps.v3,
-                          MyPageRoundButton(
-                            isTransparent: false,
-                            text: '프로필 설정',
+                          GestureDetector(
+                            onTap: () =>
+                                PushNewScreen.openUserProfile(context: context),
+                            child: const MyPageRoundButton(
+                              isTransparent: false,
+                              text: '프로필 설정',
+                            ),
                           ),
                           Gaps.v7,
-                          MyPageRoundButton(
+                          const MyPageRoundButton(
                             isTransparent: true,
                             text: '계정관리',
                           ),
