@@ -35,6 +35,9 @@ class _UserProfileFormWidgetState extends State<UserProfileFormWidget> {
         }
       case UserProfileForm.tags:
         {
+          if (value.contains(',')) {
+            _onFieldSubmitted(value.replaceAll(',', ''));
+          }
           break;
         }
     }
@@ -42,16 +45,19 @@ class _UserProfileFormWidgetState extends State<UserProfileFormWidget> {
 
   void _onFieldSubmitted(String value) {
     if (widget.type == UserProfileForm.tags) {
-      var prev =
-          context.read<UserProfileUploadCubit>().state.profile?.tags ?? [];
-      prev.add(value);
+      if (value.isNotEmpty) {
+        var prev =
+            context.read<UserProfileUploadCubit>().state.profile?.tags ?? [];
+        prev.add(value);
 
-      context.read<UserProfileUploadCubit>().update(tags: List.from(prev));
+        context.read<UserProfileUploadCubit>().update(tags: List.from(prev));
+      }
 
       _fieldKey.currentState?.reset();
       _focusNode.requestFocus();
       return;
     }
+
     FocusScope.of(context).nextFocus();
   }
 
@@ -70,6 +76,9 @@ class _UserProfileFormWidgetState extends State<UserProfileFormWidget> {
           keyboardType: TextInputType.emailAddress,
           autocorrect: false,
           enableSuggestions: false,
+          textInputAction: widget.type != UserProfileForm.tags
+              ? TextInputAction.next
+              : TextInputAction.newline,
           style: const TextStyle(fontSize: Sizes.size16),
           decoration: InputDecoration(
             hintText: widget.type.hint,
@@ -88,6 +97,7 @@ class _UserProfileFormWidgetState extends State<UserProfileFormWidget> {
           cursorColor: Theme.of(context).primaryColor,
           onChanged: _onChanged,
           onTapOutside: (_) => FocusScope.of(context).unfocus(),
+          onEditingComplete: () {},
           onFieldSubmitted: _onFieldSubmitted,
         ),
         widget.type != UserProfileForm.tags ? Gaps.v32 : Gaps.v10,
