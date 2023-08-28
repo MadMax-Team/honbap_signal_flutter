@@ -19,7 +19,6 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<UserProfileUploadCubit>().state.profile);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

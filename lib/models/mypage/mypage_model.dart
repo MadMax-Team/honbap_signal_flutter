@@ -1,11 +1,10 @@
-import 'package:equatable/equatable.dart';
 import 'package:honbap_signal_flutter/models/user/user_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'mypage_model.g.dart';
 
 @JsonSerializable()
-class MyPageModel extends Equatable {
+class MyPageModel {
   final String? profileImg;
   final String? userName;
   final String? userIntroduce;
@@ -66,26 +65,17 @@ class MyPageModel extends Equatable {
 
   UserProfileModel? toUserProfileModel() => UserProfileModel(
         profileImg: profileImg,
-        taste: taste?.join(','),
-        hateFood: hateFood?.join(','),
-        interest: tags?.join(','),
+        taste: taste?.join(',').isNotEmpty == true ? taste?.join(',') : null,
+        hateFood:
+            hateFood?.join(',').isNotEmpty == true ? hateFood?.join(',') : null,
+        interest: tags?.join(',').isNotEmpty == true ? tags?.join(',') : null,
         avgSpeed: null,
-        preferArea: preferArea?.join(','),
+        preferArea: preferArea?.join(',').isNotEmpty == true
+            ? preferArea?.join(',')
+            : null,
         mbti: mbti,
         userIntroduce: userIntroduce,
       );
-
-  @override
-  List<Object?> get props => [
-        profileImg,
-        userName,
-        userIntroduce,
-        tags,
-        preferArea,
-        taste,
-        hateFood,
-        mbti,
-      ];
 }
 
 enum UserProfileForm {

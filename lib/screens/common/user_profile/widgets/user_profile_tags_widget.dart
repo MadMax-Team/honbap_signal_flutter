@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 
@@ -19,6 +20,8 @@ class UserProfileTagsWidget extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.profile?.tags != current.profile?.tags,
       builder: (context, state) => Wrap(
+        spacing: Sizes.size3,
+        runSpacing: Sizes.size7,
         children: [
           for (var tag in state.profile?.tags ?? [])
             GestureDetector(
@@ -47,12 +50,11 @@ class _UserProfileTagWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        vertical: Sizes.size2,
-        horizontal: Sizes.size4,
+        vertical: Sizes.size6,
+        horizontal: Sizes.size8,
       ),
-      margin: const EdgeInsets.only(left: Sizes.size3),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Sizes.size10),
+        borderRadius: BorderRadius.circular(Sizes.size20),
         color: Theme.of(context).primaryColor,
       ),
       child: Row(
@@ -63,6 +65,12 @@ class _UserProfileTagWidget extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
             ),
+          ),
+          Gaps.h3,
+          const Icon(
+            Icons.cancel,
+            color: Colors.white,
+            size: Sizes.size16,
           ),
         ],
       ),
