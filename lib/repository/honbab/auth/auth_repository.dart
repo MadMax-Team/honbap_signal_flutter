@@ -18,7 +18,7 @@ class HonbabAuthRepository {
     return true;
   }
 
-  Future<AuthSigninModel?> signin({
+  Future<AuthSigninMyInfoModel?> signin({
     required AuthenticationWith platform,
     KakaoLoginModel? kakaoModel,
     String? email,
@@ -47,45 +47,49 @@ class HonbabAuthRepository {
         body: body,
       );
 
-      return AuthSigninModel.fromJson(json.decode(res.body));
+      return AuthSigninMyInfoModel.fromJson(json.decode(res.body));
     }
 
     return null;
   }
 
   Future<UserModel?> getUserData(String jwt) async {
-    // TODO : [POST] /user/myinfo
-    // get user data
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final Map<String, String> headers = {
+        "Content-Type": "application/json",
+        'x-access-token': jwt,
+      };
 
-    return const UserModel(
-      userId: 1,
-      userName: 'test-woong',
-      birth: '2000-06-11',
-      email: 'wjlee611@gmail.com',
-      phoneNum: '01012341234',
-      sex: 'M',
-      createAt: '2022-01-20T05:12:01.000Z',
-      updateAt: '2022-01-20T05:12:01.000Z',
-    );
+      final res = await http.get(
+        Uri.parse('${ApiEndpoint.honbab}/user/myinfo'),
+        headers: headers,
+      );
+
+      final resModel =
+          AuthSigninMyInfoModel.fromJson(await json.decode(res.body));
+
+      return UserModel.fromJson(resModel.result!.toJson());
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<UserProfileModel?> getUserProfileData(String jwt) async {
-    // TODO : [POST] /user/mypage
-    // get user profile data
-    await Future.delayed(const Duration(seconds: 1));
+  Future<AuthSigninMyPageModel?> getUserProfileData(String jwt) async {
+    try {
+      final Map<String, String> headers = {
+        "Content-Type": "application/json",
+        'x-access-token': jwt,
+      };
 
-    return const UserProfileModel(
-      profileImg: 'woong-image-path',
-      taste: 'taste',
-      hateFood: 'hatefood',
-      interest: 'coding',
-      avgSpeed: 'speed of light',
-      preferArea: 'preferarea',
-      mbti: 'ISFJ',
-      userIntroduce: 'hello world @from copilot',
-      updateAt: '2022-01-20T05:12:01.000Z',
-    );
+      final res = await http.get(
+        Uri.parse('${ApiEndpoint.honbab}/user/mypage'),
+        headers: headers,
+      );
+
+      return AuthSigninMyPageModel.fromJson(await json.decode(res.body));
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<void> signout() async {

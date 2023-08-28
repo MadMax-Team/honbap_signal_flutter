@@ -18,81 +18,91 @@ import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dar
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 
+  // 자동 로그인 - jwt 유효성 검사
+  Future<void> autoSignin(BuildContext context) async {
+    const storage = FlutterSecureStorage();
+    String? userAuth = await storage.read(key: 'userAuth');
+
+    if (userAuth == null) {
+      // 로그인 실패
+      context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+            status: AuthenticationStatus.unauthenticated,
+          ));
+      return;
+    }
+
+    final userAuthModel =
+        AuthSigninUserDataModel.fromJson(await jsonDecode(userAuth));
+
+    print(
+        '자동 로그인 - jwt 유효성 검사 [jwt: ${userAuthModel.jwt?.substring(0, 20)}, userIdx: ${userAuthModel.userIdx}]');
+
+    var res = await context
+        .read<HonbabAuthRepository>()
+        .autoSignin(jwt: userAuthModel.jwt!);
+    if (res) {
+      // 로그인 성공
+      context.read<UserCubit>().setUserAuth(
+            jwt: userAuthModel.jwt!,
+            userIdx: userAuthModel.userIdx!,
+          );
+      context.read<SplashBloc>().add(const SplashChangeLoadStateEvent(
+            status: LoadStatus.loadingUserData,
+          ));
+
+      return;
+    }
+  }
+
+  // 기본 사용자 정보 로드
+  Future<void> getUserData(BuildContext context) async {
+    var user = context.read<UserCubit>().state.user;
+    var newUserModel =
+        await context.read<HonbabAuthRepository>().getUserData(user!.jwt!);
+
+    if (newUserModel != null) {
+      context.read<UserCubit>().setUserData(newUserModel);
+      context.read<SplashBloc>().add(const SplashChangeLoadStateEvent(
+            status: LoadStatus.loadingUserProfileData,
+          ));
+
+      return;
+    }
+    // 사용자 정보 불러오기 실패
+    context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+          status: AuthenticationStatus.unauthenticated,
+        ));
+  }
+
+  // 사용자 프로필 정보 로드
+  Future<void> getUserProfileData(BuildContext context) async {
+    var user = context.read<UserCubit>().state.user;
+    var userProfileRes = await context
+        .read<HonbabAuthRepository>()
+        .getUserProfileData(user!.jwt!);
+
+    if (userProfileRes == null || userProfileRes.code != 1000) {
+      // 사용자 정보 불러오기 실패
+      context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+            status: AuthenticationStatus.unauthenticated,
+          ));
+      return;
+    }
+
+    if (userProfileRes.result == null) {
+      // 유저 프로필 등록 안된 상태
+      print('!! 유저 프로필 등록 안된 상태 !!');
+    } else {
+      context.read<UserCubit>().setUserProfileData(userProfileRes.result!);
+    }
+
+    context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+          status: AuthenticationStatus.authenticated,
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    // 자동 로그인 - jwt 유효성 검사
-    Future<void> autoSignin(BuildContext context) async {
-      const storage = FlutterSecureStorage();
-      String? userAuth = await storage.read(key: 'userAuth');
-
-      if (userAuth == null) {
-        // 로그인 실패
-        context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
-              status: AuthenticationStatus.unauthenticated,
-            ));
-        return;
-      }
-
-      final userAuthModel =
-          AuthSigninUserDataModel.fromJson(await jsonDecode(userAuth));
-
-      print('자동 로그인 - jwt 유효성 검사 [jwt: ${userAuthModel.jwt}]');
-
-      var res = await context
-          .read<HonbabAuthRepository>()
-          .autoSignin(jwt: userAuthModel.jwt!);
-      if (res) {
-        // 로그인 성공
-        context.read<UserCubit>().setJWT(userAuthModel.jwt!);
-        context.read<SplashBloc>().add(const SplashChangeLoadStateEvent(
-              status: LoadStatus.loadingUserData,
-            ));
-
-        return;
-      }
-    }
-
-    // 기본 사용자 정보 로드
-    Future<void> getUserData(BuildContext context) async {
-      var user = context.read<UserCubit>().state.user;
-      var newUserModel =
-          await context.read<HonbabAuthRepository>().getUserData(user!.jwt!);
-
-      if (newUserModel != null) {
-        context.read<UserCubit>().setUserData(newUserModel);
-        context.read<SplashBloc>().add(const SplashChangeLoadStateEvent(
-              status: LoadStatus.loadingUserProfileData,
-            ));
-
-        return;
-      }
-      // 사용자 정보 불러오기 실패
-      context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
-            status: AuthenticationStatus.unauthenticated,
-          ));
-    }
-
-    // 사용자 프로필 정보 로드
-    Future<void> getUserProfileData(BuildContext context) async {
-      var user = context.read<UserCubit>().state.user;
-      var userProfileData = await context
-          .read<HonbabAuthRepository>()
-          .getUserProfileData(user!.jwt!);
-
-      if (userProfileData != null) {
-        context.read<UserCubit>().setUserProfileData(userProfileData);
-        context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
-              status: AuthenticationStatus.authenticated,
-            ));
-
-        return;
-      }
-      // 사용자 정보 불러오기 실패
-      context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
-            status: AuthenticationStatus.unauthenticated,
-          ));
-    }
-
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state.status == AuthenticationStatus.init) {

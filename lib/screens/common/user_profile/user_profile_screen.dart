@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
@@ -35,10 +36,13 @@ class UserProfileScreen extends StatelessWidget {
         centerTitle: false,
         backgroundColor: Colors.white,
       ),
-      body: ListView(
-        children: const [
-          UserProfileImageWidget(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(Sizes.size20),
+        child: ListView(
+          children: const [
+            UserProfileImageWidget(),
+          ],
+        ),
       ),
       bottomNavigationBar:
           BlocConsumer<UserProfileUploadCubit, UserProfileUploadState>(

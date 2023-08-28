@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,8 +12,19 @@ class UserProfileImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _UserProfileImageField(),
+        Text(
+          '나의 프로필',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        Column(
+          children: [
+            _UserProfileImageField(),
+            Gaps.v10,
+            const Text('사진변경'),
+          ],
+        ),
       ],
     );
   }
@@ -40,7 +52,7 @@ class _UserProfileImageField extends StatelessWidget {
         },
         child: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
-          radius: Sizes.size52,
+          radius: Sizes.size72,
           backgroundImage: profileFile == null
               ? Image.asset('assets/images/honbab_smile.png').image
               : Image.file(profileFile).image,

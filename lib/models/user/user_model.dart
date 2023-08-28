@@ -6,7 +6,7 @@ part 'user_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class UserModel extends Equatable {
   final String? jwt;
-  final int? userId;
+  final int? userIdx;
   final String? userName;
   final String? birth;
   final String? email;
@@ -18,7 +18,7 @@ class UserModel extends Equatable {
 
   const UserModel({
     this.jwt,
-    this.userId,
+    this.userIdx,
     this.userName,
     this.birth,
     this.email,
@@ -31,7 +31,7 @@ class UserModel extends Equatable {
 
   UserModel copyWith({
     String? jwt,
-    int? userId,
+    int? userIdx,
     String? userName,
     String? birth,
     String? email,
@@ -43,7 +43,7 @@ class UserModel extends Equatable {
   }) =>
       UserModel(
         jwt: jwt ?? this.jwt,
-        userId: userId ?? this.userId,
+        userIdx: userIdx ?? this.userIdx,
         userName: userName ?? this.userName,
         birth: birth ?? this.birth,
         email: email ?? this.email,
@@ -62,7 +62,7 @@ class UserModel extends Equatable {
   @override
   List<Object?> get props => [
         jwt,
-        userId,
+        userIdx,
         userName,
         birth,
         email,

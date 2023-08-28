@@ -75,12 +75,12 @@ class AuthScreen extends StatelessWidget {
       return;
     }
 
-    var jwt = await context.read<HonbabAuthRepository>().signin(
+    var res = await context.read<HonbabAuthRepository>().signin(
           platform: AuthenticationWith.kakao,
           kakaoModel: kakaoModel,
         );
 
-    if (jwt == null) {
+    if (res == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('로그인에 실패했습니다.'),

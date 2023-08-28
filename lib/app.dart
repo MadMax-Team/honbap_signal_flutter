@@ -119,6 +119,11 @@ class _AppState extends State<App> {
             fontWeight: FontWeight.w700,
             fontSize: Sizes.size16,
           ),
+          headlineMedium: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+            fontSize: Sizes.size18,
+          ),
           labelSmall: TextStyle(
             color: Color(0xFFB8B8B8),
             fontSize: Sizes.size14,
