@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
+import 'package:honbap_signal_flutter/models/mypage/mypage_model.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
-import 'package:honbap_signal_flutter/screens/common/user_profile/user_profile_image_widget.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile/widgets/user_profile_form_widget.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile/widgets/user_profile_image_widget.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile/widgets/user_profile_tags_widget.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
@@ -41,6 +44,10 @@ class UserProfileScreen extends StatelessWidget {
         child: ListView(
           children: const [
             UserProfileImageWidget(),
+            UserProfileFormWidget(type: UserProfileForm.userName),
+            UserProfileFormWidget(type: UserProfileForm.userIntroduce),
+            UserProfileFormWidget(type: UserProfileForm.tags),
+            UserProfileTagsWidget(),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/models/mypage/mypage_model.dart';
 import 'package:honbap_signal_flutter/models/user/user_model.dart';
 import 'package:honbap_signal_flutter/repository/honbab/user/user_profile_repository.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,10 +10,10 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
   final UserProfileRepository userProfileRepository;
 
   UserProfileUploadCubit({
-    required UserProfileModel userProfile,
+    required UserProfileModel? userProfile,
     required this.userProfileRepository,
   }) : super(UserProfileUploadState(
-          profile: userProfile,
+          profile: MyPageModel.fromUserProfileModel(userProfile),
         ));
 
   void changeProfileImage(XFile? image) {
@@ -22,21 +23,54 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
     emit(state.copyWith(profileFile: file));
   }
 
-  // for develop
   void uploadProfileImage({required String jwt}) async {
     if (state.profileFile == null) return;
 
     emit(state.copyWith(status: UserProfileUploadStatus.uploading));
 
-    var imageUrl = await userProfileRepository.uploadProfileImage(
-      jwt: jwt,
-      profileFile: state.profileFile!,
-    );
+    try {
+      var imageUrl = await userProfileRepository.uploadProfileImage(
+        jwt: jwt,
+        profileFile: state.profileFile!,
+      );
 
-    emit(state.copyWith(status: UserProfileUploadStatus.updating));
+      if (imageUrl == null) {
+        emit(state.copyWith(status: UserProfileUploadStatus.fail));
+        return;
+      }
+
+      emit(state.copyWith(
+        profile: state.profile?.copyWith(profileImg: imageUrl),
+        status: UserProfileUploadStatus.updating,
+      ));
+    } catch (e) {
+      emit(state.copyWith(status: UserProfileUploadStatus.fail));
+    }
   }
 
-  // TODO: change all profile values
+  void update({
+    String? profileImg,
+    String? userName,
+    String? userIntroduce,
+    List<String>? tags,
+    List<String>? preferArea,
+    List<String>? taste,
+    List<String>? hateFood,
+    String? mbti,
+  }) {
+    emit(state.copyWith(
+      profile: state.profile?.copyWith(
+        profileImg: profileImg,
+        userName: userName,
+        userIntroduce: userIntroduce,
+        tags: tags,
+        preferArea: preferArea,
+        taste: taste,
+        hateFood: hateFood,
+        mbti: mbti,
+      ),
+    ));
+  }
 }
 
 enum UserProfileUploadStatus {
@@ -50,7 +84,7 @@ enum UserProfileUploadStatus {
 class UserProfileUploadState extends Equatable {
   final UserProfileUploadStatus status;
   final File? profileFile;
-  final UserProfileModel? profile;
+  final MyPageModel? profile;
 
   const UserProfileUploadState({
     this.status = UserProfileUploadStatus.init,
@@ -61,7 +95,7 @@ class UserProfileUploadState extends Equatable {
   UserProfileUploadState copyWith({
     UserProfileUploadStatus? status,
     File? profileFile,
-    UserProfileModel? profile,
+    MyPageModel? profile,
   }) =>
       UserProfileUploadState(
         status: status ?? this.status,

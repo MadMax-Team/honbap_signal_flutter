@@ -21,8 +21,7 @@ class UserProfileRepository {
         : profileFile.path.split('.').last.toLowerCase();
 
     if (!supportedFormats.contains(fileExtension)) {
-      print('Unsupported file format');
-      return null;
+      throw Exception('unsupported image format');
     }
 
     var url = Uri.parse('${ApiEndpoint.honbab}/user/myimage');
@@ -41,11 +40,9 @@ class UserProfileRepository {
     var response = await http.Response.fromStream(streamedResponse);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      return 'res string';
     } else {
-      print(response.body);
+      throw Exception('fail to upload profile image');
     }
-
-    return null;
   }
 }

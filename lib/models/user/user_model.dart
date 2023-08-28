@@ -84,7 +84,6 @@ class UserProfileModel extends Equatable {
   final String? preferArea;
   final String? mbti;
   final String? userIntroduce;
-  final String? updateAt;
 
   const UserProfileModel({
     this.profileImg,
@@ -95,7 +94,6 @@ class UserProfileModel extends Equatable {
     this.preferArea,
     this.mbti,
     this.userIntroduce,
-    this.updateAt,
   });
 
   UserProfileModel copyWith({
@@ -107,7 +105,6 @@ class UserProfileModel extends Equatable {
     String? preferArea,
     String? mbti,
     String? userIntroduce,
-    String? updateAt,
   }) =>
       UserProfileModel(
         profileImg: profileImg ?? this.profileImg,
@@ -118,7 +115,6 @@ class UserProfileModel extends Equatable {
         preferArea: preferArea ?? this.preferArea,
         mbti: mbti ?? this.mbti,
         userIntroduce: userIntroduce ?? this.userIntroduce,
-        updateAt: updateAt ?? this.updateAt,
       );
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) =>
@@ -136,6 +132,5 @@ class UserProfileModel extends Equatable {
         preferArea,
         mbti,
         userIntroduce,
-        updateAt,
       ];
 }

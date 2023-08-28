@@ -31,6 +31,14 @@ class _AuthSigninScreenState extends State<AuthSigninScreen> {
       return;
     }
 
+    // 같은 기능.
+    // 단, form 관리를 위해 별도의 bloc 사용
+    // context.read<AuthenticationBloc>().add(AuthenticationLogin(
+    //       platform: AuthenticationWith.honbab,
+    //       email: state.formData.email,
+    //       password: state.formData.password,
+    //     ));
+
     context.read<SigninUserBloc>().add(const SigninButtonTapEvent());
   }
 

@@ -45,7 +45,6 @@ UserProfileModel _$UserProfileModelFromJson(Map<String, dynamic> json) =>
       preferArea: json['preferArea'] as String?,
       mbti: json['mbti'] as String?,
       userIntroduce: json['userIntroduce'] as String?,
-      updateAt: json['updateAt'] as String?,
     );
 
 Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
@@ -58,5 +57,4 @@ Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
       'preferArea': instance.preferArea,
       'mbti': instance.mbti,
       'userIntroduce': instance.userIntroduce,
-      'updateAt': instance.updateAt,
     };

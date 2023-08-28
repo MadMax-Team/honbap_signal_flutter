@@ -73,12 +73,21 @@ class MyPageScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           // Image.network로 변경하면 됨
-                          child: Image.asset(
-                            "assets/test/test_image.jpg",
-                            width: Sizes.size44 * 2,
-                            height: Sizes.size44 * 2,
-                            fit: BoxFit.fill,
-                          ),
+                          child: state.user?.userProfile?.profileImg == null
+                              ? CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  radius: Sizes.size44,
+                                  backgroundImage: Image.asset(
+                                          'assets/images/honbab_smile.png')
+                                      .image,
+                                )
+                              : Image.network(
+                                  state.user!.userProfile!.profileImg!,
+                                  width: Sizes.size44 * 2,
+                                  height: Sizes.size44 * 2,
+                                  fit: BoxFit.fill,
+                                ),
                         ),
                       ),
                       Gaps.h20,

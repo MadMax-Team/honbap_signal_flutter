@@ -64,7 +64,7 @@ class PushNewScreen {
           create: (context) => UserProfileRepository(),
           child: BlocProvider(
             create: (context) => UserProfileUploadCubit(
-              userProfile: context.read<UserCubit>().state.user!.userProfile!,
+              userProfile: context.read<UserCubit>().state.user!.userProfile,
               userProfileRepository: context.read<UserProfileRepository>(),
             ),
             child: const UserProfileScreen(),
