@@ -17,13 +17,17 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
         ));
 
   void changeProfileImage(XFile? image) {
-    if (image == null) return;
+    if (image == null) {
+      emit(state.copyWith(profileFile: null));
+      return;
+    }
 
     var file = File(image.path);
     emit(state.copyWith(profileFile: file));
   }
 
-  void uploadProfileImage({required String jwt}) async {
+  void uploadWithImage({required String jwt}) async {
+    print('image');
     if (state.profileFile == null) return;
 
     emit(state.copyWith(status: UserProfileUploadStatus.uploading));
@@ -36,16 +40,22 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
 
       if (imageUrl == null) {
         emit(state.copyWith(status: UserProfileUploadStatus.fail));
+        emit(state.copyWith(status: UserProfileUploadStatus.init));
         return;
       }
 
       emit(state.copyWith(
         profile: state.profile?.copyWith(profileImg: imageUrl),
-        status: UserProfileUploadStatus.updating,
       ));
+      upload(jwt: jwt);
     } catch (e) {
       emit(state.copyWith(status: UserProfileUploadStatus.fail));
+      emit(state.copyWith(status: UserProfileUploadStatus.init));
     }
+  }
+
+  void upload({required String jwt}) async {
+    print('upload');
   }
 
   void update({
@@ -75,10 +85,9 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
 
 enum UserProfileUploadStatus {
   init,
-  uploading, // 프로필 이미지 업로딩 상태
-  updating, // 프로필 업데이트 상태
-  success, // 변경 성공
-  fail, // 변경 실패
+  uploading,
+  success,
+  fail,
 }
 
 class UserProfileUploadState extends Equatable {

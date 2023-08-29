@@ -81,7 +81,11 @@ class MyPageModel {
 enum UserProfileForm {
   userName('닉네임', ''),
   userIntroduce('소개글', '나의 취향이나 관심사가 담긴 소개글을 작성해주세요'),
-  tags('태그선택', '나의 취향이나 관심사가 담긴 태그를 작성해주세요');
+  tags('태그선택', '나의 취향이나 관심사가 담긴 태그를 작성해주세요'),
+  preferArea('선호장소', ''),
+  taste('선호음식', ''),
+  hateFood('불호음식', ''),
+  mbti('MBTI', '');
 
   final String message;
   final String hint;

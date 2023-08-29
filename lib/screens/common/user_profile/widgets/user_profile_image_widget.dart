@@ -42,13 +42,17 @@ class _UserProfileImageField extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () async {
-          var image = await _picker.pickImage(
-            source: ImageSource.gallery,
-            imageQuality: 40,
-            maxWidth: 200,
-            maxHeight: 200,
-          );
-          context.read<UserProfileUploadCubit>().changeProfileImage(image);
+          try {
+            var image = await _picker.pickImage(
+              source: ImageSource.gallery,
+              imageQuality: 40,
+              maxWidth: 200,
+              maxHeight: 200,
+            );
+            context.read<UserProfileUploadCubit>().changeProfileImage(image);
+          } catch (e) {
+            context.read<UserProfileUploadCubit>().changeProfileImage(null);
+          }
         },
         child: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
