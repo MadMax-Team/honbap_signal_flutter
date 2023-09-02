@@ -5,7 +5,9 @@ import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
 class SignalOnDialog extends StatefulWidget {
-  const SignalOnDialog({Key? key}) : super(key: key);
+  final BuildContext parentContext;
+
+  const SignalOnDialog({super.key, required this.parentContext});
 
   @override
   State<SignalOnDialog> createState() => _SignalOnDialogState();
@@ -75,7 +77,7 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => const SignalSecondDialog(),
+                          builder: (_) => SignalSecondDialog(parentContext: widget.parentContext),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,

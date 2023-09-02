@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
                         builder: (context, state) {
-                          if(state.status == SignalBoxDialogStatus.init) {
+                          if(state.status == SignalBoxDialogStatus.onState) {
                             return OutlinedButton(
                               onPressed: null,
                               style: OutlinedButton.styleFrom(
@@ -117,20 +117,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   showDialog(
                     context: context,
-                    builder: (_) => const SignalOnDialog(),
+                    builder: (_) => SignalOnDialog(parentContext: context),
                     barrierDismissible: false,
                   );
                 },
                 child: BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
+                  buildWhen: (pre, cur) {
+                    return pre != cur;
+                  },
                   builder: (context, state) {
                     if (state.status == SignalBoxDialogStatus.init) {
-                      return SignalBox(
+                      context.read<SignalBoxDialogBloc>().add(GetSignalStateEvent(
+                        jwt: context.read<UserCubit>().state.user!.jwt!,
+                        ),
+                      );
+                      return const SignalBox(
                         signal: false,
                       );
                     }
-                    else {
-                      return SignalBox(
+                    else if (state.status == SignalBoxDialogStatus.onState) {
+                      print('onstate');
+                      return const SignalBox(
                         signal: true,
+                      );
+                    }
+                    else {
+                      if(state.status == SignalBoxDialogStatus.offState){
+                        print('offState');
+                      }
+                      else if(state.status == SignalBoxDialogStatus.loading){
+                        print('loading');
+                      }
+                      return const SignalBox(
+                        signal: false,
                       );
                     }
                   },

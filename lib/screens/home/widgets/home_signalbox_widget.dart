@@ -21,12 +21,10 @@ class SignalBox extends StatefulWidget {
 class _SignalBoxState extends State<SignalBox>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  var _isOn = true;
 
   @override
   void initState() {
     super.initState();
-    _isOn = widget.signal;
     _controller = AnimationController(vsync: this);
   }
 
@@ -68,7 +66,7 @@ class _SignalBoxState extends State<SignalBox>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (_isOn)
+                if (widget.signal)
                   SvgPicture.asset('assets/icons/home_signal_box_off_trans.svg')
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_off.svg'),
@@ -80,18 +78,18 @@ class _SignalBoxState extends State<SignalBox>
                   activeColor: Colors.white,
                   inactiveColor: Colors.white,
                   toggleColor: const Color(0xffF8280B),
-                  value: _isOn,
+                  value: widget.signal,
                   padding: 3,
                   onToggle: (value) {
                     showDialog(
                       context: context,
-                      builder: (_) => const SignalOnDialog(),
+                      builder: (_) => SignalOnDialog(parentContext: context),
                       barrierDismissible: false,
                     );
                   },
                 ),
                 Gaps.h15,
-                if (_isOn)
+                if (widget.signal)
                   SvgPicture.asset('assets/icons/home_signal_box_on.svg')
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_on_trans.svg')

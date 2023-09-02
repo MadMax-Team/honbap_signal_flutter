@@ -56,19 +56,9 @@ class SignalBoxDialogBloc extends Bloc<SignalBoxDialogEvent, SignalBoxDialogStat
           sigPromiseMenu: event.sigPromiseMenu,
         );
 
-        if (state.status == SignalBoxDialogStatus.onState) {
-          emit(state.copyWith(
-            status: SignalBoxDialogStatus.offState,
-          ));
-        }
-        else if (state.status == SignalBoxDialogStatus.offState) {
-          emit(state.copyWith(
-            status: SignalBoxDialogStatus.onState,
-          ));
-        }
-        else {
-
-        }
+        emit(state.copyWith(
+          status: SignalBoxDialogStatus.onState,
+        ));
 
       } catch (e) {
         emit(state.copyWith(

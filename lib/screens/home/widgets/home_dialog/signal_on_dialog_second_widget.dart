@@ -7,7 +7,8 @@ import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
 class SignalSecondDialog extends StatefulWidget {
-  const SignalSecondDialog({Key? key}) : super(key: key);
+  final BuildContext parentContext;
+  const SignalSecondDialog({super.key, required this.parentContext});
 
   @override
   State<SignalSecondDialog> createState() => _SignalSecondDialogState();
@@ -23,46 +24,57 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
   @override
   void initState() {
     super.initState();
-    // getCalculateTime() 함수를 호출하여 calculatedTime 변수에 저장
-    time = getCalculateTime(context);
+    DateTime dateTime = DateTime.now();
+    dateTime = dateTime.toUtc().add(const Duration(hours: 9));
+    time = getCalculateFutureTime(context, TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (pickedTime != null) {
+      setState(() {
+        time = getCalculateTime(context, pickedTime);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: const Color(0xFFFFFFFF),
+    return Dialog(
+      insetPadding: EdgeInsets.zero,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(7.0)),
+        borderRadius: BorderRadius.zero,
       ),
-      contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
-      content: SizedBox(
-        width: double.maxFinite,
+      backgroundColor: const Color(0xFFFFFFFF),
+      //contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Gaps.v16,
             Container(
               width: double.maxFinite,
               alignment: Alignment.centerRight,
+              margin: const EdgeInsets.only(right: 3.0),
               child: IconButton(
                 padding: const EdgeInsets.all(0),
                 constraints: const BoxConstraints(),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: SvgPicture.asset(
-                  'assets/icons/user_profile_exit_icon.svg',
-                  height: Sizes.size24,
-                  width: Sizes.size24,
-                  fit: BoxFit.fill,
-                  alignment: Alignment.center,
-                ),
+                icon: const Icon(Icons.clear),
               ),
             ),
-            Gaps.v26,
+            Gaps.v18,
             Container(
               width: double.maxFinite,
               alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+              padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -101,7 +113,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                               ),
                               Gaps.h6,
                               Icon(
-                                Icons.schedule,
+                                Icons.access_time,
                                 color: Color(0xff737373),
                                 size: Sizes.size20,
                               ),
@@ -112,7 +124,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '만날장소',
+                                '만날위치',
                                 style: TextStyle(
                                     fontSize: Sizes.size16,
                                     fontWeight: FontWeight.w500,
@@ -139,7 +151,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                               ),
                               Gaps.h6,
                               Icon(
-                                Icons.restaurant,
+                                Icons.restaurant_menu,
                                 color: Color(0xff737373),
                                 size: Sizes.size20,
                               ),
@@ -151,12 +163,17 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            time,
-                            style: const TextStyle(
-                                fontSize: Sizes.size16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
+                          GestureDetector(
+                            onTap: () {
+                              _selectTime(context);
+                            },
+                            child: Text(
+                              time,
+                              style: const TextStyle(
+                                  fontSize: Sizes.size16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
                           ),
                           Gaps.v18,
                           const Text(
@@ -227,7 +244,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => const SignalThirdBox(),
+                          builder: (_) => SignalThirdBox(parentContext: widget.parentContext),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,
@@ -253,7 +270,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => SignalThirdBox(time: time, location: "압구정역", favoriteFood: _selectedValue),
+                          builder: (_) => SignalThirdBox(time: time, location: "압구정역", favoriteFood: _selectedValue, parentContext: widget.parentContext),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,
@@ -289,15 +306,35 @@ String checkTime(BuildContext context) {
   return formatDate;
 }
 
-String getCalculateTime(BuildContext context) {
-  var now = DateTime.now();
-  now = now.toUtc().add(const Duration(hours: 9));
-  int hourData = int.parse(DateFormat('HH').format(now)) + 1;
+String getCalculateFutureTime(BuildContext context, TimeOfDay now) {
+  int hourData = now.hour + 1;
   String formatDate;
   if (hourData < 12) {
     formatDate = '오전  ${hourData.toString()} : 00';
   } else {
-    formatDate = '오후  ${(hourData - 12).toString()} : 00';
+    if (hourData == 12) {
+      formatDate = '오후  ${(hourData).toString()} : 00';
+    }
+    else {
+      formatDate = '오후  ${(hourData - 12).toString()} : 00';
+    }
+  }
+  return formatDate;
+}
+
+String getCalculateTime(BuildContext context, TimeOfDay now) {
+  int hourData = now.hour;
+  int minuteData = now.minute;
+  String formatDate;
+  if (hourData < 12) {
+    formatDate = '오전  ${hourData.toString()} : ${minuteData.toString()}';
+  } else {
+    if (hourData == 12) {
+      formatDate = '오후  ${(hourData).toString()} : ${minuteData.toString()}';
+    }
+    else {
+      formatDate = '오후  ${(hourData - 12).toString()} : ${minuteData.toString()}';
+    }
   }
   return formatDate;
 }
