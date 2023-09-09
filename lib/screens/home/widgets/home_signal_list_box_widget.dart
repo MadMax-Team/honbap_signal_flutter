@@ -1,22 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_circle_button.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
 class SignalListBox extends StatefulWidget {
-  const SignalListBox({required this.name, required this.imgUri, Key? key})
-      : super(key: key);
+  const SignalListBox({
+    required this.name,
+    required this.imgUri,
+    required this.onTap,
+    Key? key
+  }) : super(key: key);
 
   final String name;
   final String imgUri;
+  final onTap;
 
   @override
   State<SignalListBox> createState() => _SignalListBox();
 }
 
 class _SignalListBox extends State<SignalListBox> {
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -73,30 +80,25 @@ class _SignalListBox extends State<SignalListBox> {
                       ),
                     ),
                     Gaps.h16,
-                    Text(
-                      widget.name,
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                          fontSize: Sizes.size14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    )
+                    GestureDetector(
+                      onTap: () async {
+                        if(widget.onTap != null) {
+                          widget.onTap();
+                        }
+                      },
+                      child: Text(
+                        widget.name,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                            fontSize: Sizes.size14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
-                    CupertinoButton(
-                      onPressed: () {},
-                      minSize: 0.0,
-                      padding: const EdgeInsets.fromLTRB(7, 2, 6, 3),
-                      color: const Color(0xffFF4B26),
-                      borderRadius: BorderRadius.circular(4),
-                      child: const Text(
-                        '프로필 보기',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                    Gaps.h7,
                     CupertinoButton(
                       onPressed: () {},
                       minSize: 0.0,
@@ -109,6 +111,12 @@ class _SignalListBox extends State<SignalListBox> {
                             fontSize: Sizes.size12,
                         ),
                       ),
+                    ),
+                    Gaps.h8,
+                    HomeCircleButton(
+                        onTap: () async {
+                          print('dd');
+                        },
                     ),
                   ],
                 )

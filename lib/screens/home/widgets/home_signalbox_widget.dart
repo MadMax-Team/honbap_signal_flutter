@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
+import 'home_dialog/signal_on_dialog_widget.dart';
 
 class SignalBox extends StatefulWidget {
   const SignalBox({Key? key, required this.signal}) : super(key: key);
@@ -17,12 +21,10 @@ class SignalBox extends StatefulWidget {
 class _SignalBoxState extends State<SignalBox>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  var _isOn = true;
 
   @override
   void initState() {
     super.initState();
-    _isOn = widget.signal;
     _controller = AnimationController(vsync: this);
   }
 
@@ -64,7 +66,7 @@ class _SignalBoxState extends State<SignalBox>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (_isOn)
+                if (widget.signal)
                   SvgPicture.asset('assets/icons/home_signal_box_off_trans.svg')
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_off.svg'),
@@ -76,21 +78,24 @@ class _SignalBoxState extends State<SignalBox>
                   activeColor: Colors.white,
                   inactiveColor: Colors.white,
                   toggleColor: const Color(0xffF8280B),
-                  value: _isOn,
+                  value: widget.signal,
                   padding: 3,
-                  onToggle: (bool value) {
-                    setState(() {
-                      _isOn = value;
-                    });
+                  onToggle: (value) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => SignalOnDialog(parentContext: context),
+                      barrierDismissible: false,
+                    );
                   },
                 ),
                 Gaps.h15,
-                if (_isOn)
+                if (widget.signal)
                   SvgPicture.asset('assets/icons/home_signal_box_on.svg')
                 else
                   SvgPicture.asset('assets/icons/home_signal_box_on_trans.svg')
               ],
-            ))
+            ),
+        ),
       ],
     );
   }
