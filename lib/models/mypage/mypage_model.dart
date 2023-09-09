@@ -6,7 +6,7 @@ part 'mypage_model.g.dart';
 @JsonSerializable()
 class MyPageModel {
   final String? profileImg;
-  final String? userName;
+  final String? nickName;
   final String? userIntroduce;
   final List<String>? tags; // UserModel.interest
   final List<String>? preferArea;
@@ -16,7 +16,7 @@ class MyPageModel {
 
   const MyPageModel({
     this.profileImg,
-    this.userName,
+    this.nickName,
     this.userIntroduce,
     this.tags,
     this.preferArea,
@@ -27,7 +27,7 @@ class MyPageModel {
 
   MyPageModel copyWith({
     String? profileImg,
-    String? userName,
+    String? nickName,
     String? userIntroduce,
     List<String>? tags,
     List<String>? preferArea,
@@ -37,7 +37,7 @@ class MyPageModel {
   }) =>
       MyPageModel(
         profileImg: profileImg ?? this.profileImg,
-        userName: userName ?? this.userName,
+        nickName: nickName ?? this.nickName,
         userIntroduce: userIntroduce ?? this.userIntroduce,
         tags: tags ?? this.tags,
         preferArea: preferArea ?? this.preferArea,
@@ -55,7 +55,7 @@ class MyPageModel {
   MyPageModel.fromUserProfileModel(
     UserProfileModel? userProfile,
   )   : profileImg = userProfile?.profileImg,
-        userName = null, // copyWith로 받을 예정.
+        nickName = null, // copyWith로 받을 예정.
         userIntroduce = userProfile?.userIntroduce,
         tags = userProfile?.interest?.split(','),
         preferArea = userProfile?.preferArea?.split(','),
@@ -79,7 +79,7 @@ class MyPageModel {
 }
 
 enum UserProfileForm {
-  userName('닉네임', ''),
+  nickName('닉네임', ''),
   userIntroduce('소개글', '나의 취향이나 관심사가 담긴 소개글을 작성해주세요'),
   tags('태그선택', '나의 취향이나 관심사가 담긴 태그를 작성해주세요'),
   preferArea('선호장소', ''),

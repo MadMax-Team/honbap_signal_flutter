@@ -49,11 +49,18 @@ class UserProfileScreen extends StatelessWidget {
         child: ListView(
           children: const [
             UserProfileImageWidget(),
-            UserProfileFormWidget(type: UserProfileForm.userName),
+            UserProfileFormWidget(
+              type: UserProfileForm.nickName,
+              enableBox: false,
+            ),
             Gaps.v32,
-            UserProfileFormWidget(type: UserProfileForm.userIntroduce),
+            UserProfileFormWidget(
+              type: UserProfileForm.userIntroduce,
+              enableBox: false,
+            ),
             Gaps.v10,
             UserProfileFormWidget(type: UserProfileForm.tags),
+            Gaps.v5,
             UserProfileTagsWidget(type: UserProfileForm.tags),
             UserProfileFormWidget(type: UserProfileForm.preferArea),
             Gaps.v10,
@@ -85,7 +92,9 @@ class UserProfileScreen extends StatelessWidget {
         builder: (context, state) => BottomAppBar(
           color: Theme.of(context).primaryColor,
           child: GestureDetector(
-            onTap: () => _onChangeBtnTap(context),
+            onTap: state.status == UserProfileUploadStatus.uploading
+                ? null
+                : () => _onChangeBtnTap(context),
             child: AuthBtnWidget(
               title: "프로필 설정 완료",
               bgColor: Theme.of(context).primaryColor,

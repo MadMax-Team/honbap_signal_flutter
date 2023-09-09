@@ -8,7 +8,7 @@ part of 'mypage_model.dart';
 
 MyPageModel _$MyPageModelFromJson(Map<String, dynamic> json) => MyPageModel(
       profileImg: json['profileImg'] as String?,
-      userName: json['userName'] as String?,
+      nickName: json['nickName'] as String?,
       userIntroduce: json['userIntroduce'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       preferArea: (json['preferArea'] as List<dynamic>?)
@@ -25,7 +25,7 @@ MyPageModel _$MyPageModelFromJson(Map<String, dynamic> json) => MyPageModel(
 Map<String, dynamic> _$MyPageModelToJson(MyPageModel instance) =>
     <String, dynamic>{
       'profileImg': instance.profileImg,
-      'userName': instance.userName,
+      'nickName': instance.nickName,
       'userIntroduce': instance.userIntroduce,
       'tags': instance.tags,
       'preferArea': instance.preferArea,

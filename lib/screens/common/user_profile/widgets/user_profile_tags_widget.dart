@@ -110,6 +110,7 @@ class UserProfileTagsWidget extends StatelessWidget {
                   ),
                   child: _UserProfileTagWidget(
                     value: tag,
+                    isSquare: type != UserProfileForm.tags,
                   ),
                 ),
             ],
@@ -122,9 +123,11 @@ class UserProfileTagsWidget extends StatelessWidget {
 
 class _UserProfileTagWidget extends StatelessWidget {
   final String value;
+  final bool isSquare;
 
   const _UserProfileTagWidget({
     required this.value,
+    required this.isSquare,
   });
 
   @override
@@ -135,22 +138,29 @@ class _UserProfileTagWidget extends StatelessWidget {
         horizontal: Sizes.size8,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Sizes.size20),
-        color: Theme.of(context).primaryColor,
+        borderRadius:
+            BorderRadius.circular(isSquare ? Sizes.size5 : Sizes.size20),
+        color: isSquare ? Colors.white : Theme.of(context).primaryColor,
+        border: isSquare
+            ? Border.all(
+                color: Colors.black26,
+                width: Sizes.size1,
+              )
+            : null,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: isSquare ? Colors.black87 : Colors.white,
             ),
           ),
-          Gaps.h3,
-          const Icon(
+          Gaps.h5,
+          Icon(
             Icons.cancel,
-            color: Colors.white,
+            color: isSquare ? Theme.of(context).primaryColor : Colors.white,
             size: Sizes.size16,
           ),
         ],

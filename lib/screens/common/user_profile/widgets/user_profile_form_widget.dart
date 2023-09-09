@@ -7,10 +7,12 @@ import 'package:honbap_signal_flutter/models/mypage/mypage_model.dart';
 
 class UserProfileFormWidget extends StatefulWidget {
   final UserProfileForm type;
+  final bool enableBox;
 
   const UserProfileFormWidget({
     super.key,
     required this.type,
+    this.enableBox = true,
   });
 
   @override
@@ -23,9 +25,9 @@ class _UserProfileFormWidgetState extends State<UserProfileFormWidget> {
 
   void _onChanged(String value) {
     switch (widget.type) {
-      case UserProfileForm.userName:
+      case UserProfileForm.nickName:
         {
-          context.read<UserProfileUploadCubit>().update(userName: value);
+          context.read<UserProfileUploadCubit>().update(nickName: value);
           break;
         }
       case UserProfileForm.userIntroduce:
@@ -146,66 +148,90 @@ class _UserProfileFormWidgetState extends State<UserProfileFormWidget> {
           widget.type.message,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
-        if (widget.type == UserProfileForm.mbti) Gaps.v10,
-        TextFormField(
-          key: _fieldKey,
-          focusNode: _focusNode,
-          keyboardType: TextInputType.emailAddress,
-          autocorrect: false,
-          enableSuggestions: false,
-          maxLength: widget.type == UserProfileForm.userIntroduce
-              ? 50
-              : widget.type == UserProfileForm.tags
-                  ? 7
-                  : widget.type == UserProfileForm.mbti
-                      ? 4
-                      : null,
-          textInputAction: widget.type == UserProfileForm.userName ||
-                  widget.type == UserProfileForm.userIntroduce
-              ? TextInputAction.next
-              : widget.type == UserProfileForm.mbti
-                  ? TextInputAction.done
-                  : TextInputAction.newline,
-          style: const TextStyle(fontSize: Sizes.size16),
-          decoration: InputDecoration(
-            hintText: widget.type.hint,
-            hintStyle: Theme.of(context).textTheme.labelSmall,
-            enabledBorder: widget.type == UserProfileForm.mbti
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.size1),
-                    gapPadding: 30,
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
-                    ),
-                  )
-                : UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
-                    ),
+        if (widget.enableBox) Gaps.v10,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              child: TextFormField(
+                key: _fieldKey,
+                focusNode: _focusNode,
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                enableSuggestions: false,
+                maxLength: widget.type == UserProfileForm.userIntroduce
+                    ? 50
+                    : widget.type == UserProfileForm.tags
+                        ? 7
+                        : widget.type == UserProfileForm.mbti
+                            ? 4
+                            : null,
+                textInputAction: widget.type == UserProfileForm.nickName ||
+                        widget.type == UserProfileForm.userIntroduce
+                    ? TextInputAction.next
+                    : widget.type == UserProfileForm.mbti
+                        ? TextInputAction.done
+                        : TextInputAction.newline,
+                style: const TextStyle(fontSize: Sizes.size16),
+                decoration: InputDecoration(
+                  hintText: widget.type.hint,
+                  hintStyle: Theme.of(context).textTheme.labelSmall,
+                  enabledBorder: widget.enableBox
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(Sizes.size1),
+                          gapPadding: 30,
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade400,
+                          ),
+                        )
+                      : UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade400,
+                          ),
+                        ),
+                  focusedBorder: widget.enableBox
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(Sizes.size1),
+                          gapPadding: 30,
+                          borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        )
+                      : UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: Sizes.size10,
                   ),
-            focusedBorder: widget.type == UserProfileForm.mbti
-                ? OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.size1),
-                    gapPadding: 30,
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  )
-                : UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size10,
-              vertical: 0,
+                ),
+                cursorColor: Theme.of(context).primaryColor,
+                onChanged: _onChanged,
+                onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                onEditingComplete: () {},
+                onFieldSubmitted: _onFieldSubmitted,
+              ),
             ),
-          ),
-          cursorColor: Theme.of(context).primaryColor,
-          onChanged: _onChanged,
-          onTapOutside: (_) => FocusScope.of(context).unfocus(),
-          onEditingComplete: () {},
-          onFieldSubmitted: _onFieldSubmitted,
+            if (widget.enableBox)
+              GestureDetector(
+                onTap: () =>
+                    _onFieldSubmitted(_fieldKey.currentState?.value ?? ''),
+                child: Container(
+                  width: Sizes.size80,
+                  height: Sizes.size48,
+                  color: Theme.of(context).primaryColor,
+                  child: Center(
+                    child: Text(
+                      widget.type == UserProfileForm.mbti ? '수정' : '추가',
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
       ],
     );

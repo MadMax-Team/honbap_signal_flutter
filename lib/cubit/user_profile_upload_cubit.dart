@@ -56,11 +56,16 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
 
   void upload({required String jwt}) async {
     print('upload');
+
+    emit(state.copyWith(status: UserProfileUploadStatus.uploading));
+
+    print(state.profile);
+    emit(state.copyWith(status: UserProfileUploadStatus.init));
   }
 
   void update({
     String? profileImg,
-    String? userName,
+    String? nickName,
     String? userIntroduce,
     List<String>? tags,
     List<String>? preferArea,
@@ -71,7 +76,7 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
     emit(state.copyWith(
       profile: state.profile?.copyWith(
         profileImg: profileImg,
-        userName: userName,
+        nickName: nickName,
         userIntroduce: userIntroduce,
         tags: tags,
         preferArea: preferArea,

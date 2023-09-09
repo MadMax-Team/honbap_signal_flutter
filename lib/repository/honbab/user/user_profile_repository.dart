@@ -40,10 +40,9 @@ class UserProfileRepository {
     var response = await http.Response.fromStream(streamedResponse);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      return response.body;
     } else {
       throw Exception('fail to upload profile image');
     }
-    return null;
   }
 }
