@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -81,7 +80,9 @@ class SplashPage extends StatelessWidget {
         .read<HonbabAuthRepository>()
         .getUserProfileData(user!.jwt!);
 
-    if (userProfileRes == null || userProfileRes.code != 1000) {
+    if (userProfileRes == null ||
+        userProfileRes.result == null ||
+        userProfileRes.code != 1000) {
       // 사용자 정보 불러오기 실패
       context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
             status: AuthenticationStatus.unauthenticated,
@@ -89,11 +90,14 @@ class SplashPage extends StatelessWidget {
       return;
     }
 
-    if (userProfileRes.result == null) {
-      // 유저 프로필 등록 안된 상태
-      print('!! 유저 프로필 등록 안된 상태 !!');
-    } else {
-      context.read<UserCubit>().setUserProfileData(userProfileRes.result!);
+    context.read<UserCubit>().setUserProfileData(userProfileRes.result!);
+
+    if (userProfileRes.result?.nickName == null) {
+      // 아직 프로필 설정이 끝나지 않았을 때: 처음 로그인 시
+      context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+            status: AuthenticationStatus.firstAuthenticated,
+          ));
+      return;
     }
 
     context.read<AuthenticationBloc>().add(const AuthenticaionSetState(

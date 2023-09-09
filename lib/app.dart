@@ -8,10 +8,14 @@ import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_st
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
+import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/chat/chat_list_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/signal_box/home_signal_box_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/signal/signal_list_repository.dart';
+import 'package:honbap_signal_flutter/repository/honbab/user/user_profile_repository.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile/user_profile_screen.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
 import 'package:honbap_signal_flutter/screens/splash/splash_page.dart';
@@ -48,6 +52,8 @@ class _AppState extends State<App> {
             return '/auth';
           case AuthenticationStatus.authenticated:
             return '/home';
+          case AuthenticationStatus.firstAuthenticated:
+            return '/profile';
         }
         return state.path;
       },
@@ -59,6 +65,19 @@ class _AppState extends State<App> {
         GoRoute(
           path: '/auth',
           builder: (context, state) => const AuthScreen(),
+        ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => RepositoryProvider(
+            create: (context) => UserProfileRepository(),
+            child: BlocProvider(
+              create: (context) => UserProfileUploadCubit(
+                userProfile: context.read<UserCubit>().state.user!.userProfile,
+                userProfileRepository: context.read<UserProfileRepository>(),
+              ),
+              child: const UserProfileScreen(isFirst: true),
+            ),
+          ),
         ),
         GoRoute(
           path: '/home',
@@ -74,8 +93,7 @@ class _AppState extends State<App> {
                 create: (context) => ChatListRepository(),
               ),
               RepositoryProvider(
-                create: (context) => HomeSignalBoxRepository()
-              ),
+                  create: (context) => HomeSignalBoxRepository()),
             ],
             child: MultiBlocProvider(
               providers: [
@@ -88,7 +106,7 @@ class _AppState extends State<App> {
                       context.read<HomeSignalApplyRepository>()),
                 ),
                 BlocProvider(
-                    create: (context) => SignalBoxDialogBloc(
+                  create: (context) => SignalBoxDialogBloc(
                       context.read<HomeSignalBoxRepository>()),
                 ),
                 BlocProvider(

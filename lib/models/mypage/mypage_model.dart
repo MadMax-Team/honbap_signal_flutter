@@ -55,7 +55,7 @@ class MyPageModel {
   MyPageModel.fromUserProfileModel(
     UserProfileModel? userProfile,
   )   : profileImg = userProfile?.profileImg,
-        nickName = null, // copyWith로 받을 예정.
+        nickName = userProfile?.nickName,
         userIntroduce = userProfile?.userIntroduce,
         tags = userProfile?.interest?.split(','),
         preferArea = userProfile?.preferArea?.split(','),
@@ -64,6 +64,7 @@ class MyPageModel {
         mbti = userProfile?.mbti;
 
   UserProfileModel? toUserProfileModel() => UserProfileModel(
+        nickName: nickName,
         profileImg: profileImg,
         taste: taste?.join(',').isNotEmpty == true ? taste?.join(',') : null,
         hateFood:

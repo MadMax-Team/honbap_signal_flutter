@@ -76,6 +76,7 @@ class UserModel extends Equatable {
 
 @JsonSerializable()
 class UserProfileModel extends Equatable {
+  final String? nickName;
   final String? profileImg;
   final String? taste;
   final String? hateFood;
@@ -86,6 +87,7 @@ class UserProfileModel extends Equatable {
   final String? userIntroduce;
 
   const UserProfileModel({
+    this.nickName,
     this.profileImg,
     this.taste,
     this.hateFood,
@@ -97,6 +99,7 @@ class UserProfileModel extends Equatable {
   });
 
   UserProfileModel copyWith({
+    String? nickName,
     String? profileImg,
     String? taste,
     String? hateFood,
@@ -107,6 +110,7 @@ class UserProfileModel extends Equatable {
     String? userIntroduce,
   }) =>
       UserProfileModel(
+        nickName: nickName ?? this.nickName,
         profileImg: profileImg ?? this.profileImg,
         taste: taste ?? this.taste,
         hateFood: hateFood ?? this.hateFood,
@@ -124,6 +128,7 @@ class UserProfileModel extends Equatable {
 
   @override
   List<Object?> get props => [
+        nickName,
         profileImg,
         taste,
         hateFood,

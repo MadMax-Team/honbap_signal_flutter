@@ -37,6 +37,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
 
 UserProfileModel _$UserProfileModelFromJson(Map<String, dynamic> json) =>
     UserProfileModel(
+      nickName: json['nickName'] as String?,
       profileImg: json['profileImg'] as String?,
       taste: json['taste'] as String?,
       hateFood: json['hateFood'] as String?,
@@ -49,6 +50,7 @@ UserProfileModel _$UserProfileModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
     <String, dynamic>{
+      'nickName': instance.nickName,
       'profileImg': instance.profileImg,
       'taste': instance.taste,
       'hateFood': instance.hateFood,

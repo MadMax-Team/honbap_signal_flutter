@@ -39,12 +39,12 @@ class AuthSigninMyPageModel extends Equatable {
   final String? message;
   final UserProfileModel? result;
 
-  AuthSigninMyPageModel({
+  const AuthSigninMyPageModel({
     this.isSuccess,
     this.code,
     this.message,
-    List<UserProfileModel>? result,
-  }) : result = result?.first;
+    this.result,
+  });
 
   factory AuthSigninMyPageModel.fromJson(Map<String, dynamic> json) =>
       _$AuthSigninMyPageModelFromJson(json);

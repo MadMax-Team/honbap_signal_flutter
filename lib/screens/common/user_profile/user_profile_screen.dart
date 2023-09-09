@@ -11,7 +11,12 @@ import 'package:honbap_signal_flutter/screens/common/user_profile/widgets/user_p
 import 'package:honbap_signal_flutter/screens/common/user_profile/widgets/user_profile_tags_widget.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key});
+  final bool isFirst;
+
+  const UserProfileScreen({
+    super.key,
+    this.isFirst = false,
+  });
 
   void _onChangeBtnTap(BuildContext context) {
     var jwt = context.read<UserCubit>().state.user!.jwt;
@@ -27,15 +32,17 @@ class UserProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
+        leading: isFirst
+            ? null
+            : IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+              ),
         title: Text(
           '프로필 설정',
           style: Theme.of(context).textTheme.titleMedium,
