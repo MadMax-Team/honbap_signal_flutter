@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
 
+import '../../../../bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
+import '../../../../cubit/user_cubit.dart';
 
 class SignalThirdBox extends StatefulWidget {
-  const SignalThirdBox({Key? key}) : super(key: key);
+  final String? time;
+  final String? location;
+  final String? favoriteFood;
+
+  final BuildContext parentContext;
+
+  const SignalThirdBox({super.key, this.time, this.location, this.favoriteFood, required this.parentContext});
   @override
   State<SignalThirdBox> createState() => _SignalThirdBoxState();
 }
@@ -14,7 +25,7 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: const Color(0xFFFFFFFF),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(7.0)),
       ),
@@ -32,8 +43,8 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                   SizedBox(
                     width: Sizes.size96,
                     height: Sizes.size96,
-                    child: SvgPicture.asset(
-                      'assets/icons/home_signal_box_dialog.svg',
+                    child: Image.asset(
+                      'assets/icons/home_signal_box_dialog.png',
                       alignment: Alignment.center,
                       fit: BoxFit.fill,
                     ),
@@ -67,6 +78,10 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      if (widget.time != null) print('Time: ${widget.time}');
+                      if (widget.location != null) print('Location: ${widget.location}');
+                      if (widget.favoriteFood != null) print('Favorite Food: ${widget.favoriteFood}');
+                      widget.parentContext.read<SignalBoxDialogBloc>().add(SendSignalDataEvent(jwt: context.read<UserCubit>().state.user!.jwt!, sigPromiseTime: widget.time, sigPromiseArea: widget.location, sigPromiseMenu: widget.favoriteFood));
                       Navigator.of(context).pop();
                     },
                     child: Container(
