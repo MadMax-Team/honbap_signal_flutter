@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
+import 'package:honbap_signal_flutter/constants/api.dart';
+import 'package:honbap_signal_flutter/models/auth/auth_signin_model.dart';
 import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
 import 'package:honbap_signal_flutter/models/user/user_model.dart';
+import 'package:http/http.dart' as http;
 
 class HonbabAuthRepository {
   Future<bool> autoSignin({
@@ -14,65 +18,82 @@ class HonbabAuthRepository {
     return true;
   }
 
-  Future<String?> signin({
+  Future<AuthSigninUserDataModel?> signin({
     required AuthenticationWith platform,
     KakaoLoginModel? kakaoModel,
     String? email,
     String? password,
   }) async {
-    // TODO: sign in with account
-    await Future.delayed(const Duration(seconds: 1));
-
     print('[Get JWT] Platform: $platform');
+    try {
+      if (platform == AuthenticationWith.kakao) {
+        print(kakaoModel?.kakaoAccount.email);
+        // 카카로 로그인 api
+        return null;
+      }
 
-    if (platform == AuthenticationWith.kakao) {
-      print(kakaoModel?.kakaoAccount.email);
-      // 카카로 로그인 api
-      return 'jwt-kakao';
+      if (platform == AuthenticationWith.honbab) {
+        final Map<String, String> headers = {
+          "Content-Type": "application/json",
+        };
+        final body = jsonEncode({
+          "email": email,
+          "password": password,
+        });
+
+        final res = await http.post(
+          Uri.parse('${ApiEndpoint.honbab}/user/login'),
+          headers: headers,
+          body: body,
+        );
+
+        return AuthSigninUserDataModel.fromJson(
+          json.decode(res.body)['result'],
+        );
+      }
+    } catch (e) {
+      return null;
     }
-
-    if (platform == AuthenticationWith.honbab) {
-      print('$email, $password');
-      // honbab 로그인 api
-      return 'jwt-honbab';
-    }
-
     return null;
   }
 
   Future<UserModel?> getUserData(String jwt) async {
-    // TODO : [POST] /user/myinfo
-    // get user data
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final Map<String, String> headers = {
+        "Content-Type": "application/json",
+        'x-access-token': jwt,
+      };
 
-    return const UserModel(
-      userId: 1,
-      userName: 'test-woong',
-      birth: '2000-06-11',
-      email: 'wjlee611@gmail.com',
-      phoneNum: '01012341234',
-      sex: 'M',
-      createAt: '2022-01-20T05:12:01.000Z',
-      updateAt: '2022-01-20T05:12:01.000Z',
-    );
+      final res = await http.get(
+        Uri.parse('${ApiEndpoint.honbab}/user/myinfo'),
+        headers: headers,
+      );
+
+      final resModel =
+          AuthSigninMyInfoModel.fromJson(await json.decode(res.body));
+
+      return UserModel.fromJson(resModel.result!.toJson());
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<UserProfileModel?> getUserProfileData(String jwt) async {
-    // TODO : [POST] /user/mypage
-    // get user profile data
-    await Future.delayed(const Duration(seconds: 1));
+  Future<AuthSigninMyPageModel?> getUserProfileData(String jwt) async {
+    try {
+      final Map<String, String> headers = {
+        "Content-Type": "application/json",
+        'x-access-token': jwt,
+      };
 
-    return const UserProfileModel(
-      profileImg: 'woong-image-path',
-      taste: 'taste',
-      hateFood: 'hatefood',
-      interest: 'coding',
-      avgSpeed: 'speed of light',
-      preferArea: 'preferarea',
-      mbti: 'ISFJ',
-      userIntroduce: 'hello world @from copilot',
-      updateAt: '2022-01-20T05:12:01.000Z',
-    );
+      final res = await http.get(
+        Uri.parse('${ApiEndpoint.honbab}/user/mypage'),
+        headers: headers,
+      );
+
+      return AuthSigninMyPageModel.fromJson(await json.decode(res.body));
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<void> signout() async {

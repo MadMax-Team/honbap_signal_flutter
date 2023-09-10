@@ -50,6 +50,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
       }
       // code 핸들링
     } catch (e) {
+      print(e);
       // 통신 실패 핸들링
       emit(SignupUserInfoErrorState(
         code: 4001,

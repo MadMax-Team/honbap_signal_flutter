@@ -6,7 +6,7 @@ part 'user_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class UserModel extends Equatable {
   final String? jwt;
-  final int? userId;
+  final int? userIdx;
   final String? userName;
   final String? birth;
   final String? email;
@@ -18,7 +18,7 @@ class UserModel extends Equatable {
 
   const UserModel({
     this.jwt,
-    this.userId,
+    this.userIdx,
     this.userName,
     this.birth,
     this.email,
@@ -31,7 +31,7 @@ class UserModel extends Equatable {
 
   UserModel copyWith({
     String? jwt,
-    int? userId,
+    int? userIdx,
     String? userName,
     String? birth,
     String? email,
@@ -43,7 +43,7 @@ class UserModel extends Equatable {
   }) =>
       UserModel(
         jwt: jwt ?? this.jwt,
-        userId: userId ?? this.userId,
+        userIdx: userIdx ?? this.userIdx,
         userName: userName ?? this.userName,
         birth: birth ?? this.birth,
         email: email ?? this.email,
@@ -62,7 +62,7 @@ class UserModel extends Equatable {
   @override
   List<Object?> get props => [
         jwt,
-        userId,
+        userIdx,
         userName,
         birth,
         email,
@@ -76,6 +76,7 @@ class UserModel extends Equatable {
 
 @JsonSerializable()
 class UserProfileModel extends Equatable {
+  final String? nickName;
   final String? profileImg;
   final String? taste;
   final String? hateFood;
@@ -84,9 +85,9 @@ class UserProfileModel extends Equatable {
   final String? preferArea;
   final String? mbti;
   final String? userIntroduce;
-  final String? updateAt;
 
   const UserProfileModel({
+    this.nickName,
     this.profileImg,
     this.taste,
     this.hateFood,
@@ -95,10 +96,10 @@ class UserProfileModel extends Equatable {
     this.preferArea,
     this.mbti,
     this.userIntroduce,
-    this.updateAt,
   });
 
   UserProfileModel copyWith({
+    String? nickName,
     String? profileImg,
     String? taste,
     String? hateFood,
@@ -107,9 +108,9 @@ class UserProfileModel extends Equatable {
     String? preferArea,
     String? mbti,
     String? userIntroduce,
-    String? updateAt,
   }) =>
       UserProfileModel(
+        nickName: nickName ?? this.nickName,
         profileImg: profileImg ?? this.profileImg,
         taste: taste ?? this.taste,
         hateFood: hateFood ?? this.hateFood,
@@ -118,7 +119,6 @@ class UserProfileModel extends Equatable {
         preferArea: preferArea ?? this.preferArea,
         mbti: mbti ?? this.mbti,
         userIntroduce: userIntroduce ?? this.userIntroduce,
-        updateAt: updateAt ?? this.updateAt,
       );
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) =>
@@ -128,6 +128,7 @@ class UserProfileModel extends Equatable {
 
   @override
   List<Object?> get props => [
+        nickName,
         profileImg,
         taste,
         hateFood,
@@ -136,6 +137,5 @@ class UserProfileModel extends Equatable {
         preferArea,
         mbti,
         userIntroduce,
-        updateAt,
       ];
 }

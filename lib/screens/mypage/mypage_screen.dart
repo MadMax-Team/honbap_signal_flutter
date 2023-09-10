@@ -7,6 +7,7 @@ import 'package:honbap_signal_flutter/screens/mypage/match_history/match_history
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_menu_divider.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_round_button_widget.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_setting_button_widget.dart';
+import 'package:honbap_signal_flutter/tools/push_new_screen.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});
@@ -72,12 +73,21 @@ class MyPageScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           // Image.network로 변경하면 됨
-                          child: Image.asset(
-                            "assets/test/test_image.jpg",
-                            width: Sizes.size44 * 2,
-                            height: Sizes.size44 * 2,
-                            fit: BoxFit.fill,
-                          ),
+                          child: state.user?.userProfile?.profileImg == null
+                              ? CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  radius: Sizes.size44,
+                                  backgroundImage: Image.asset(
+                                          'assets/images/honbab_smile.png')
+                                      .image,
+                                )
+                              : Image.network(
+                                  state.user!.userProfile!.profileImg!,
+                                  width: Sizes.size44 * 2,
+                                  height: Sizes.size44 * 2,
+                                  fit: BoxFit.fill,
+                                ),
                         ),
                       ),
                       Gaps.h20,
@@ -86,7 +96,7 @@ class MyPageScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              state.user!.userName!,
+                              state.user?.userProfile?.nickName ?? 'N/A',
                               maxLines: 1,
                               style: const TextStyle(
                                 fontSize: Sizes.size16 + Sizes.size2,
@@ -112,16 +122,20 @@ class MyPageScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Gaps.v3,
-                          MyPageRoundButton(
-                            isTransparent: false,
-                            text: '프로필 설정',
+                          GestureDetector(
+                            onTap: () =>
+                                PushNewScreen.openUserProfile(context: context),
+                            child: const MyPageRoundButton(
+                              isTransparent: false,
+                              text: '프로필 설정',
+                            ),
                           ),
                           Gaps.v7,
-                          MyPageRoundButton(
+                          const MyPageRoundButton(
                             isTransparent: true,
                             text: '계정관리',
                           ),

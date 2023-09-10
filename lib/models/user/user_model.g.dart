@@ -8,7 +8,7 @@ part of 'user_model.dart';
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       jwt: json['jwt'] as String?,
-      userId: json['userId'] as int?,
+      userIdx: json['userIdx'] as int?,
       userName: json['userName'] as String?,
       birth: json['birth'] as String?,
       email: json['email'] as String?,
@@ -24,7 +24,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'jwt': instance.jwt,
-      'userId': instance.userId,
+      'userIdx': instance.userIdx,
       'userName': instance.userName,
       'birth': instance.birth,
       'email': instance.email,
@@ -37,6 +37,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
 
 UserProfileModel _$UserProfileModelFromJson(Map<String, dynamic> json) =>
     UserProfileModel(
+      nickName: json['nickName'] as String?,
       profileImg: json['profileImg'] as String?,
       taste: json['taste'] as String?,
       hateFood: json['hateFood'] as String?,
@@ -45,11 +46,11 @@ UserProfileModel _$UserProfileModelFromJson(Map<String, dynamic> json) =>
       preferArea: json['preferArea'] as String?,
       mbti: json['mbti'] as String?,
       userIntroduce: json['userIntroduce'] as String?,
-      updateAt: json['updateAt'] as String?,
     );
 
 Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
     <String, dynamic>{
+      'nickName': instance.nickName,
       'profileImg': instance.profileImg,
       'taste': instance.taste,
       'hateFood': instance.hateFood,
@@ -58,5 +59,4 @@ Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
       'preferArea': instance.preferArea,
       'mbti': instance.mbti,
       'userIntroduce': instance.userIntroduce,
-      'updateAt': instance.updateAt,
     };
