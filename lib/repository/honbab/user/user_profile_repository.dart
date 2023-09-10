@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io' as io;
 import 'package:honbap_signal_flutter/constants/api.dart';
+import 'package:honbap_signal_flutter/models/res_code_model.dart';
+import 'package:honbap_signal_flutter/models/user/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
@@ -43,6 +46,28 @@ class UserProfileRepository {
       return response.body;
     } else {
       throw Exception('fail to upload profile image');
+    }
+  }
+
+  Future<ResCodeModel?> updateProfile({
+    required String jwt,
+    required UserProfileModel profile,
+  }) async {
+    final Map<String, String> headers = {
+      "Content-Type": "application/json",
+      'x-access-token': jwt,
+    };
+
+    final res = await http.patch(
+      Uri.parse('${ApiEndpoint.honbab}/user/mypage'),
+      headers: headers,
+      body: jsonEncode(profile.toJson()),
+    );
+
+    if (res.statusCode == 200) {
+      return ResCodeModel.fromJson(jsonDecode(res.body));
+    } else {
+      return null;
     }
   }
 }

@@ -27,7 +27,6 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
   }
 
   void uploadWithImage({required String jwt}) async {
-    print('image');
     if (state.profileFile == null) return;
 
     emit(state.copyWith(status: UserProfileUploadStatus.uploading));
@@ -55,12 +54,26 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
   }
 
   void upload({required String jwt}) async {
-    print('upload');
-
     emit(state.copyWith(status: UserProfileUploadStatus.uploading));
 
-    print(state.profile);
-    emit(state.copyWith(status: UserProfileUploadStatus.init));
+    try {
+      var res = await userProfileRepository.updateProfile(
+        jwt: jwt,
+        profile: state.profile!.toUserProfileModel()!,
+      );
+
+      if (res?.code == 1000) {
+        // 프로필 업로드 성공
+        emit(state.copyWith(status: UserProfileUploadStatus.success));
+      } else {
+        emit(state.copyWith(status: UserProfileUploadStatus.fail));
+        emit(state.copyWith(status: UserProfileUploadStatus.init));
+      }
+    } catch (e) {
+      print(e);
+      emit(state.copyWith(status: UserProfileUploadStatus.fail));
+      emit(state.copyWith(status: UserProfileUploadStatus.init));
+    }
   }
 
   void update({

@@ -8,11 +8,13 @@ import 'package:honbap_signal_flutter/models/mypage/mypage_model.dart';
 class UserProfileFormWidget extends StatefulWidget {
   final UserProfileForm type;
   final bool enableBox;
+  final String? initValue;
 
   const UserProfileFormWidget({
     super.key,
     required this.type,
     this.enableBox = true,
+    this.initValue,
   });
 
   @override
@@ -156,6 +158,7 @@ class _UserProfileFormWidgetState extends State<UserProfileFormWidget> {
               child: TextFormField(
                 key: _fieldKey,
                 focusNode: _focusNode,
+                initialValue: widget.initValue,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 enableSuggestions: false,

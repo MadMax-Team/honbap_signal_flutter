@@ -25,31 +25,35 @@ class HonbabAuthRepository {
     String? password,
   }) async {
     print('[Get JWT] Platform: $platform');
+    try {
+      if (platform == AuthenticationWith.kakao) {
+        print(kakaoModel?.kakaoAccount.email);
+        // 카카로 로그인 api
+        return null;
+      }
 
-    if (platform == AuthenticationWith.kakao) {
-      print(kakaoModel?.kakaoAccount.email);
-      // 카카로 로그인 api
+      if (platform == AuthenticationWith.honbab) {
+        final Map<String, String> headers = {
+          "Content-Type": "application/json",
+        };
+        final body = jsonEncode({
+          "email": email,
+          "password": password,
+        });
+
+        final res = await http.post(
+          Uri.parse('${ApiEndpoint.honbab}/user/login'),
+          headers: headers,
+          body: body,
+        );
+
+        print(res.body);
+
+        return AuthSigninMyInfoModel.fromJson(json.decode(res.body));
+      }
+    } catch (e) {
       return null;
     }
-
-    if (platform == AuthenticationWith.honbab) {
-      final Map<String, String> headers = {
-        "Content-Type": "application/json",
-      };
-      final body = jsonEncode({
-        "email": email,
-        "password": password,
-      });
-
-      final res = await http.post(
-        Uri.parse('${ApiEndpoint.honbab}/user/login'),
-        headers: headers,
-        body: body,
-      );
-
-      return AuthSigninMyInfoModel.fromJson(json.decode(res.body));
-    }
-
     return null;
   }
 
@@ -70,6 +74,7 @@ class HonbabAuthRepository {
 
       return UserModel.fromJson(resModel.result!.toJson());
     } catch (e) {
+      print(e);
       return null;
     }
   }
@@ -86,8 +91,11 @@ class HonbabAuthRepository {
         headers: headers,
       );
 
+      print(res.body);
+
       return AuthSigninMyPageModel.fromJson(await json.decode(res.body));
     } catch (e) {
+      print(e);
       return null;
     }
   }

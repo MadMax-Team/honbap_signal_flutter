@@ -32,9 +32,9 @@ AuthSigninMyPageModel _$AuthSigninMyPageModelFromJson(
       isSuccess: json['isSuccess'] as bool?,
       code: json['code'] as int?,
       message: json['message'] as String?,
-      result: json['result'] == null
-          ? null
-          : UserProfileModel.fromJson(json['result'] as Map<String, dynamic>),
+      result: (json['result'] as List<dynamic>?)
+          ?.map((e) => UserProfileModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$AuthSigninMyPageModelToJson(

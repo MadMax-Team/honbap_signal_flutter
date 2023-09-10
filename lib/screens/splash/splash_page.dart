@@ -80,6 +80,8 @@ class SplashPage extends StatelessWidget {
         .read<HonbabAuthRepository>()
         .getUserProfileData(user!.jwt!);
 
+    print(userProfileRes);
+
     if (userProfileRes == null ||
         userProfileRes.result == null ||
         userProfileRes.code != 1000) {

@@ -48,6 +48,7 @@ class SigninUserBloc extends Bloc<SinginUserEvent, SigninUserState> {
         ));
       }
     } catch (e) {
+      print(e);
       emit(SigninUserErrorState(
         code: 1003,
         message: e.toString(),

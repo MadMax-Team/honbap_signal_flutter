@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
+import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
@@ -54,31 +57,44 @@ class UserProfileScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
         child: ListView(
-          children: const [
-            UserProfileImageWidget(),
+          children: [
+            Gaps.v10,
+            const UserProfileImageWidget(),
             UserProfileFormWidget(
               type: UserProfileForm.nickName,
               enableBox: false,
+              initValue:
+                  context.read<UserCubit>().state.user?.userProfile?.nickName,
             ),
             Gaps.v32,
             UserProfileFormWidget(
               type: UserProfileForm.userIntroduce,
               enableBox: false,
+              initValue: context
+                  .read<UserCubit>()
+                  .state
+                  .user
+                  ?.userProfile
+                  ?.userIntroduce,
             ),
             Gaps.v10,
-            UserProfileFormWidget(type: UserProfileForm.tags),
+            const UserProfileFormWidget(type: UserProfileForm.tags),
             Gaps.v5,
-            UserProfileTagsWidget(type: UserProfileForm.tags),
-            UserProfileFormWidget(type: UserProfileForm.preferArea),
+            const UserProfileTagsWidget(type: UserProfileForm.tags),
+            const UserProfileFormWidget(type: UserProfileForm.preferArea),
             Gaps.v10,
-            UserProfileTagsWidget(type: UserProfileForm.preferArea),
-            UserProfileFormWidget(type: UserProfileForm.taste),
+            const UserProfileTagsWidget(type: UserProfileForm.preferArea),
+            const UserProfileFormWidget(type: UserProfileForm.taste),
             Gaps.v10,
-            UserProfileTagsWidget(type: UserProfileForm.taste),
-            UserProfileFormWidget(type: UserProfileForm.hateFood),
+            const UserProfileTagsWidget(type: UserProfileForm.taste),
+            const UserProfileFormWidget(type: UserProfileForm.hateFood),
             Gaps.v10,
-            UserProfileTagsWidget(type: UserProfileForm.hateFood),
-            UserProfileFormWidget(type: UserProfileForm.mbti),
+            const UserProfileTagsWidget(type: UserProfileForm.hateFood),
+            UserProfileFormWidget(
+              type: UserProfileForm.mbti,
+              initValue:
+                  context.read<UserCubit>().state.user?.userProfile?.mbti,
+            ),
             Gaps.v32,
           ],
         ),
@@ -94,6 +110,25 @@ class UserProfileScreen extends StatelessWidget {
                 backgroundColor: Theme.of(context).primaryColor,
               ),
             );
+          }
+          if (state.status == UserProfileUploadStatus.success) {
+            // Update user profile
+            context
+                .read<UserCubit>()
+                .setUserProfileData(state.profile!.toUserProfileModel()!);
+            // Goto /home
+            context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+                  status: AuthenticationStatus.authenticated,
+                ));
+            if (!isFirst) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('프로필을 성공적으로 저장했습니다.'),
+                  elevation: 0,
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+              );
+            }
           }
         },
         builder: (context, state) => BottomAppBar(
