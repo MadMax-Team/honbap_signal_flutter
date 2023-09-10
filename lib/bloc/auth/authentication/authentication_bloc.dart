@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
@@ -31,7 +33,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>
   ) async {
     emit(const AuthenticationState(status: AuthenticationStatus.loading));
 
-    var jwt = await _honbabAuthRepository.signin(
+    var res = await _honbabAuthRepository.signin(
       platform: event.platform,
       email: event.email,
       password: event.password,
@@ -39,7 +41,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>
 
     // jwt 저장
     const storage = FlutterSecureStorage();
-    await storage.write(key: 'jwt', value: jwt);
+    await storage.write(
+      key: 'userAuth',
+      value: jsonEncode(res?.toJson()),
+    );
 
     // splash 화면으로 돌아가기
     emit(const AuthenticationState(
@@ -58,7 +63,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>
     // TODO: Logout
     // jwt 삭제
     const storage = FlutterSecureStorage();
-    storage.delete(key: 'jwt');
+    storage.delete(key: 'userAuth');
 
     emit(const AuthenticationState(
       status: AuthenticationStatus.unauthenticated,

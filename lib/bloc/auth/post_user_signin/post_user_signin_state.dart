@@ -42,11 +42,13 @@ class SinginUserLoadingState extends SigninUserState {
 }
 
 class SigninUserSuccessState extends SigninUserState {
+  final int? userIdx;
   final String? jwt;
 
   const SigninUserSuccessState({
     String? email,
     String? password,
+    this.userIdx,
     this.jwt,
   }) : super(
           email: email,
@@ -57,6 +59,7 @@ class SigninUserSuccessState extends SigninUserState {
   List<Object?> get props => [
         email,
         password,
+        userIdx,
         jwt,
       ];
 }

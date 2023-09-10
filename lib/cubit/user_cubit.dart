@@ -5,10 +5,14 @@ import 'package:honbap_signal_flutter/models/user/user_model.dart';
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(const UserState());
 
-  void setJWT(String jwt) {
+  void setUserAuth({
+    required String jwt,
+    required int userIdx,
+  }) {
     emit(state.copyWith(
       user: UserModel(
         jwt: jwt,
+        userIdx: userIdx,
       ),
     ));
   }
@@ -16,7 +20,7 @@ class UserCubit extends Cubit<UserState> {
   void setUserData(UserModel user) {
     emit(state.copyWith(
       user: state.user!.copyWith(
-        userId: user.userId,
+        userIdx: user.userIdx,
         userName: user.userName,
         birth: user.birth,
         email: user.email,
