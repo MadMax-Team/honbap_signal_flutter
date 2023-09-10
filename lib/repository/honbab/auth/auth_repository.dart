@@ -18,7 +18,7 @@ class HonbabAuthRepository {
     return true;
   }
 
-  Future<AuthSigninMyInfoModel?> signin({
+  Future<AuthSigninUserDataModel?> signin({
     required AuthenticationWith platform,
     KakaoLoginModel? kakaoModel,
     String? email,
@@ -47,9 +47,9 @@ class HonbabAuthRepository {
           body: body,
         );
 
-        print(res.body);
-
-        return AuthSigninMyInfoModel.fromJson(json.decode(res.body));
+        return AuthSigninUserDataModel.fromJson(
+          json.decode(res.body)['result'],
+        );
       }
     } catch (e) {
       return null;
@@ -74,7 +74,6 @@ class HonbabAuthRepository {
 
       return UserModel.fromJson(resModel.result!.toJson());
     } catch (e) {
-      print(e);
       return null;
     }
   }
@@ -91,11 +90,8 @@ class HonbabAuthRepository {
         headers: headers,
       );
 
-      print(res.body);
-
       return AuthSigninMyPageModel.fromJson(await json.decode(res.body));
     } catch (e) {
-      print(e);
       return null;
     }
   }

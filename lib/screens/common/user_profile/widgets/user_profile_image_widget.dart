@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -39,6 +40,8 @@ class _UserProfileImageField extends StatelessWidget {
   Widget build(BuildContext context) {
     var profileFile = context.select<UserProfileUploadCubit, File?>(
         (cubit) => cubit.state.profileFile);
+    var originProfileImg =
+        context.read<UserCubit>().state.user?.userProfile?.profileImg;
     return Center(
       child: GestureDetector(
         onTap: () async {
@@ -57,9 +60,11 @@ class _UserProfileImageField extends StatelessWidget {
         child: CircleAvatar(
           backgroundColor: Theme.of(context).primaryColor,
           radius: Sizes.size72,
-          backgroundImage: profileFile == null
-              ? Image.asset('assets/images/honbab_smile.png').image
-              : Image.file(profileFile).image,
+          backgroundImage: profileFile == null && originProfileImg != null
+              ? Image.network(originProfileImg).image
+              : profileFile == null
+                  ? Image.asset('assets/images/honbab_smile.png').image
+                  : Image.file(profileFile).image,
         ),
       ),
     );

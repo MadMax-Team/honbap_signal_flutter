@@ -32,17 +32,19 @@ class SigninUserBloc extends Bloc<SinginUserEvent, SigninUserState> {
         password: state.password,
       );
 
-      if (res?.result?.jwt == null || res?.result?.userIdx == null) {
+      print(res);
+
+      if (res?.jwt == null || res?.userIdx == null) {
         emit(SigninUserErrorState(
           code: 1003,
-          message: res?.message ?? '로그인에 실패했습니다.',
+          message: '로그인에 실패했습니다.',
           email: state.email,
           password: state.password,
         ));
       } else {
         emit(SigninUserSuccessState(
-          userIdx: res!.result!.userIdx,
-          jwt: res.result!.jwt,
+          userIdx: res!.userIdx,
+          jwt: res.jwt,
           email: state.email,
           password: state.password,
         ));

@@ -96,7 +96,7 @@ class MyPageScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              state.user!.userName!,
+                              state.user?.userProfile?.nickName ?? 'N/A',
                               maxLines: 1,
                               style: const TextStyle(
                                 fontSize: Sizes.size16 + Sizes.size2,

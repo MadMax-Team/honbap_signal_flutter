@@ -43,7 +43,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>
     const storage = FlutterSecureStorage();
     await storage.write(
       key: 'userAuth',
-      value: jsonEncode(res?.result?.toJson()),
+      value: jsonEncode(res?.toJson()),
     );
 
     // splash 화면으로 돌아가기
