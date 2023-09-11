@@ -4,6 +4,32 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'auth_signin_model.g.dart';
 
+@JsonSerializable()
+class AuthSigninAutoModel extends Equatable {
+  final bool? isSuccess;
+  final int? code;
+  final String? message;
+  final int? result;
+
+  const AuthSigninAutoModel({
+    this.isSuccess,
+    this.code,
+    this.message,
+    this.result,
+  });
+
+  factory AuthSigninAutoModel.fromJson(Map<String, dynamic> json) =>
+      _$AuthSigninAutoModelFromJson(json);
+
+  @override
+  List<Object?> get props => [
+        isSuccess,
+        code,
+        message,
+        result,
+      ];
+}
+
 @JsonSerializable(explicitToJson: true)
 class AuthSigninMyInfoModel extends Equatable {
   final bool? isSuccess;

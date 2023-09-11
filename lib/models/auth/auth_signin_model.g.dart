@@ -6,6 +6,23 @@ part of 'auth_signin_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AuthSigninAutoModel _$AuthSigninAutoModelFromJson(Map<String, dynamic> json) =>
+    AuthSigninAutoModel(
+      isSuccess: json['isSuccess'] as bool?,
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+      result: json['result'] as int?,
+    );
+
+Map<String, dynamic> _$AuthSigninAutoModelToJson(
+        AuthSigninAutoModel instance) =>
+    <String, dynamic>{
+      'isSuccess': instance.isSuccess,
+      'code': instance.code,
+      'message': instance.message,
+      'result': instance.result,
+    };
+
 AuthSigninMyInfoModel _$AuthSigninMyInfoModelFromJson(
         Map<String, dynamic> json) =>
     AuthSigninMyInfoModel(
