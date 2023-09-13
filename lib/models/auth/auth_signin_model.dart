@@ -58,6 +58,8 @@ class AuthSigninMyInfoModel extends Equatable {
       ];
 }
 
+// TODO: 배열로 올 때와 객체로 올 때 파악
+// 배열로 오는 경우: 자동 로그인 시.
 @JsonSerializable(explicitToJson: true)
 class AuthSigninMyPageModel extends Equatable {
   final bool? isSuccess;

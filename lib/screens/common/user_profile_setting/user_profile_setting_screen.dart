@@ -24,6 +24,20 @@ class UserProfileSettingScreen extends StatelessWidget {
   void _onChangeBtnTap(BuildContext context) {
     var jwt = context.read<UserCubit>().state.user!.jwt;
     var cubit = context.read<UserProfileUploadCubit>();
+
+    if (cubit.state.profile?.nickName?.isNotEmpty == false) {
+      cubit.nickNameFocus();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('닉네임을 입력해주세요'),
+          elevation: 0,
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
+      );
+      return;
+    }
+
     if (cubit.state.profileFile == null) {
       context.read<UserProfileUploadCubit>().upload(jwt: jwt!);
     } else {
