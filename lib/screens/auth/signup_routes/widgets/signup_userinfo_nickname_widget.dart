@@ -4,7 +4,6 @@ import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signu
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_event.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_state.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/auth/signup_routes/widgets/signup_double_check_button_widget.dart';
 
 class SignupUserInfoUserName extends StatefulWidget {
   const SignupUserInfoUserName({super.key});
@@ -15,8 +14,6 @@ class SignupUserInfoUserName extends StatefulWidget {
 
 class _SignupUserInfoUserNameState extends State<SignupUserInfoUserName> {
   String _nickname = '';
-  bool _nicknameChecked = false;
-  bool _isChecking = false;
   final _fieldKey = GlobalKey<FormFieldState<String>>();
   final _userNameFocus = FocusNode();
 
@@ -35,38 +32,14 @@ class _SignupUserInfoUserNameState extends State<SignupUserInfoUserName> {
   String? _nicknameValidator(String? value) {
     // Invaled
     if (value != null && value.isEmpty) {
-      return '사용할 수 없는 닉네임입니다';
+      return '이름을 입력해주세요';
     }
-
-    // Check if nickname is available
-    if (!_nicknameChecked) return "중복확인 해주세요";
 
     // Valid
     context
         .read<SignupUserBloc>()
         .add(SignupUserNameChangedEvent(userName: value ?? ''));
     return null;
-  }
-
-  void _nicknameCheck() async {
-    FocusScope.of(context).unfocus();
-    if (_nicknameChecked || _nickname == '') return;
-
-    // TODO: 닉네임 중복확인 로직 추가
-    if (_isChecking) return;
-    setState(() {
-      _isChecking = true;
-    });
-    await Future.delayed(const Duration(seconds: 1));
-    setState(() {
-      _isChecking = false;
-    });
-
-    // Valid
-    setState(() {
-      _nicknameChecked = true;
-    });
-    _checkNicknameValidate();
   }
 
   void _checkNicknameValidate() {
@@ -83,9 +56,6 @@ class _SignupUserInfoUserNameState extends State<SignupUserInfoUserName> {
     context
         .read<SignupUserBloc>()
         .add(const SignupUserNameChangedEvent(userName: ''));
-    setState(() {
-      _nicknameChecked = false;
-    });
   }
 
   void _onFieldSubmitted(String value) {
@@ -113,7 +83,7 @@ class _SignupUserInfoUserNameState extends State<SignupUserInfoUserName> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '닉네임은 3개월마다 변경이 가능합니다!',
+            '실명은 공개되지 않습니다.',
             style: Theme.of(context).textTheme.labelSmall,
           ),
           SizedBox(
@@ -126,14 +96,7 @@ class _SignupUserInfoUserNameState extends State<SignupUserInfoUserName> {
               enableSuggestions: false,
               style: const TextStyle(fontSize: Sizes.size16),
               decoration: InputDecoration(
-                suffix: GestureDetector(
-                  onTap: _nicknameCheck,
-                  child: SignupDoubleCheckButton(
-                    isAvailable: _nicknameChecked,
-                    isLoading: _isChecking,
-                  ),
-                ),
-                hintText: '닉네임을 입력해주세요',
+                hintText: '이름을 입력해주세요',
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.grey.shade400,

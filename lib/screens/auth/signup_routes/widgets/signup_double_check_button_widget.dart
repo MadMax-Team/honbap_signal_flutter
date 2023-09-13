@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 
+// deprecated at signup
 class SignupDoubleCheckButton extends StatelessWidget {
   const SignupDoubleCheckButton({
     super.key,
