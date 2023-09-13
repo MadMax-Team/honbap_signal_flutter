@@ -6,7 +6,7 @@ import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/repository/honbab/chat/chat_room_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/user/user_profile_repository.dart';
 import 'package:honbap_signal_flutter/screens/chats/chat_room_screen.dart';
-import 'package:honbap_signal_flutter/screens/common/user_profile/user_profile_screen.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile_setting/user_profile_setting_screen.dart';
 
 class PushNewScreen {
   static Route _createRoute(Widget widget) {
@@ -67,7 +67,7 @@ class PushNewScreen {
               userProfile: context.read<UserCubit>().state.user!.userProfile,
               userProfileRepository: context.read<UserProfileRepository>(),
             ),
-            child: const UserProfileScreen(),
+            child: const UserProfileSettingScreen(),
           ),
         ),
       ),

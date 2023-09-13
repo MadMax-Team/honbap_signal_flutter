@@ -9,14 +9,14 @@ import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/models/mypage/mypage_model.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_button_widget.dart';
-import 'package:honbap_signal_flutter/screens/common/user_profile/widgets/user_profile_form_widget.dart';
-import 'package:honbap_signal_flutter/screens/common/user_profile/widgets/user_profile_image_widget.dart';
-import 'package:honbap_signal_flutter/screens/common/user_profile/widgets/user_profile_tags_widget.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile_setting/widgets/user_profile_setting_form_widget.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile_setting/widgets/user_profile_setting_image_widget.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile_setting/widgets/user_profile_setting_tags_widget.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileSettingScreen extends StatelessWidget {
   final bool isFirst;
 
-  const UserProfileScreen({
+  const UserProfileSettingScreen({
     super.key,
     this.isFirst = false,
   });
@@ -59,15 +59,15 @@ class UserProfileScreen extends StatelessWidget {
         child: ListView(
           children: [
             Gaps.v10,
-            const UserProfileImageWidget(),
-            UserProfileFormWidget(
+            const UserProfileSettingImageWidget(),
+            UserProfileSettingFormWidget(
               type: UserProfileForm.nickName,
               enableBox: false,
               initValue:
                   context.read<UserCubit>().state.user?.userProfile?.nickName,
             ),
             Gaps.v32,
-            UserProfileFormWidget(
+            UserProfileSettingFormWidget(
               type: UserProfileForm.userIntroduce,
               enableBox: false,
               initValue: context
@@ -78,19 +78,21 @@ class UserProfileScreen extends StatelessWidget {
                   ?.userIntroduce,
             ),
             Gaps.v10,
-            const UserProfileFormWidget(type: UserProfileForm.tags),
+            const UserProfileSettingFormWidget(type: UserProfileForm.tags),
             Gaps.v5,
-            const UserProfileTagsWidget(type: UserProfileForm.tags),
-            const UserProfileFormWidget(type: UserProfileForm.preferArea),
+            const UserProfileSettingTagsWidget(type: UserProfileForm.tags),
+            const UserProfileSettingFormWidget(
+                type: UserProfileForm.preferArea),
             Gaps.v10,
-            const UserProfileTagsWidget(type: UserProfileForm.preferArea),
-            const UserProfileFormWidget(type: UserProfileForm.taste),
+            const UserProfileSettingTagsWidget(
+                type: UserProfileForm.preferArea),
+            const UserProfileSettingFormWidget(type: UserProfileForm.taste),
             Gaps.v10,
-            const UserProfileTagsWidget(type: UserProfileForm.taste),
-            const UserProfileFormWidget(type: UserProfileForm.hateFood),
+            const UserProfileSettingTagsWidget(type: UserProfileForm.taste),
+            const UserProfileSettingFormWidget(type: UserProfileForm.hateFood),
             Gaps.v10,
-            const UserProfileTagsWidget(type: UserProfileForm.hateFood),
-            UserProfileFormWidget(
+            const UserProfileSettingTagsWidget(type: UserProfileForm.hateFood),
+            UserProfileSettingFormWidget(
               type: UserProfileForm.mbti,
               initValue:
                   context.read<UserCubit>().state.user?.userProfile?.mbti,

@@ -15,7 +15,7 @@ import 'package:honbap_signal_flutter/repository/honbab/chat/chat_list_repositor
 import 'package:honbap_signal_flutter/repository/honbab/home/signal_box/home_signal_box_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/signal/signal_list_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/user/user_profile_repository.dart';
-import 'package:honbap_signal_flutter/screens/common/user_profile/user_profile_screen.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile_setting/user_profile_setting_screen.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
 import 'package:honbap_signal_flutter/screens/splash/splash_page.dart';
@@ -75,7 +75,7 @@ class _AppState extends State<App> {
                 userProfile: context.read<UserCubit>().state.user!.userProfile,
                 userProfileRepository: context.read<UserProfileRepository>(),
               ),
-              child: const UserProfileScreen(isFirst: true),
+              child: const UserProfileSettingScreen(isFirst: true),
             ),
           ),
         ),

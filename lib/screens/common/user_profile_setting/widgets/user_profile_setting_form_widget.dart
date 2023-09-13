@@ -5,12 +5,12 @@ import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/models/mypage/mypage_model.dart';
 
-class UserProfileFormWidget extends StatefulWidget {
+class UserProfileSettingFormWidget extends StatefulWidget {
   final UserProfileForm type;
   final bool enableBox;
   final String? initValue;
 
-  const UserProfileFormWidget({
+  const UserProfileSettingFormWidget({
     super.key,
     required this.type,
     this.enableBox = true,
@@ -18,10 +18,12 @@ class UserProfileFormWidget extends StatefulWidget {
   });
 
   @override
-  State<UserProfileFormWidget> createState() => _UserProfileFormWidgetState();
+  State<UserProfileSettingFormWidget> createState() =>
+      _UserProfileSettingFormWidgetState();
 }
 
-class _UserProfileFormWidgetState extends State<UserProfileFormWidget> {
+class _UserProfileSettingFormWidgetState
+    extends State<UserProfileSettingFormWidget> {
   final _fieldKey = GlobalKey<FormFieldState<String>>();
   final _focusNode = FocusNode();
 
