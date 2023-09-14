@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_third_widget.dart';
@@ -8,7 +10,8 @@ import '../../../../constants/sizes.dart';
 
 class SignalSecondDialog extends StatefulWidget {
   final BuildContext parentContext;
-  const SignalSecondDialog({super.key, required this.parentContext});
+  final bool modify;
+  const SignalSecondDialog({super.key, required this.parentContext, required this.modify});
 
   @override
   State<SignalSecondDialog> createState() => _SignalSecondDialogState();
@@ -18,7 +21,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
   late String time;
   late String location;
 
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   final _valueList = ['상관없음', '돈까스/회/일식', '고기/구이', '찜/탕/찌개', '마라탕', '샐러드', '양식', '패스트푸드', '중식', '분식', '아시안', '백반/죽/국수', '도시락', '카페/디저트', '기타'];
   var _selectedValue = '상관없음';
@@ -29,6 +32,15 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
     DateTime dateTime = DateTime.now();
     dateTime = dateTime.toUtc().add(const Duration(hours: 9));
     time = getCalculateFutureTime(context, TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
+    //API with Repository
+
+    if(widget.modify) {
+      setState(() { //temp setting
+        time = "time";
+        _selectedValue = '상관없음';
+        _controller.text = "ㅇㅇ";
+      });
+    }
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -55,7 +67,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
       child: SingleChildScrollView(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height - 20,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

@@ -10,6 +10,7 @@ class SignalBoxDialogBloc extends Bloc<SignalBoxDialogEvent, SignalBoxDialogStat
     :super(const SignalBoxDialogState(status: SignalBoxDialogStatus.init)) {
     on<GetSignalStateEvent>(_homeSignalStateGetEventHandler);
     on<SendSignalDataEvent>(_homeSignalBoxSendEventHandler);
+    on<SendSignalStateOffEvent>(_homeSignalStateOffEventHandler);
   }
 
   Future<void> _homeSignalStateGetEventHandler(
@@ -66,6 +67,28 @@ class SignalBoxDialogBloc extends Bloc<SignalBoxDialogEvent, SignalBoxDialogStat
           message: e.toString(),
         ));
       }
+
+  }
+
+  Future<void> _homeSignalStateOffEventHandler(
+      SendSignalStateOffEvent event,
+      Emitter<SignalBoxDialogState> emit,
+      ) async {
+    emit(state.copyWith(status: SignalBoxDialogStatus.loading));
+
+    try {
+      await _boxSendRepository.getHomeSignalBoxState(jwt: event.jwt);
+
+      emit(state.copyWith(
+        status: SignalBoxDialogStatus.offState,
+      ));
+
+    } catch (e) {
+      emit(state.copyWith(
+        status: SignalBoxDialogStatus.error,
+        message: e.toString(),
+      ));
+    }
 
   }
 }

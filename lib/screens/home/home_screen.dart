@@ -9,6 +9,8 @@ import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dia
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_screen.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_state_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_widget.dart';
@@ -86,7 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context, state) {
                           if(state.status == SignalBoxDialogStatus.onState) {
                             return OutlinedButton(
-                              onPressed: null,
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => SignalSecondDialog(parentContext: context, modify: true),
+                                  barrierDismissible: false,
+                                );
+                              },
                               style: OutlinedButton.styleFrom(
                                 minimumSize: Size.zero,
                                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
@@ -118,11 +126,19 @@ class _HomeScreenState extends State<HomeScreen> {
               Gaps.v11,
               GestureDetector(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => SignalOnDialog(parentContext: context),
-                    barrierDismissible: false,
-                  );
+                  if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
+                    showDialog(
+                      context: context, 
+                      builder: (_) => SignalOffDialog(parentContext: context),
+                      barrierDismissible: false,
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (_) => SignalOnDialog(parentContext: context),
+                      barrierDismissible: false,
+                    );
+                  }
                 },
                 child: BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
                   buildWhen: (pre, cur) {

@@ -7,6 +7,7 @@ import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dia
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
+import 'home_dialog/signal_off_dialog_widget.dart';
 import 'home_dialog/signal_on_dialog_widget.dart';
 
 class SignalBox extends StatefulWidget {
@@ -81,11 +82,19 @@ class _SignalBoxState extends State<SignalBox>
                   value: widget.signal,
                   padding: 3,
                   onToggle: (value) {
-                    showDialog(
-                      context: context,
-                      builder: (_) => SignalOnDialog(parentContext: context),
-                      barrierDismissible: false,
-                    );
+                    if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOffDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOnDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    }
                   },
                 ),
                 Gaps.h15,
