@@ -7,8 +7,8 @@ import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UserProfileImageWidget extends StatelessWidget {
-  const UserProfileImageWidget({super.key});
+class UserProfileSettingImageWidget extends StatelessWidget {
+  const UserProfileSettingImageWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

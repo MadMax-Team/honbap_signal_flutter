@@ -61,7 +61,7 @@ class _SignupUserInfoScreenState extends State<SignupUserInfoScreen> {
                   const SignupUserInfoPassword(),
                   Gaps.v20,
                   Text(
-                    '사용하실 닉네임을 설정해 주세요',
+                    '이름을 알려주세요',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Gaps.v10,
