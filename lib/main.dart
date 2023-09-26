@@ -1,9 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/app.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/splash/splash_bloc.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
+import 'package:honbap_signal_flutter/firebase_options.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
 import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
@@ -15,6 +18,17 @@ import 'apis/kakao_api_key.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Firebase initialize
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FirebaseMessaging.instance.requestPermission(
+    badge: true,
+    alert: true,
+    sound: true,
+  );
+
   // Kakao SDK initialize
   KakaoSdk.init(nativeAppKey: KAKAO_API_KEY);
 
@@ -22,6 +36,9 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
+
+  String? fcmToken = await FirebaseMessaging.instance.getToken();
+  print(fcmToken);
 
   runApp(const MyApp());
 }
