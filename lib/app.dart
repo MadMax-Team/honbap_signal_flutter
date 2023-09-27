@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,6 +9,7 @@ import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_st
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
@@ -36,6 +38,8 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+
+    // router setting
     _router = GoRouter(
       initialLocation: '/',
       refreshListenable: context.read<AuthenticationBloc>(),
@@ -120,6 +124,22 @@ class _AppState extends State<App> {
         ),
       ],
     );
+
+    // fcm listening
+    // at foground
+    FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
+      context.read<FCMCubit>().listenFCM(message);
+    });
+    // at background
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) {
+      context.read<FCMCubit>().listenFCM(message);
+    });
+    // at terminate
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      context.read<FCMCubit>().listenFCM(message);
+    });
   }
 
   @override
