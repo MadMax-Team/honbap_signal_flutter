@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -9,7 +8,6 @@ import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_st
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
@@ -21,7 +19,6 @@ import 'package:honbap_signal_flutter/screens/common/user_profile_setting/user_p
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
 import 'package:honbap_signal_flutter/screens/splash/splash_page.dart';
-
 import 'bloc/chat/chat_list/chat_list_bloc.dart';
 import 'bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
 
@@ -124,22 +121,6 @@ class _AppState extends State<App> {
         ),
       ],
     );
-
-    // fcm listening
-    // at foground
-    FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
-      context.read<FCMCubit>().listenFCM(message);
-    });
-    // at background
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) {
-      context.read<FCMCubit>().listenFCM(message);
-    });
-    // at terminate
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage? message) {
-      context.read<FCMCubit>().listenFCM(message);
-    });
   }
 
   @override
