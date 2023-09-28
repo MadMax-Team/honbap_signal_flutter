@@ -41,6 +41,7 @@ void main() async {
 
 Future<void> _onBackgroundMessage(RemoteMessage message) async {
   bgMessage = message;
+  print('bg fcm: ${message.notification?.title}');
 }
 
 Future<void> initializeDependencies() async {
@@ -100,7 +101,11 @@ class MyApp extends StatelessWidget {
             create: (context) => SplashBloc(),
           ),
           BlocProvider(
-            create: (context) => FCMCubit(fcmToken, bgMessage),
+            create: (context) => FCMCubit(
+              fcmToken,
+              bgMessage,
+            ),
+            lazy: false,
           ),
         ],
         child: const App(),
