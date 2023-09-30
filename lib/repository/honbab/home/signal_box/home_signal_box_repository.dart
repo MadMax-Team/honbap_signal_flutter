@@ -47,14 +47,14 @@ class HomeSignalBoxRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signalState'),
+      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/status'),
       headers: headers,
     );
 
     if (res.statusCode == 200) {
       final responseData = json.decode(res.body);
       if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
-        final resultState = responseData['result']['state'] as bool;
+        final resultState = responseData['result']['sigStatus'] == 1;
         return resultState;
       } else {
         throw Exception("failed to fetch data");

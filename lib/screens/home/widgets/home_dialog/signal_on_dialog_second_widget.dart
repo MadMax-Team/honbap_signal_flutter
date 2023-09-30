@@ -32,15 +32,6 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
     DateTime dateTime = DateTime.now();
     dateTime = dateTime.toUtc().add(const Duration(hours: 9));
     time = getCalculateFutureTime(context, TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
-    //API with Repository
-
-    if(widget.modify) {
-      setState(() { //temp setting
-        time = "time";
-        _selectedValue = '상관없음';
-        _controller.text = "ㅇㅇ";
-      });
-    }
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -65,7 +56,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
       backgroundColor: const Color(0xFFFFFFFF),
       //contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
       child: SingleChildScrollView(
-        child: SizedBox(
+        child: SizedBox( //여기에 추가??------------
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height - 20,
           child: Column(
