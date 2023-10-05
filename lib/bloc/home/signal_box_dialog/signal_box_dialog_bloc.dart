@@ -77,7 +77,7 @@ class SignalBoxDialogBloc extends Bloc<SignalBoxDialogEvent, SignalBoxDialogStat
     emit(state.copyWith(status: SignalBoxDialogStatus.loading));
 
     try {
-      await _boxSendRepository.getHomeSignalBoxState(jwt: event.jwt);
+      await _boxSendRepository.sendToSignalOff(jwt: event.jwt);
 
       emit(state.copyWith(
         status: SignalBoxDialogStatus.offState,

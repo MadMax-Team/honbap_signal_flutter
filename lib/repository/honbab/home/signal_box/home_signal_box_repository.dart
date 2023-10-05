@@ -23,7 +23,7 @@ class HomeSignalBoxRepository {
     };
 
     final res = await http.post(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/list'), // 요청 URL
+      Uri.parse('${ApiEndpoint.honbab}/signal/list'), // 요청 URL
       headers: headers,
       body: json.encode(data),
     );
@@ -47,7 +47,7 @@ class HomeSignalBoxRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/status'),
+      Uri.parse('${ApiEndpoint.honbab}/signal/status'),
       headers: headers,
     );
 
@@ -73,7 +73,7 @@ class HomeSignalBoxRepository {
     };
 
     final res = await http.delete(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/list/off'), // 요청 URL
+      Uri.parse('${ApiEndpoint.honbab}/signal/list/off'), // 요청 URL
       headers: headers,
     );
 
@@ -96,7 +96,7 @@ class HomeSignalBoxRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/detail'),
+      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/info'),
       headers: headers,
     );
 

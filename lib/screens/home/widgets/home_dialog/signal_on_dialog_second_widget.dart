@@ -19,6 +19,7 @@ class SignalSecondDialog extends StatefulWidget {
 
 class _SignalSecondDialogState extends State<SignalSecondDialog> {
   late String time;
+  late String timeView;
   late String location;
 
   final TextEditingController _controller = TextEditingController();
@@ -31,7 +32,8 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
     super.initState();
     DateTime dateTime = DateTime.now();
     dateTime = dateTime.toUtc().add(const Duration(hours: 9));
-    time = getCalculateFutureTime(context, TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
+    time = DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+    timeView = getCalculateFutureTime(context, TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
   }
 
   Future<void> _selectTime(BuildContext context) async {
@@ -40,8 +42,19 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
       initialTime: TimeOfDay.now(),
     );
     if (pickedTime != null) {
+      final now = DateTime.now();
+
+      final selectedTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
+
       setState(() {
-        time = getCalculateTime(context, pickedTime);
+        time = DateFormat('yyyy-MM-dd HH:mm:ss').format(selectedTime);
+        timeView = getCalculateTime(context, pickedTime);
       });
     }
   }
@@ -178,7 +191,7 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                                         _selectTime(context);
                                       },
                                       child: Text(
-                                        time,
+                                        timeView,
                                         style: const TextStyle(
                                           fontSize: Sizes.size16,
                                           fontWeight: FontWeight.w500,
