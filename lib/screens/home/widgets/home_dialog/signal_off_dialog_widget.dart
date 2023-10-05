@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
+import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
 
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
-class SignalOnDialog extends StatefulWidget {
+class SignalOffDialog extends StatefulWidget {
   final BuildContext parentContext;
 
-  const SignalOnDialog({super.key, required this.parentContext});
+  const SignalOffDialog({super.key, required this.parentContext});
 
   @override
-  State<SignalOnDialog> createState() => _SignalOnDialogState();
+  State<SignalOffDialog> createState() => _SignalOffDialogState();
 }
 
-class _SignalOnDialogState extends State<SignalOnDialog> {
+class _SignalOffDialogState extends State<SignalOffDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -29,7 +33,7 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
           children: [
             Gaps.v35,
             const Text(
-              '시그널을 켜시겠습니까?',
+              '시그널을 끄시겠습니까?',
               style: TextStyle(
                 fontSize: Sizes.size14,
                 fontWeight: FontWeight.w500,
@@ -39,7 +43,7 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
             Gaps.v19,
             const Text(
               textAlign: TextAlign.center,
-              '시그널을 켜시면 내 프로필이 반경 10km에 있는 상대방에게 보이며, DM 요청과 시그널 요청이 올 수 있습니다.',
+              '시그널을 Off하시면 주변 사람에게 나의 정보가 표시되지 않습니다',
               style: TextStyle(
                 fontSize: Sizes.size12,
                 fontWeight: FontWeight.w400,
@@ -74,11 +78,8 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      widget.parentContext.read<SignalBoxDialogBloc>().add(SendSignalStateOffEvent(jwt: context.read<UserCubit>().state.user!.jwt!));
                       Navigator.of(context).pop();
-                      showDialog(
-                          context: context,
-                          builder: (_) => SignalSecondDialog(parentContext: widget.parentContext, modify: false),
-                          barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Container(

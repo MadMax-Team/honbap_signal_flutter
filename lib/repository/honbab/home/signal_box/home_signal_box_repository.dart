@@ -23,7 +23,7 @@ class HomeSignalBoxRepository {
     };
 
     final res = await http.post(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/list'), // 요청 URL
+      Uri.parse('${ApiEndpoint.honbab}/signal/list'), // 요청 URL
       headers: headers,
       body: json.encode(data),
     );
@@ -47,15 +47,64 @@ class HomeSignalBoxRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signalState'),
+      Uri.parse('${ApiEndpoint.honbab}/signal/status'),
       headers: headers,
     );
 
     if (res.statusCode == 200) {
       final responseData = json.decode(res.body);
       if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
-        final resultState = responseData['result']['state'] as bool;
+        final resultState = responseData['result']['sigStatus'] == 1;
         return resultState;
+      } else {
+        throw Exception("failed to fetch data");
+      }
+    } else {
+      throw Exception("failtd to fetch data");
+    }
+  }
+
+  Future<void> sendToSignalOff({
+    required String jwt,
+  }) async {
+    final headers = {
+      "Content-Type": "application/json",
+      'x-access-token': jwt,
+    };
+
+    final res = await http.delete(
+      Uri.parse('${ApiEndpoint.honbab}/signal/list/off'), // 요청 URL
+      headers: headers,
+    );
+
+    if (res.statusCode == 200) {
+      final responseData = json.decode(res.body);
+      if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
+
+      } else {
+        throw Exception("failed to send data");
+      }
+    } else {
+      throw Exception("failtd to send data");
+    }
+  }
+
+  Future<Map<String, dynamic>> getSignalDetail({required String jwt}) async {
+    final Map<String, String> headers = {
+      "Content-Type": "application/json",
+      'x-access-token': jwt,
+    };
+
+    final res = await http.get(
+      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/info'),
+      headers: headers,
+    );
+
+    if (res.statusCode == 200) {
+      final responseData = json.decode(res.body);
+      if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
+        final resultData = responseData['result'] as Map<String, dynamic>;
+        return resultData;
       } else {
         throw Exception("failed to fetch data");
       }

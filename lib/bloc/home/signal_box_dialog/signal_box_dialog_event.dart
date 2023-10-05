@@ -16,6 +16,15 @@ class GetSignalStateEvent extends SignalBoxDialogEvent {
   List<Object?> get props => [jwt];
 }
 
+class SendSignalStateOffEvent extends SignalBoxDialogEvent {
+  final String jwt;
+
+  const SendSignalStateOffEvent({required this.jwt});
+
+  @override
+  List<Object?> get props => [jwt];
+}
+
 class SendSignalDataEvent extends SignalBoxDialogEvent {
   final String jwt;
   final String? sigPromiseTime;
@@ -32,3 +41,4 @@ class SendSignalDataEvent extends SignalBoxDialogEvent {
   @override
   List<Object?> get props => [jwt, sigPromiseTime, sigPromiseArea, sigPromiseMenu];
 }
+

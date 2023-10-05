@@ -8,10 +8,15 @@ import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_app
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
+import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_screen.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_state_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signalbox_widget.dart';
+import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
+import 'package:honbap_signal_flutter/screens/signal/signal_list_screen.dart';
 import '../../bloc/home/get_signal_apply/home_signal_apply_state.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
@@ -83,7 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context, state) {
                           if(state.status == SignalBoxDialogStatus.onState) {
                             return OutlinedButton(
-                              onPressed: null,
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => SignalSecondDialog(parentContext: context, modify: true),
+                                  barrierDismissible: false,
+                                );
+                              },
                               style: OutlinedButton.styleFrom(
                                 minimumSize: Size.zero,
                                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
@@ -115,11 +126,19 @@ class _HomeScreenState extends State<HomeScreen> {
               Gaps.v11,
               GestureDetector(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => SignalOnDialog(parentContext: context),
-                    barrierDismissible: false,
-                  );
+                  if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
+                    showDialog(
+                      context: context, 
+                      builder: (_) => SignalOffDialog(parentContext: context),
+                      barrierDismissible: false,
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (_) => SignalOnDialog(parentContext: context),
+                      barrierDismissible: false,
+                    );
+                  }
                 },
                 child: BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
                   buildWhen: (pre, cur) {
@@ -242,36 +261,45 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   if (state.status == HomeSignalApplyStatus.success) {
-                    //print() //jwt 출력해보기 test
-                    //나머지 다 띄우기
                     if (state.signalApply.isEmpty){
-                      return Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.fromLTRB(22, 13, 0, 13),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(
-                              //그림자
-                              color: Color.fromRGBO(173, 173, 173, 0.2),
-                              blurRadius: 10.0,
-                              spreadRadius: -2,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                          borderRadius:
-                          BorderRadius.circular(12), //모서리를 둥글게
-                        ),
-                        child: const Row(
-                          children: [
-                            Text(
-                              '시그널 찾기',
-                              style: TextStyle(
-                                  fontSize: Sizes.size18,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black),
-                            )
-                          ],
+                      return GestureDetector(
+                        onTap: () {
+                          DefaultTabController.of(context).animateTo(2); //to SignalListScreen
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.fromLTRB(22, 13, 0, 13),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                //그림자
+                                color: Color.fromRGBO(173, 173, 173, 0.2),
+                                blurRadius: 10.0,
+                                spreadRadius: -2,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                            borderRadius:
+                            BorderRadius.circular(12), //모서리를 둥글게
+                          ),
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.add_circle,
+                                size: 21,
+                                color: Color(0xffff4b26),
+                              ),
+                              Gaps.h9,
+                              Text(
+                                '시그널 찾기',
+                                style: TextStyle(
+                                    fontSize: Sizes.size18,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     }
