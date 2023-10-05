@@ -4,6 +4,7 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/mypage/user_account_setting/widgets/user_account_setting_button.dart';
 import 'package:honbap_signal_flutter/screens/mypage/user_account_setting/widgets/user_account_setting_section.dart';
+import 'package:honbap_signal_flutter/screens/mypage/user_account_setting/widgets/user_logout_dialog.dart';
 
 class UserAccountSettingScreen extends StatelessWidget {
   const UserAccountSettingScreen({super.key});
@@ -49,7 +50,13 @@ class UserAccountSettingScreen extends StatelessWidget {
               UserAccountSettingButton(
                 title: '로그아웃',
                 onTap: () {
-                  print('onclick');
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return const UserLogoutDialog();
+                    },
+                  );
                 },
               ),
             ],

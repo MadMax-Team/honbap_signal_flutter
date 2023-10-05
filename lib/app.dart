@@ -142,27 +142,32 @@ class _AppState extends State<App> {
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: createMaterialColor(const Color(0xffff4b25)),
         fontFamily: 'Pretendard',
-        textTheme: const TextTheme(
+        textTheme: TextTheme(
           // 2022 sets
           // displayLarge, displayMedium, displaySmall
           // headlineLarge, headlineMedium, headlineSmall
           // titleLarge, titleMedium, titleSmall
           // bodyLarge, bodyMedium, bodySmall
           // labelLarge, labelMedium, labelSmall
-          titleMedium: TextStyle(
+          titleMedium: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: Sizes.size20,
           ),
-          titleSmall: TextStyle(
+          titleSmall: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: Sizes.size16,
           ),
-          headlineMedium: TextStyle(
+          headlineMedium: const TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.black,
             fontSize: Sizes.size18,
           ),
-          labelSmall: TextStyle(
+          labelMedium: TextStyle(
+            color: Colors.grey.shade700,
+            fontSize: Sizes.size14,
+            letterSpacing: Sizes.size1 / Sizes.size2,
+          ),
+          labelSmall: const TextStyle(
             color: Color(0xFFB8B8B8),
             fontSize: Sizes.size14,
             letterSpacing: Sizes.size1 / Sizes.size2,
