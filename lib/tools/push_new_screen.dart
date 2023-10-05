@@ -7,6 +7,7 @@ import 'package:honbap_signal_flutter/repository/honbab/chat/chat_room_repositor
 import 'package:honbap_signal_flutter/repository/honbab/user/user_profile_repository.dart';
 import 'package:honbap_signal_flutter/screens/chats/chat_room_screen.dart';
 import 'package:honbap_signal_flutter/screens/common/user_profile_setting/user_profile_setting_screen.dart';
+import 'package:honbap_signal_flutter/screens/mypage/user_account_setting/user_account_setting_screen.dart';
 
 class PushNewScreen {
   static Route _createRoute(Widget widget) {
@@ -71,6 +72,15 @@ class PushNewScreen {
           ),
         ),
       ),
+    );
+  }
+
+  static void openUserAccount({
+    required dynamic context,
+  }) {
+    Navigator.push(
+      context,
+      _createRoute(const UserAccountSettingScreen()),
     );
   }
 }

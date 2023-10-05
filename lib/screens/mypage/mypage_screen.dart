@@ -135,9 +135,13 @@ class MyPageScreen extends StatelessWidget {
                             ),
                           ),
                           Gaps.v7,
-                          const MyPageRoundButton(
-                            isTransparent: true,
-                            text: '계정관리',
+                          GestureDetector(
+                            onTap: () =>
+                                PushNewScreen.openUserAccount(context: context),
+                            child: const MyPageRoundButton(
+                              isTransparent: true,
+                              text: '계정관리',
+                            ),
                           ),
                         ],
                       ),
