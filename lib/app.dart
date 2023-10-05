@@ -165,7 +165,6 @@ class _AppState extends State<App> {
           labelMedium: TextStyle(
             color: Colors.grey.shade700,
             fontSize: Sizes.size14,
-            letterSpacing: Sizes.size1 / Sizes.size2,
           ),
           labelSmall: const TextStyle(
             color: Color(0xFFB8B8B8),

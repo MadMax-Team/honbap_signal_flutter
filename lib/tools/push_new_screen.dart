@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_bloc.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
+import 'package:honbap_signal_flutter/cubit/user_pw_change_cubit.dart';
 import 'package:honbap_signal_flutter/repository/honbab/chat/chat_room_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/user/user_profile_repository.dart';
 import 'package:honbap_signal_flutter/screens/chats/chat_room_screen.dart';
 import 'package:honbap_signal_flutter/screens/common/user_profile_setting/user_profile_setting_screen.dart';
 import 'package:honbap_signal_flutter/screens/mypage/user_account_setting/user_account_setting_screen.dart';
+import 'package:honbap_signal_flutter/screens/mypage/user_account_setting/user_password_change/user_password_change_screen.dart';
 
 class PushNewScreen {
   static Route _createRoute(Widget widget) {
@@ -81,6 +83,24 @@ class PushNewScreen {
     Navigator.push(
       context,
       _createRoute(const UserAccountSettingScreen()),
+    );
+  }
+
+  static void openUserPasswordChange({
+    required dynamic context,
+  }) {
+    Navigator.push(
+      context,
+      _createRoute(RepositoryProvider(
+        create: (context) => UserProfileRepository(),
+        child: BlocProvider(
+          create: (context) => UserPWChangeCubit(
+            userProfileRepository: context.read<UserProfileRepository>(),
+            userModel: context.read<UserCubit>().state.user!,
+          ),
+          child: const UserPasswordChangeScreen(),
+        ),
+      )),
     );
   }
 }

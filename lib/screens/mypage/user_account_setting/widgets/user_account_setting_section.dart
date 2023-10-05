@@ -47,6 +47,7 @@ class UserAccountSettingSection extends StatelessWidget {
             Gaps.v20,
             ListView.separated(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => children[index],
               separatorBuilder: (context, index) => Container(
                 height: Sizes.size1,
