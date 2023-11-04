@@ -3,6 +3,8 @@ import 'dart:convert';
 import '../../../../constants/api.dart';
 import 'package:http/http.dart' as http;
 
+import '../location_repository.dart';
+
 class HomeSignalBoxRepository {
 
   Future<void> sendDataWithJwt({
@@ -15,6 +17,30 @@ class HomeSignalBoxRepository {
       "Content-Type": "application/json",
       'x-access-token': jwt,
     };
+
+    final position = await LocationRepository().fetchLocation();
+    print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+
+    final location = {
+      "latitude": position.latitude,
+      "longitude": position.longitude,
+    };
+
+    final locRes = await http.patch(
+      Uri.parse('${ApiEndpoint.honbab}/signalFind'), // 요청 URL
+      headers: headers,
+      body: json.encode(location),
+    );
+
+    if (locRes.statusCode == 200) {
+      final responseData = json.decode(locRes.body);
+      if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
+      } else {
+        throw Exception("failed to location data");
+      }
+    } else {
+      throw Exception("failtd to location data");
+    }
 
     final data = {
       "sigPromiseTime": sigPromiseTime,

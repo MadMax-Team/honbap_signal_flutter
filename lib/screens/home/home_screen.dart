@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_app
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
+import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_screen.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
@@ -55,10 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             color: Colors.black,
             onPressed: () {
-              // TODO: for test
-              context
-                  .read<AuthenticationBloc>()
-                  .add(const AuthenticationLogout());
               // TODO: something to click more button
             },
           )

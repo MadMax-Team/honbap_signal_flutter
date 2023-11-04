@@ -10,6 +10,7 @@ import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/firebase_options.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
+import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
 import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -86,6 +87,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => HonbabAuthRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => LocationRepository(),
         ),
       ],
       child: MultiBlocProvider(
