@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/mypage/match_history/match_history_screen.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_menu_divider.dart';
-import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_round_button_widget.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_setting_button_widget.dart';
 import 'package:honbap_signal_flutter/tools/push_new_screen.dart';
 
@@ -60,92 +60,76 @@ class MyPageScreen extends StatelessWidget {
               ),
               child: BlocBuilder<UserCubit, UserState>(
                 builder: (context, state) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          // Image.network로 변경하면 됨
-                          child: state.user?.userProfile?.profileImg == null
-                              ? CircleAvatar(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                  radius: Sizes.size44,
-                                  backgroundImage: Image.asset(
-                                          'assets/images/honbab_smile.png')
-                                      .image,
-                                )
-                              : Image.network(
-                                  state.user!.userProfile!.profileImg!,
-                                  width: Sizes.size44 * 2,
-                                  height: Sizes.size44 * 2,
-                                  fit: BoxFit.fill,
+                  return GestureDetector(
+                    onTap: () =>
+                        PushNewScreen.openUserAccount(context: context),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () =>
+                              PushNewScreen.openUserProfile(context: context),
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              Container(
+                                clipBehavior: Clip.hardEdge,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
                                 ),
+                                child: state.user?.userProfile?.profileImg ==
+                                        null
+                                    ? CircleAvatar(
+                                        backgroundColor:
+                                            Theme.of(context).primaryColor,
+                                        radius: Sizes.size32,
+                                        backgroundImage: Image.asset(
+                                          'assets/images/honbab_smile.png',
+                                        ).image,
+                                      )
+                                    : Image.network(
+                                        state.user!.userProfile!.profileImg!,
+                                        width: Sizes.size32 * 2,
+                                        height: Sizes.size32 * 2,
+                                        fit: BoxFit.fill,
+                                      ),
+                              ),
+                              Container(
+                                width: Sizes.size24,
+                                height: Sizes.size24,
+                                padding: const EdgeInsets.all(Sizes.size5),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius:
+                                      BorderRadius.circular(Sizes.size20),
+                                ),
+                                child: const Icon(
+                                  FontAwesomeIcons.pen,
+                                  color: Colors.white,
+                                  size: Sizes.size14,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Gaps.h20,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              state.user?.userProfile?.nickName ?? 'N/A',
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontSize: Sizes.size16 + Sizes.size2,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Gaps.v20,
-                            Text(
-                              state.user!.email!,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontSize: Sizes.size12,
-                              ),
-                            ),
-                            Gaps.v3,
-                            Text(
-                              state.user!.birth!.replaceAll('-', '.'),
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontSize: Sizes.size12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Gaps.v3,
-                          GestureDetector(
-                            onTap: () =>
-                                PushNewScreen.openUserProfile(context: context),
-                            child: const MyPageRoundButton(
-                              isTransparent: false,
-                              text: '프로필 설정',
+                        Gaps.h20,
+                        Expanded(
+                          child: Text(
+                            state.user?.userProfile?.nickName ?? 'N/A',
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontSize: Sizes.size16 + Sizes.size2,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Gaps.v7,
-                          GestureDetector(
-                            onTap: () =>
-                                PushNewScreen.openUserAccount(context: context),
-                            child: const MyPageRoundButton(
-                              isTransparent: true,
-                              text: '계정관리',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Colors.grey.shade700,
+                          size: Sizes.size16,
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
