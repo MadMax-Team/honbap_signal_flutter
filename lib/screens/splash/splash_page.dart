@@ -34,11 +34,12 @@ class SplashPage extends StatelessWidget {
         AuthSigninUserDataModel.fromJson(await jsonDecode(userAuth));
 
     print(
-        '자동 로그인 - jwt 유효성 검사 [jwt: ${userAuthModel.jwt?.substring(0, 20)}, userIdx: ${userAuthModel.userIdx}]');
+        '자동 로그인 - jwt 유효성 검사 [jwt: ${userAuthModel.jwt}, userIdx: ${userAuthModel.userIdx}]');
 
-    var res = await context
-        .read<HonbabAuthRepository>()
-        .autoSignin(jwt: userAuthModel.jwt!);
+    var res = await context.read<HonbabAuthRepository>().autoSignin(
+          jwt: userAuthModel.jwt!,
+          userIdx: userAuthModel.userIdx!,
+        );
     if (res) {
       // 로그인 성공
       context.read<UserCubit>().setUserAuth(
@@ -51,6 +52,11 @@ class SplashPage extends StatelessWidget {
 
       return;
     }
+
+    // 자동 로그인 실패
+    context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+          status: AuthenticationStatus.unauthenticated,
+        ));
   }
 
   // 기본 사용자 정보 로드

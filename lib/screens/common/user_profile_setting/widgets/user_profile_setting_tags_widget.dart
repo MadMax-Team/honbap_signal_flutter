@@ -5,10 +5,10 @@ import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/models/mypage/mypage_model.dart';
 
-class UserProfileTagsWidget extends StatelessWidget {
+class UserProfileSettingTagsWidget extends StatelessWidget {
   final UserProfileForm type;
 
-  const UserProfileTagsWidget({
+  const UserProfileSettingTagsWidget({
     super.key,
     required this.type,
   });

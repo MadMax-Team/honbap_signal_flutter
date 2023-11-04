@@ -9,13 +9,32 @@ import 'package:http/http.dart' as http;
 class HonbabAuthRepository {
   Future<bool> autoSignin({
     required String jwt,
+    required int userIdx,
   }) async {
-    // TODO: sign in with jwt
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final Map<String, String> headers = {
+        "Content-Type": "application/json",
+        'x-access-token': jwt,
+      };
 
-    print('[JWT auto login]');
+      final res = await http.get(
+        Uri.parse('${ApiEndpoint.honbab}/app/user/getIdx'),
+        headers: headers,
+      );
 
-    return true;
+      if (res.statusCode == 200) {
+        final resModel =
+            AuthSigninAutoModel.fromJson(await json.decode(res.body));
+
+        if (resModel.code == 1000 && resModel.result == userIdx) {
+          return true;
+        }
+      }
+    } catch (e) {
+      return false;
+    }
+
+    return false;
   }
 
   Future<AuthSigninUserDataModel?> signin({

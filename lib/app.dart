@@ -15,11 +15,10 @@ import 'package:honbap_signal_flutter/repository/honbab/chat/chat_list_repositor
 import 'package:honbap_signal_flutter/repository/honbab/home/signal_box/home_signal_box_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/signal/signal_list_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/user/user_profile_repository.dart';
-import 'package:honbap_signal_flutter/screens/common/user_profile/user_profile_screen.dart';
+import 'package:honbap_signal_flutter/screens/common/user_profile_setting/user_profile_setting_screen.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/auth/auth_screen.dart';
 import 'package:honbap_signal_flutter/screens/splash/splash_page.dart';
-
 import 'bloc/chat/chat_list/chat_list_bloc.dart';
 import 'bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
 
@@ -36,6 +35,8 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+
+    // router setting
     _router = GoRouter(
       initialLocation: '/',
       refreshListenable: context.read<AuthenticationBloc>(),
@@ -75,7 +76,7 @@ class _AppState extends State<App> {
                 userProfile: context.read<UserCubit>().state.user!.userProfile,
                 userProfileRepository: context.read<UserProfileRepository>(),
               ),
-              child: const UserProfileScreen(isFirst: true),
+              child: const UserProfileSettingScreen(isFirst: true),
             ),
           ),
         ),
@@ -141,27 +142,31 @@ class _AppState extends State<App> {
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: createMaterialColor(const Color(0xffff4b25)),
         fontFamily: 'Pretendard',
-        textTheme: const TextTheme(
+        textTheme: TextTheme(
           // 2022 sets
           // displayLarge, displayMedium, displaySmall
           // headlineLarge, headlineMedium, headlineSmall
           // titleLarge, titleMedium, titleSmall
           // bodyLarge, bodyMedium, bodySmall
           // labelLarge, labelMedium, labelSmall
-          titleMedium: TextStyle(
+          titleMedium: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: Sizes.size20,
           ),
-          titleSmall: TextStyle(
+          titleSmall: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: Sizes.size16,
           ),
-          headlineMedium: TextStyle(
+          headlineMedium: const TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.black,
             fontSize: Sizes.size18,
           ),
-          labelSmall: TextStyle(
+          labelMedium: TextStyle(
+            color: Colors.grey.shade700,
+            fontSize: Sizes.size14,
+          ),
+          labelSmall: const TextStyle(
             color: Color(0xFFB8B8B8),
             fontSize: Sizes.size14,
             letterSpacing: Sizes.size1 / Sizes.size2,

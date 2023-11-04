@@ -65,6 +65,7 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
       if (res?.code == 1000) {
         // 프로필 업로드 성공
         emit(state.copyWith(status: UserProfileUploadStatus.success));
+        emit(state.copyWith(status: UserProfileUploadStatus.init));
       } else {
         emit(state.copyWith(status: UserProfileUploadStatus.fail));
         emit(state.copyWith(status: UserProfileUploadStatus.init));
@@ -99,6 +100,11 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
       ),
     ));
   }
+
+  void nickNameFocus() {
+    emit(state.copyWith(status: UserProfileUploadStatus.nickNameFocus));
+    emit(state.copyWith(status: UserProfileUploadStatus.init));
+  }
 }
 
 enum UserProfileUploadStatus {
@@ -106,6 +112,7 @@ enum UserProfileUploadStatus {
   uploading,
   success,
   fail,
+  nickNameFocus,
 }
 
 class UserProfileUploadState extends Equatable {
