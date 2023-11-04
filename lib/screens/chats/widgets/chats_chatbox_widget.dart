@@ -80,7 +80,8 @@ class ChatBox extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     if (isSended &&
-                        (index == chat.length - 1 ||
+                        (index == 0 ||
+                            index == chat.length - 1 ||
                             diffDatetime(_strToDT(chat[index].sendAt!)) !=
                                 diffDatetime(
                                     _strToDT(chat[index - 1].sendAt!)) ||

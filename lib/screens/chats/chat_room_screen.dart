@@ -38,24 +38,17 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       );
     }
     if (value == PopupItems.refresh) {
-      if (context.read<ChatRoomBloc>().state.status == ChatRoomStatus.loading) {
-        return;
-      }
-      context.read<ChatRoomBloc>().add(ChatRoomGetEvent(
-            jwt: context.read<UserCubit>().state.user!.jwt!,
-          ));
+      _charRefresh();
     }
   }
 
-  void _scrollToBottom() {
-    if (context.read<ChatRoomBloc>().state.status != ChatRoomStatus.success) {
+  void _charRefresh() {
+    if (context.read<ChatRoomBloc>().state.status == ChatRoomStatus.loading) {
       return;
     }
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.fastOutSlowIn,
-    );
+    context.read<ChatRoomBloc>().add(ChatRoomGetEvent(
+          jwt: context.read<UserCubit>().state.user!.jwt!,
+        ));
   }
 
   @override
@@ -80,7 +73,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         backgroundColor: Colors.white,
         actions: [
           IconButton(
-            onPressed: _scrollToBottom,
+            onPressed: _charRefresh,
             icon: const Icon(
               Icons.arrow_circle_down_outlined,
               color: Colors.black,
@@ -268,9 +261,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      _scrollToBottom();
-                    },
+                    onPressed: () {},
                     icon: Icon(
                       Icons.arrow_circle_right,
                       color: Theme.of(context).primaryColor,
