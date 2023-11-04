@@ -72,12 +72,24 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         centerTitle: false,
         backgroundColor: Colors.white,
         actions: [
-          IconButton(
-            onPressed: _charRefresh,
-            icon: const Icon(
-              Icons.arrow_circle_down_outlined,
-              color: Colors.black,
-            ),
+          BlocBuilder<ChatRoomBloc, ChatRoomState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: _charRefresh,
+                icon: state.status == ChatRoomStatus.loading
+                    ? SizedBox(
+                        width: Sizes.size20,
+                        height: Sizes.size20,
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.arrow_circle_down_outlined,
+                        color: Colors.black,
+                      ),
+              );
+            },
           ),
           PopupMenuButton(
             onSelected: _onPopupButtonSelected,

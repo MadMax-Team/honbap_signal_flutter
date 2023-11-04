@@ -61,6 +61,7 @@ class MyPageScreen extends StatelessWidget {
               child: BlocBuilder<UserCubit, UserState>(
                 builder: (context, state) {
                   return GestureDetector(
+                    behavior: HitTestBehavior.translucent,
                     onTap: () =>
                         PushNewScreen.openUserAccount(context: context),
                     child: Row(
