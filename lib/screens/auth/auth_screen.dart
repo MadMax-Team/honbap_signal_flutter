@@ -113,6 +113,7 @@ class AuthScreen extends StatelessWidget {
         ),
       ),
       resizeToAvoidBottomInset: false,
+      // TODO: move to home screen
       body: BlocListener<FCMCubit, FCMState>(
         listener: (context, state) {
           if (state.state == FCMEvent.message) {

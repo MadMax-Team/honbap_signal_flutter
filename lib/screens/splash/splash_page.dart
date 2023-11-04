@@ -34,7 +34,7 @@ class SplashPage extends StatelessWidget {
         AuthSigninUserDataModel.fromJson(await jsonDecode(userAuth));
 
     print(
-        '자동 로그인 - jwt 유효성 검사 [jwt: ${userAuthModel.jwt?.substring(0, 20)}, userIdx: ${userAuthModel.userIdx}]');
+        '자동 로그인 - jwt 유효성 검사 [jwt: ${userAuthModel.jwt}, userIdx: ${userAuthModel.userIdx}]');
 
     var res = await context.read<HonbabAuthRepository>().autoSignin(
           jwt: userAuthModel.jwt!,
