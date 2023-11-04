@@ -22,6 +22,7 @@ class SignalBoxDialogBloc extends Bloc<SignalBoxDialogEvent, SignalBoxDialogStat
       try {
         final bool signalState =
         await _boxSendRepository.getHomeSignalBoxState(jwt: event.jwt);
+        print(event.jwt); //test to see
 
         if (signalState) {
           emit(state.copyWith(

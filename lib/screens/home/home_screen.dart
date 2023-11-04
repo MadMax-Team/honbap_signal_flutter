@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_app
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
+import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_screen.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
@@ -44,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF5F6FA),
       appBar: AppBar(
-        title: Image.asset('assets/icons/home_name_logo_txt.png'),
+        title: Image.asset('assets/icons/home_name_logo.png'),
         backgroundColor: Colors.white,
         elevation: 0.0,
         actions: [
@@ -55,10 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             color: Colors.black,
             onPressed: () {
-              // TODO: for test
-              context
-                  .read<AuthenticationBloc>()
-                  .add(const AuthenticationLogout());
+              // TODO: something to click more button
             },
           )
         ],
@@ -67,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           margin: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, //왼쪽 정렬
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gaps.v7,
               SizedBox(

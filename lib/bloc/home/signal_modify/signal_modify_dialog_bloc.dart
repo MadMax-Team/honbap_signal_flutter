@@ -20,10 +20,11 @@ class SignalModifyBloc extends Bloc<SignalModifyEvent, SignalModifyDialogState> 
     emit(state.copyWith(status: SignalModifyDialogStatus.loading));
 
     try {
-      await _boxSendRepository.getSignalDetail(jwt: event.jwt);
+      final Map<String, dynamic> signalData = await _boxSendRepository.getSignalDetail(jwt: event.jwt);
 
       emit(state.copyWith(
         status: SignalModifyDialogStatus.success,
+        signalData: signalData,
       ));
 
     } catch (e) {
