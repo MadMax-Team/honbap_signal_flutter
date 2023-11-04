@@ -96,7 +96,7 @@ class HomeSignalBoxRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/info'),
+      Uri.parse('${ApiEndpoint.honbab}/signal/info'),
       headers: headers,
     );
 

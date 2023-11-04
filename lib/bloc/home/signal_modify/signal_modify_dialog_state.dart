@@ -14,24 +14,29 @@ enum SignalModifyDialogStatus {
 class SignalModifyDialogState extends Equatable {
   final SignalModifyDialogStatus status;
   final String? message;
+  final Map<String, dynamic>? signalData;
 
   const SignalModifyDialogState({
     this.status = SignalModifyDialogStatus.init,
     this.message,
+    this.signalData,
   });
 
   SignalModifyDialogState copyWith({
     SignalModifyDialogStatus? status,
     String? message,
+    Map<String, dynamic>? signalData,
   }) =>
       SignalModifyDialogState(
         status: status ?? this.status,
         message: message,
+        signalData: signalData ?? this.signalData,
       );
 
   @override
   List<Object?> get props => [
     status,
-    message
+    message,
+    signalData,
   ];
 }

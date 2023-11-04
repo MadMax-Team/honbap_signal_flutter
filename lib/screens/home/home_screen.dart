@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF5F6FA),
       appBar: AppBar(
-        title: Image.asset('assets/icons/home_name_logo_txt.png'),
+        title: Image.asset('assets/icons/home_name_logo.png'),
         backgroundColor: Colors.white,
         elevation: 0.0,
         actions: [
@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context
                   .read<AuthenticationBloc>()
                   .add(const AuthenticationLogout());
+              // TODO: something to click more button
             },
           )
         ],
@@ -67,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           margin: const EdgeInsets.all(16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, //왼쪽 정렬
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gaps.v7,
               SizedBox(
