@@ -31,8 +31,8 @@ class ChatBox extends StatelessWidget {
         children: [
           if (isSended)
             Container()
-          else if (index == 0 ||
-              chat[index].userName != chat[index - 1].userName)
+          else if (index == chat.length - 1 ||
+              chat[index].userName != chat[index + 1].userName)
             Container(
               margin: const EdgeInsets.only(right: Sizes.size10),
               clipBehavior: Clip.hardEdge,
@@ -58,8 +58,8 @@ class ChatBox extends StatelessWidget {
               children: [
                 if (isSended)
                   Container()
-                else if (index == 0 ||
-                    chat[index].userName != chat[index - 1].userName)
+                else if (index == chat.length - 1 ||
+                    chat[index].userName != chat[index + 1].userName)
                   Container(
                     margin: const EdgeInsets.only(bottom: Sizes.size3),
                     child: Text(
@@ -83,8 +83,8 @@ class ChatBox extends StatelessWidget {
                         (index == chat.length - 1 ||
                             diffDatetime(_strToDT(chat[index].sendAt!)) !=
                                 diffDatetime(
-                                    _strToDT(chat[index + 1].sendAt!)) ||
-                            chat[index].userName != chat[index + 1].userName))
+                                    _strToDT(chat[index - 1].sendAt!)) ||
+                            chat[index].userName != chat[index - 1].userName))
                       Container(
                         margin: const EdgeInsets.only(right: Sizes.size5),
                         child: Text(
@@ -104,9 +104,9 @@ class ChatBox extends StatelessWidget {
                         margin: EdgeInsets.only(
                             left: isSended
                                 ? 0
-                                : (index == 0 ||
+                                : (index == chat.length - 1 ||
                                         chat[index].userName !=
-                                            chat[index - 1].userName)
+                                            chat[index + 1].userName)
                                     ? 0
                                     : Sizes.size10),
                         decoration: BoxDecoration(
@@ -127,10 +127,10 @@ class ChatBox extends StatelessWidget {
                     ),
                     if (isSended)
                       Container()
-                    else if (index == chat.length - 1 ||
+                    else if (index == 0 ||
                         diffDatetime(_strToDT(chat[index].sendAt!)) !=
-                            diffDatetime(_strToDT(chat[index + 1].sendAt!)) ||
-                        chat[index].userName != chat[index + 1].userName)
+                            diffDatetime(_strToDT(chat[index - 1].sendAt!)) ||
+                        chat[index].userName != chat[index - 1].userName)
                       Container(
                         margin: const EdgeInsets.only(left: Sizes.size5),
                         child: Text(

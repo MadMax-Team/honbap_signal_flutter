@@ -199,6 +199,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     }
                     return CustomScrollView(
                       controller: _scrollController,
+                      reverse: true,
                       slivers: [
                         const SliverToBoxAdapter(
                           child: Gaps.v10,
@@ -206,10 +207,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) => ChatBox(
-                              chat: state.chats,
+                              chat: state.chats.reversed.toList(),
                               index: index,
                               profileImg: widget.profileImg,
-                              isSended: state.chats[index].userName !=
+                              isSended: state.chats.reversed
+                                      .toList()[index]
+                                      .userName !=
                                   widget.userName,
                             ),
                             childCount: state.chats.length,
