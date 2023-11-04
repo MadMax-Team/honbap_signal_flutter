@@ -6,25 +6,25 @@ import 'package:honbap_signal_flutter/screens/home/widgets/home_circle_button.da
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
-class SignalListBox extends StatefulWidget {
-  const SignalListBox({
-    required this.userIdx,
+class SignalSendListBox extends StatefulWidget {
+  const SignalSendListBox({
+    required this.applyedIdx,
     this.name,
     this.imgUri,
     required this.onTap,
     Key? key
   }) : super(key: key);
 
-  final int userIdx;
+  final int applyedIdx;
   final String? name;
   final String? imgUri;
   final onTap;
 
   @override
-  State<SignalListBox> createState() => _SignalListBox();
+  State<SignalSendListBox> createState() => _SignalListBox();
 }
 
-class _SignalListBox extends State<SignalListBox> {
+class _SignalListBox extends State<SignalSendListBox> {
 
   @override
   Widget build(BuildContext context) {
@@ -71,24 +71,24 @@ class _SignalListBox extends State<SignalListBox> {
                         borderRadius: BorderRadius.circular(20.0),
                         child: widget.imgUri != null
                             ? Image.network(
-                              widget.imgUri!,
-                              fit: BoxFit.fill,
-                              errorBuilder: (context, error, stackTrace) => Image.asset(
-                                'assets/icons/home_signal_list_box_user.png',
-                                alignment: Alignment.center,
-                                fit: BoxFit.fill,
-                                ),
-                            )
-                            : Image.asset(
+                          widget.imgUri!,
+                          fit: BoxFit.fill,
+                          errorBuilder: (context, error, stackTrace) => Image.asset(
                             'assets/icons/home_signal_list_box_user.png',
                             alignment: Alignment.center,
                             fit: BoxFit.fill,
                           ),
+                        )
+                            : Image.asset(
+                          'assets/icons/home_signal_list_box_user.png',
+                          alignment: Alignment.center,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     Gaps.h16,
                     GestureDetector(
-                      onTap: () async {
+                      onTap: () {
                         if(widget.onTap != null) {
                           widget.onTap();
                         }
@@ -113,17 +113,11 @@ class _SignalListBox extends State<SignalListBox> {
                       color: const Color(0xffFF4B26),
                       borderRadius: BorderRadius.circular(4),
                       child: const Text(
-                        '수락하기',
+                        '요청취조',
                         style: TextStyle(
-                            fontSize: Sizes.size12,
+                          fontSize: Sizes.size12,
                         ),
                       ),
-                    ),
-                    Gaps.h8,
-                    HomeCircleButton(
-                        onTap: () async {
-                          print('dd');
-                        },
                     ),
                   ],
                 )

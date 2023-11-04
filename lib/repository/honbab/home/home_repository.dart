@@ -4,8 +4,30 @@ import 'package:honbap_signal_flutter/models/home/home_signal_apply_list_model.d
 import 'package:http/http.dart' as http;
 
 import '../../../constants/api.dart';
+import '../../../models/home/home_signal_applyed_list_model.dart';
 
 class HomeSignalApplyRepository {
+  Future<List<HomeSignalApplyedListModel>> getHomeSignalApplyedList({required String jwt}) async {
+    final Map<String, String> headers = {
+      "Content-Type": "application/json",
+      'x-access-token': jwt,
+    };
+
+    final res = await http.get(
+      Uri.parse('${ApiEndpoint.honbab}/signal/applyedlist'),
+      headers: headers,
+    );
+
+    List<HomeSignalApplyedListModel> resultList = [];
+    if(res.statusCode == 200) {
+      for( var signalApplyJson in json.decode(res.body)['result'] as List<dynamic>) {
+        resultList.add(HomeSignalApplyedListModel.fromJson(signalApplyJson));
+      }
+    }
+
+    return resultList;
+  }
+
   Future<List<HomeSignalApplyListModel>> getHomeSignalApplyList({required String jwt}) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
@@ -13,7 +35,7 @@ class HomeSignalApplyRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabHomeMock}/signal/applylist'),
+      Uri.parse('${ApiEndpoint.honbab}/signal/applylist'),
       headers: headers,
     );
 
