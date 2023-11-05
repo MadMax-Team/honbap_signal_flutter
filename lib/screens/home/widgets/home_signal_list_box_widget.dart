@@ -12,6 +12,7 @@ class SignalListBox extends StatefulWidget {
     this.name,
     this.imgUri,
     required this.onTap,
+    required this.deleteTap,
     Key? key
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class SignalListBox extends StatefulWidget {
   final String? name;
   final String? imgUri;
   final onTap;
+  final deleteTap;
 
   @override
   State<SignalListBox> createState() => _SignalListBox();
@@ -121,8 +123,10 @@ class _SignalListBox extends State<SignalListBox> {
                     ),
                     Gaps.h8,
                     HomeCircleButton(
-                        onTap: () async {
-                          print('dd');
+                        onTap: () {
+                          if(widget.deleteTap != null) {
+                            widget.deleteTap();
+                          }
                         },
                     ),
                   ],

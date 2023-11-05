@@ -308,10 +308,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               userIdx: state.signalApply[index].userIdx,
                               name: state.signalApply[index].nickName,
                               imgUri: state.signalApply[index].profileImg,
-                              onTap: () async {
+                              onTap: () {
                                 print('text click');
                               },
-                            ),//snapshot.data!.signalToMe![index].image!),
+                              deleteTap: () {
+                                context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedDeleteEvent(
+                                  jwt: context.read<UserCubit>().state.user!.jwt!,
+                                  userIdx: state.signalApply[index].userIdx,
+                                  applyedIdx: context.read<UserCubit>().state.user!.userIdx!,
+                                ));
+                              },
+                            ),
                           );
                         },
                       );
@@ -335,52 +342,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
-              // snapshot.data!.signalToMe!.isNotEmpty
-              //     ? ListView.builder(
-              //         shrinkWrap: true,
-              //         physics:
-              //             const NeverScrollableScrollPhysics(), //scrollable off
-              //         itemCount: snapshot.data!.signalToMe!.length,
-              //         itemBuilder: (BuildContext context, int index) {
-              //           return SizedBox(
-              //             height: 47,
-              //             child: SignalListBox(
-              //                 name:
-              //                     snapshot.data!.signalToMe![index].name!,
-              //                 imgUri: snapshot
-              //                     .data!.signalToMe![index].image!),
-              //           );
-              //         },
-              //       )
-              //     : Container(
-              //         width: double.infinity,
-              //         padding: const EdgeInsets.fromLTRB(22, 13, 0, 13),
-              //         decoration: BoxDecoration(
-              //           color: Colors.white,
-              //           boxShadow: const [
-              //             BoxShadow(
-              //               //그림자
-              //               color: Color.fromRGBO(173, 173, 173, 0.2),
-              //               blurRadius: 10.0,
-              //               spreadRadius: -2,
-              //               offset: Offset(0, 2),
-              //             ),
-              //           ],
-              //           borderRadius:
-              //               BorderRadius.circular(12), //모서리를 둥글게
-              //         ),
-              //         child: const Row(
-              //           children: [
-              //             Text(
-              //               '시그널 찾기',
-              //               style: TextStyle(
-              //                   fontSize: Sizes.size18,
-              //                   fontWeight: FontWeight.w500,
-              //                   color: Colors.black),
-              //             )
-              //           ],
-              //         ),
-              //       ),
               const SizedBox(height: 41),
               const Text(
                 '내가 보낸 요청',
@@ -421,10 +382,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               applyedIdx: state.signalApply[index].applyedIdx,
                               name: state.signalApply[index].nickName,
                               imgUri: state.signalApply[index].profileImg,
-                              onTap: () async {
+                              onTap: () {
                                 print('text click');
                               },
-                            ),//snapshot.data!.signalToMe![index].image!),
+                              deleteTap: () {
+                                context.read<HomeSignalApplyBloc>().add(HomeSignalApplyDeleteEvent(
+                                  jwt: context.read<UserCubit>().state.user!.jwt!,
+                                  userIdx: context.read<UserCubit>().state.user!.userIdx!,
+                                  applyedIdx: state.signalApply[index].applyedIdx,
+                                ));
+                              },
+                            ),
                           );
                         },
                       );

@@ -12,6 +12,7 @@ class SignalSendListBox extends StatefulWidget {
     this.name,
     this.imgUri,
     required this.onTap,
+    required this.deleteTap,
     Key? key
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class SignalSendListBox extends StatefulWidget {
   final String? name;
   final String? imgUri;
   final onTap;
+  final deleteTap;
 
   @override
   State<SignalSendListBox> createState() => _SignalListBox();
@@ -107,13 +109,17 @@ class _SignalListBox extends State<SignalSendListBox> {
                 Row(
                   children: [
                     CupertinoButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if(widget.deleteTap != null) {
+                          widget.deleteTap();
+                        }
+                      },
                       minSize: 0.0,
                       padding: const EdgeInsets.fromLTRB(7, 2, 6, 3),
                       color: const Color(0xffFF4B26),
                       borderRadius: BorderRadius.circular(4),
                       child: const Text(
-                        '요청취조',
+                        '요청취소',
                         style: TextStyle(
                           fontSize: Sizes.size12,
                         ),
