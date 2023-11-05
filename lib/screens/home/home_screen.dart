@@ -177,19 +177,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              // GestureDetector(
-              //   onTap: () {
-              //     showDialog(
-              //       context: context,
-              //       builder: (_) => const SignalOnDialog(),
-              //       barrierDismissible: false
-              //     );
-              //   },
-              //   child: SignalBox(
-              //     signal: false,
-              //     //signal: snapshot.data!.signal!,
-              //   ),
-              // ),
               Gaps.v16,
               const Text(
                 ' *시그널을 켜두면 상대방이 나의 프로필을 확인할 수 있습니다. 시그널은 1시간 후 자동으로 꺼집니다',
@@ -208,34 +195,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black),
               ),
               Gaps.v11,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(22, 18, 0, 18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      //그림자
+                      color: Color.fromRGBO(173, 173, 173, 0.2),
+                      blurRadius: 10.0,
+                      spreadRadius: -2,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                  borderRadius:
+                      BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  '매칭된 상대가 없습니다',
+                  style: TextStyle(
+                      fontSize: Sizes.size18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                )
+              ),
               // snapshot.data!.matchedInfo != null
               //     ? StateCard(
               //         matchedInfo: snapshot.data!.matchedInfo!,
               //       )
-              //     : Container(
-              //         width: double.infinity,
-              //         padding: const EdgeInsets.fromLTRB(22, 18, 0, 18),
-              //         decoration: BoxDecoration(
-              //           color: Colors.white,
-              //           boxShadow: const [
-              //             BoxShadow(
-              //               //그림자
-              //               color: Color.fromRGBO(173, 173, 173, 0.2),
-              //               blurRadius: 10.0,
-              //               spreadRadius: -2,
-              //               offset: Offset(0, 2),
-              //             ),
-              //           ],
-              //           borderRadius:
-              //               BorderRadius.circular(12), //모서리를 둥글게
-              //         ),
-              //         child: const Text(
-              //           '매칭된 상대가 없습니다',
-              //           style: TextStyle(
-              //               fontSize: Sizes.size18,
-              //               fontWeight: FontWeight.w500,
-              //               color: Colors.black),
-              //         )),
+              //     :
               const SizedBox(height: 34),
               const Text(
                 '나에게 온 시그널',

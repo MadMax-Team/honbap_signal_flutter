@@ -48,4 +48,39 @@ class HomeSignalApplyRepository {
 
     return resultList;
   }
+
+  Future<bool> deleteFromApplylist({required String jwt}) async {
+    final Map<String, String> headers = {
+      "Content-Type": "application/json",
+      'x-access-token': jwt,
+    };
+
+    // final data = {
+    //   "latitude": position.latitude,
+    //   "longitude": position.longitude,
+    // };
+    //
+    // final locRes = await http.patch(
+    //   Uri.parse('${ApiEndpoint.honbab}/signalFind'), // 요청 URL
+    //   headers: headers,
+    //   body: json.encode(location),
+    // );
+
+    final res = await http.delete(
+      Uri.parse('${ApiEndpoint.honbab}/signal/status'),
+      headers: headers,
+    );
+
+    if (res.statusCode == 200) {
+      final responseData = json.decode(res.body);
+      if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
+        final resultState = responseData['result']['sigStatus'] == 1;
+        return resultState;
+      } else {
+        throw Exception("failed to fetch data");
+      }
+    } else {
+      throw Exception("failtd to fetch data");
+    }
+  }
 }
