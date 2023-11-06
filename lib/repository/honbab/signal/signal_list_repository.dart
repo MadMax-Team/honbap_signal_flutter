@@ -11,11 +11,13 @@ class HonbabSignalListRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabMock}/signalFind/list'),
+      Uri.parse('${ApiEndpoint.honbab}/signalFind/list'),
       headers: headers,
     );
 
     List<SignalListModel> resultList = [];
+
+    print(res.body);
     if (res.statusCode == 200) {
       for (var signalJson in json.decode(res.body)['result'] as List<dynamic>) {
         resultList.add(SignalListModel.fromJson(signalJson));
