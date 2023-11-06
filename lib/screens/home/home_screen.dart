@@ -16,10 +16,14 @@ import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_state_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_widget.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_send_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signalbox_widget.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
 import 'package:honbap_signal_flutter/screens/signal/signal_list_screen.dart';
 import '../../bloc/home/get_signal_apply/home_signal_apply_state.dart';
+import '../../bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
+import '../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
+import '../../bloc/home/get_signal_applyed/home_signal_applyed_state.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../../cubit/user_cubit.dart';
@@ -173,19 +177,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              // GestureDetector(
-              //   onTap: () {
-              //     showDialog(
-              //       context: context,
-              //       builder: (_) => const SignalOnDialog(),
-              //       barrierDismissible: false
-              //     );
-              //   },
-              //   child: SignalBox(
-              //     signal: false,
-              //     //signal: snapshot.data!.signal!,
-              //   ),
-              // ),
               Gaps.v16,
               const Text(
                 ' *시그널을 켜두면 상대방이 나의 프로필을 확인할 수 있습니다. 시그널은 1시간 후 자동으로 꺼집니다',
@@ -204,34 +195,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black),
               ),
               Gaps.v11,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(22, 18, 0, 18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      //그림자
+                      color: Color.fromRGBO(173, 173, 173, 0.2),
+                      blurRadius: 10.0,
+                      spreadRadius: -2,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                  borderRadius:
+                      BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  '매칭된 상대가 없습니다',
+                  style: TextStyle(
+                      fontSize: Sizes.size18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                )
+              ),
               // snapshot.data!.matchedInfo != null
               //     ? StateCard(
               //         matchedInfo: snapshot.data!.matchedInfo!,
               //       )
-              //     : Container(
-              //         width: double.infinity,
-              //         padding: const EdgeInsets.fromLTRB(22, 18, 0, 18),
-              //         decoration: BoxDecoration(
-              //           color: Colors.white,
-              //           boxShadow: const [
-              //             BoxShadow(
-              //               //그림자
-              //               color: Color.fromRGBO(173, 173, 173, 0.2),
-              //               blurRadius: 10.0,
-              //               spreadRadius: -2,
-              //               offset: Offset(0, 2),
-              //             ),
-              //           ],
-              //           borderRadius:
-              //               BorderRadius.circular(12), //모서리를 둥글게
-              //         ),
-              //         child: const Text(
-              //           '매칭된 상대가 없습니다',
-              //           style: TextStyle(
-              //               fontSize: Sizes.size18,
-              //               fontWeight: FontWeight.w500,
-              //               color: Colors.black),
-              //         )),
+              //     :
               const SizedBox(height: 34),
               const Text(
                 '나에게 온 시그널',
@@ -242,11 +235,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black),
               ),
               Gaps.v11,
-              BlocBuilder<HomeSignalApplyBloc, HomeSignalApplyState>(
+              BlocBuilder<HomeSignalApplyedBloc, HomeSignalApplyedState>(
                 buildWhen: (pre, cur) => pre.signalApply != cur.signalApply,
                 builder: (context, state) {
-                  if (state.status == HomeSignalApplyStatus.init) {
-                    context.read<HomeSignalApplyBloc>().add(HomeSignalApplyGetEvent(
+                  if (state.status == HomeSignalApplyedStatus.init) {
+                    context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedGetEvent(
                       jwt: context.read<UserCubit>().state.user!.jwt!,
                     ));
                     return const Center(
@@ -259,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   }
-                  if (state.status == HomeSignalApplyStatus.success) {
+                  if (state.status == HomeSignalApplyedStatus.success) {
                     if (state.signalApply.isEmpty){
                       return GestureDetector(
                         onTap: () {
@@ -312,13 +305,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           return SizedBox(
                             height: 47,
                             child: SignalListBox(
-                              name:
-                              state.signalApply[index].nickName!,
-                              imgUri: state.signalApply[index].nickName!,
-                              onTap: () async {
+                              userIdx: state.signalApply[index].userIdx,
+                              name: state.signalApply[index].nickName,
+                              imgUri: state.signalApply[index].profileImg,
+                              onTap: () {
                                 print('text click');
                               },
-                            ),//snapshot.data!.signalToMe![index].image!),
+                              deleteTap: () {
+                                context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedDeleteEvent(
+                                  jwt: context.read<UserCubit>().state.user!.jwt!,
+                                  userIdx: state.signalApply[index].userIdx,
+                                  applyedIdx: context.read<UserCubit>().state.user!.userIdx!,
+                                ));
+                              },
+                            ),
                           );
                         },
                       );
@@ -342,52 +342,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
-              // snapshot.data!.signalToMe!.isNotEmpty
-              //     ? ListView.builder(
-              //         shrinkWrap: true,
-              //         physics:
-              //             const NeverScrollableScrollPhysics(), //scrollable off
-              //         itemCount: snapshot.data!.signalToMe!.length,
-              //         itemBuilder: (BuildContext context, int index) {
-              //           return SizedBox(
-              //             height: 47,
-              //             child: SignalListBox(
-              //                 name:
-              //                     snapshot.data!.signalToMe![index].name!,
-              //                 imgUri: snapshot
-              //                     .data!.signalToMe![index].image!),
-              //           );
-              //         },
-              //       )
-              //     : Container(
-              //         width: double.infinity,
-              //         padding: const EdgeInsets.fromLTRB(22, 13, 0, 13),
-              //         decoration: BoxDecoration(
-              //           color: Colors.white,
-              //           boxShadow: const [
-              //             BoxShadow(
-              //               //그림자
-              //               color: Color.fromRGBO(173, 173, 173, 0.2),
-              //               blurRadius: 10.0,
-              //               spreadRadius: -2,
-              //               offset: Offset(0, 2),
-              //             ),
-              //           ],
-              //           borderRadius:
-              //               BorderRadius.circular(12), //모서리를 둥글게
-              //         ),
-              //         child: const Row(
-              //           children: [
-              //             Text(
-              //               '시그널 찾기',
-              //               style: TextStyle(
-              //                   fontSize: Sizes.size18,
-              //                   fontWeight: FontWeight.w500,
-              //                   color: Colors.black),
-              //             )
-              //           ],
-              //         ),
-              //       ),
               const SizedBox(height: 41),
               const Text(
                 '내가 보낸 요청',
@@ -398,21 +352,69 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black),
               ),
               Gaps.v11,
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   physics:
-              //       const NeverScrollableScrollPhysics(), //scrollable off
-              //   itemCount: snapshot.data!.signalRequest!.length,
-              //   itemBuilder: (BuildContext context, int index) {
-              //     return SizedBox(
-              //       height: 47,
-              //       child: SignalListBox(
-              //           name: snapshot.data!.signalRequest![index].name!,
-              //           imgUri:
-              //               snapshot.data!.signalRequest![index].image!),
-              //     );
-              //   },
-              // )
+              BlocBuilder<HomeSignalApplyBloc, HomeSignalApplyState>(
+                buildWhen: (pre, cur) => pre.signalApply != cur.signalApply,
+                builder: (context, state) {
+                  if (state.status == HomeSignalApplyStatus.init) {
+                    context.read<HomeSignalApplyBloc>().add(HomeSignalApplyGetEvent(
+                      jwt: context.read<UserCubit>().state.user!.jwt!,
+                    ));
+                    return const Center(
+                      child: SizedBox(
+                        width: 21,
+                        height: 21,
+                        child: CircularProgressIndicator(
+                          color: Color(0xffFF4B26),
+                        ),
+                      ),
+                    );
+                  }
+                  if (state.status == HomeSignalApplyStatus.success) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        physics:
+                        const NeverScrollableScrollPhysics(), //scrollable off
+                        itemCount: state.signalApply.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 47,
+                            child: SignalSendListBox(
+                              applyedIdx: state.signalApply[index].applyedIdx,
+                              name: state.signalApply[index].nickName,
+                              imgUri: state.signalApply[index].profileImg,
+                              onTap: () {
+                                print('text click');
+                              },
+                              deleteTap: () {
+                                context.read<HomeSignalApplyBloc>().add(HomeSignalApplyDeleteEvent(
+                                  jwt: context.read<UserCubit>().state.user!.jwt!,
+                                  userIdx: context.read<UserCubit>().state.user!.userIdx!,
+                                  applyedIdx: state.signalApply[index].applyedIdx,
+                                ));
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  if (state.status == HomeSignalApplyStatus.error) {
+                    return Center(
+                      child: Text(state.message ?? 'error'),
+                    );
+                  }
+                  else{ //else, loading
+                    return const Center(
+                      child: SizedBox(
+                        width: 21,
+                        height: 21,
+                        child: CircularProgressIndicator(
+                          color: Color(0xffFF4B26),
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),
