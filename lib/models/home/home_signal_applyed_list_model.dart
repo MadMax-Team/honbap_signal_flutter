@@ -1,20 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class HomeSignalApplyListModel extends Equatable {
-  final int applyedIdx;
+class HomeSignalApplyedListModel extends Equatable {
+  final int userIdx;
   final String? profileImg;
   final String? nickName;
 
-  const HomeSignalApplyListModel({
-    required this.applyedIdx,
+  const HomeSignalApplyedListModel({
+    required this.userIdx,
     this.profileImg,
     this.nickName,
   });
 
-  factory HomeSignalApplyListModel.fromJson(Map<String, dynamic> json) {
-    return HomeSignalApplyListModel(
-      applyedIdx: json['applyedIdx'] as int,
+  factory HomeSignalApplyedListModel.fromJson(Map<String, dynamic> json) {
+    return HomeSignalApplyedListModel(
+      userIdx: json['userIdx'] as int,
       profileImg: json['profileImg'] as String?,
       nickName: json['nickName'] as String?,
     );
@@ -22,13 +22,13 @@ class HomeSignalApplyListModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['applyedIdx'] = applyedIdx;
+    data['userIdx'] = userIdx;
     data['profileImg'] = profileImg;
     data['nickName'] = nickName;
     return data;
   }
 
   @override
-  List<Object?> get props => [applyedIdx, profileImg, nickName];
+  List<Object?> get props => [userIdx, profileImg, nickName];
 
 }
