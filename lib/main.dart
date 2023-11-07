@@ -27,7 +27,6 @@ void main() async {
   await initializeDependencies();
 
   // listening fcm from background
-
   FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
 
   // get fcm token
@@ -43,6 +42,8 @@ void main() async {
 Future<void> _onBackgroundMessage(RemoteMessage message) async {
   bgMessage = message;
   print('bg fcm: ${message.notification?.title}');
+  print('bg fcm: ${message.notification?.body}');
+  print('bg fcm: ${message.data}');
 }
 
 Future<void> initializeDependencies() async {

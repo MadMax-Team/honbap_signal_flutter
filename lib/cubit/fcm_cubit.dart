@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/models/fcm/fcm_data_model.dart';
 
 class FCMCubit extends Cubit<FCMState> {
   final String _fcmToken;
@@ -26,10 +27,12 @@ class FCMCubit extends Cubit<FCMState> {
     if (message != null) {
       if (message.notification != null) {
         print('fg fcm: ${message.notification?.title}');
+        print('fg fcm: ${message.notification?.body}');
+        print('fg fcm: ${message.data}');
         emit(FCMState(
           state: FCMEvent.message,
           body: message.notification!.body,
-          data: message.data,
+          data: FCMDataModel.fromJson(message.data),
         ));
       }
     }
@@ -46,7 +49,7 @@ enum FCMEvent {
 class FCMState extends Equatable {
   final FCMEvent state;
   final String? body;
-  final Map<String, dynamic>? data;
+  final FCMDataModel? data;
 
   const FCMState({
     this.state = FCMEvent.none,
@@ -60,7 +63,7 @@ class FCMState extends Equatable {
         return FCMState(
           state: FCMEvent.message,
           body: message.notification!.body,
-          data: message.data,
+          data: FCMDataModel.fromJson(message.data),
         );
       }
     }
