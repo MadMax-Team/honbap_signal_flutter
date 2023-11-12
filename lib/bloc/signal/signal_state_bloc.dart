@@ -15,7 +15,7 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     SignalStateOnEvent event,
     Emitter<SignalStateState> emit,
   ) async {
-    emit(state.copyWith(state: SignalState.matched));
+    emit(state.copyWith(state: SignalState.signaling));
   }
 
   Future<void> _signalStateOffEventHandler(
