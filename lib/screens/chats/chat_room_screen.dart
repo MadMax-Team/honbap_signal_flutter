@@ -7,6 +7,9 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatbox_widget.dart';
+import 'package:honbap_signal_flutter/screens/chats/widgets/chats_notice_card_widget.dart';
+import 'package:honbap_signal_flutter/screens/chats/widgets/chats_popup_menu_button.dart';
+import 'package:honbap_signal_flutter/screens/chats/widgets/chats_sendbox_widget.dart';
 import 'package:honbap_signal_flutter/screens/common/user_report_dialog.dart';
 
 enum PopupItems { refresh, delete, declaration, block }
@@ -91,69 +94,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               );
             },
           ),
-          PopupMenuButton(
-            onSelected: _onPopupButtonSelected,
-            icon: const Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                width: Sizes.size3 / 2,
-                color: Colors.grey.shade300,
-              ),
-              borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-            ),
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: PopupItems.refresh,
-                child: Text(
-                  '새로고침',
-                  style: TextStyle(
-                    fontSize: Sizes.size14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              const PopupMenuItem(
-                value: PopupItems.delete,
-                child: Text(
-                  '대화삭제',
-                  style: TextStyle(
-                    fontSize: Sizes.size14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              const PopupMenuItem(
-                value: PopupItems.declaration,
-                child: Text(
-                  '신고',
-                  style: TextStyle(
-                    fontSize: Sizes.size14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              const PopupMenuItem(
-                value: PopupItems.block,
-                child: Text(
-                  '차단',
-                  style: TextStyle(
-                    fontSize: Sizes.size14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          ChatsPopupMenuButton(onSelected: _onPopupButtonSelected),
         ],
       ),
       body: Container(
         color: Colors.white,
         child: Column(
           children: [
+            const ChatsNoticeCardWidget(),
             Flexible(
               child: ShaderMask(
                 shaderCallback: (Rect rect) {
@@ -202,89 +150,42 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         child: Text(state.message ?? 'error'),
                       );
                     }
-                    return CustomScrollView(
-                      controller: _scrollController,
-                      reverse: true,
-                      slivers: [
-                        const SliverToBoxAdapter(
-                          child: Gaps.v10,
-                        ),
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => ChatBox(
-                              chat: state.chats.reversed.toList(),
-                              index: index,
-                              profileImg: widget.profileImg,
-                              isSended: state.chats.reversed
-                                      .toList()[index]
-                                      .userName !=
-                                  widget.userName,
-                            ),
-                            childCount: state.chats.length,
-                          ),
-                        ),
-                        const SliverToBoxAdapter(
-                          child: Gaps.v10,
-                        ),
-                      ],
-                    );
+                    return _buildBody(state);
                   },
                 ),
               ),
             ),
-            Container(
-              height: Sizes.size48,
-              margin: const EdgeInsets.fromLTRB(
-                Sizes.size10,
-                0,
-                Sizes.size10,
-                Sizes.size24,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Sizes.size24),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: Sizes.size5,
-                    spreadRadius: Sizes.size1,
-                    color: Colors.grey.shade400,
-                  ),
-                ],
-                color: Colors.white,
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.add,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  Container(
-                    width: Sizes.size1,
-                    height: Sizes.size28,
-                    color: Colors.grey.shade300,
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin:
-                          const EdgeInsets.symmetric(horizontal: Sizes.size10),
-                      child: const Text('input'),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.arrow_circle_right,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const ChatsSendboxWidget(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildBody(ChatRoomState state) {
+    return CustomScrollView(
+      controller: _scrollController,
+      reverse: true,
+      slivers: [
+        const SliverToBoxAdapter(
+          child: Gaps.v10,
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => ChatBox(
+              chat: state.chats.reversed.toList(),
+              index: index,
+              profileImg: widget.profileImg,
+              isSended: state.chats.reversed.toList()[index].userName !=
+                  widget.userName,
+            ),
+            childCount: state.chats.length,
+          ),
+        ),
+        const SliverToBoxAdapter(
+          child: Gaps.v10,
+        ),
+      ],
     );
   }
 }
