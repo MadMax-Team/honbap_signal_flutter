@@ -10,6 +10,7 @@ import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dia
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_screen.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
@@ -26,6 +27,7 @@ import '../../bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_state.dart';
 import '../../bloc/signal/signal_state_bloc.dart';
+import '../../bloc/signal/signal_state_state.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../../cubit/user_cubit.dart';
@@ -131,18 +133,20 @@ class _HomeScreenState extends State<HomeScreen> {
               Gaps.v11,
               GestureDetector(
                 onTap: () {
-                  if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
-                    showDialog(
-                      context: context, 
-                      builder: (_) => SignalOffDialog(parentContext: context),
-                      barrierDismissible: false,
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (_) => SignalOnDialog(parentContext: context),
-                      barrierDismissible: false,
-                    );
+                  if (context.read<SignalStateBloc>().state.state != SignalState.matched){
+                    if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOffDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOnDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    }
                   }
                 },
                 child: BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
@@ -199,6 +203,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black),
               ),
               Gaps.v11,
+              // BlocBuilder<SignalStateBloc, SignalStateState>(
+              //   builder: (context, state) {
+              //     if(state.state == SignalState.idle) {
+              //       //signal off
+              //     } else if (state.state == SignalState.matched) {
+              //       //signal block, matched
+              //     } else if (state.state == SignalState.signaling) {
+              //       //signal on
+              //     }
+              //   }
+              // ),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.fromLTRB(22, 18, 0, 18),

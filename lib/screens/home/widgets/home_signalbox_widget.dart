@@ -5,6 +5,8 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
 
+import '../../../bloc/signal/signal_state_bloc.dart';
+import '../../../bloc/signal/signal_state_state.dart';
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 import 'home_dialog/signal_off_dialog_widget.dart';
@@ -82,18 +84,20 @@ class _SignalBoxState extends State<SignalBox>
                   value: widget.signal,
                   padding: 3,
                   onToggle: (value) {
-                    if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
-                      showDialog(
-                        context: context,
-                        builder: (_) => SignalOffDialog(parentContext: context),
-                        barrierDismissible: false,
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (_) => SignalOnDialog(parentContext: context),
-                        barrierDismissible: false,
-                      );
+                    if (context.read<SignalStateBloc>().state.state != SignalState.matched) {
+                      if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
+                        showDialog(
+                          context: context,
+                          builder: (_) => SignalOffDialog(parentContext: context),
+                          barrierDismissible: false,
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (_) => SignalOnDialog(parentContext: context),
+                          barrierDismissible: false,
+                        );
+                      }
                     }
                   },
                 ),
