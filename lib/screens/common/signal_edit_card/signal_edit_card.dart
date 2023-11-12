@@ -35,6 +35,42 @@ class _SignalEditCardState extends State<SignalEditCard> {
     }
   }
 
+  void _onDateTimeChange(DateTime datetime) {
+    setState(() {
+      _currentSignalInfo = _currentSignalInfo.copyWith(
+        sigPromiseTime: datetime.toString(),
+      );
+    });
+
+    if (widget.onChange != null) {
+      widget.onChange!(_currentSignalInfo);
+    }
+  }
+
+  void _onLocationChange(String location) {
+    setState(() {
+      _currentSignalInfo = _currentSignalInfo.copyWith(
+        sigPromiseArea: location,
+      );
+    });
+
+    if (widget.onChange != null) {
+      widget.onChange!(_currentSignalInfo);
+    }
+  }
+
+  void _onMenuChange(String menu) {
+    setState(() {
+      _currentSignalInfo = _currentSignalInfo.copyWith(
+        sigPromiseMenu: menu,
+      );
+    });
+
+    if (widget.onChange != null) {
+      widget.onChange!(_currentSignalInfo);
+    }
+  }
+
   void _onTimeTap() {
     showCupertinoModalPopup(
       context: context,
@@ -53,13 +89,7 @@ class _SignalEditCardState extends State<SignalEditCard> {
             initialDateTime: _currentSignalInfo.sigPromiseTime != null
                 ? DateTime.parse(_currentSignalInfo.sigPromiseTime!)
                 : null,
-            onDateTimeChanged: (DateTime newDuration) {
-              setState(() {
-                _currentSignalInfo = _currentSignalInfo.copyWith(
-                  sigPromiseTime: newDuration.toString(),
-                );
-              });
-            },
+            onDateTimeChanged: _onDateTimeChange,
           ),
         ),
       ),
@@ -69,7 +99,7 @@ class _SignalEditCardState extends State<SignalEditCard> {
   String _hm(String? dateTimeStr) {
     if (dateTimeStr == null) return '시간을 정해주세요';
     var datetime = DateTime.parse(dateTimeStr);
-    return '${datetime.hour} : ${datetime.minute}';
+    return '${datetime.hour.toString().padLeft(2, "0")} : ${datetime.minute.toString().padLeft(2, "0")}';
   }
 
   @override
@@ -99,38 +129,85 @@ class _SignalEditCardState extends State<SignalEditCard> {
                   size: Sizes.size20,
                 ),
                 Gaps.h10,
-                Text(_hm(_currentSignalInfo.sigPromiseTime)),
+                SizedBox(
+                  height: Sizes.size32,
+                  child: Center(
+                    child: Text(_hm(_currentSignalInfo.sigPromiseTime)),
+                  ),
+                ),
               ],
             ),
           ),
-          Gaps.v5,
-          const Row(
+          Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: Sizes.size60,
                 child: Text('만날위치'),
               ),
-              Icon(
+              const Icon(
                 Icons.place,
                 color: Color(0xff737373),
                 size: Sizes.size20,
               ),
               Gaps.h10,
+              Flexible(
+                child: SizedBox(
+                  height: Sizes.size32,
+                  child: TextFormField(
+                    initialValue: _currentSignalInfo.sigPromiseTime,
+                    onChanged: _onLocationChange,
+                    decoration: const InputDecoration(
+                      hintText: '장소를 정해주세요',
+                      hintStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87,
+                      ),
+                      border: InputBorder.none,
+                    ),
+                    style: const TextStyle(
+                      fontSize: Sizes.size14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
-          Gaps.v5,
-          const Row(
+          Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: Sizes.size60,
                 child: Text('메뉴'),
               ),
-              Icon(
+              const Icon(
                 Icons.restaurant_menu,
                 color: Color(0xff737373),
                 size: Sizes.size20,
               ),
               Gaps.h10,
+              Flexible(
+                child: SizedBox(
+                  height: Sizes.size32,
+                  child: TextFormField(
+                    initialValue: _currentSignalInfo.sigPromiseTime,
+                    onChanged: _onMenuChange,
+                    decoration: const InputDecoration(
+                      hintText: '메뉴를 정해주세요',
+                      hintStyle: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black87,
+                      ),
+                      border: InputBorder.none,
+                    ),
+                    style: const TextStyle(
+                      fontSize: Sizes.size14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ],

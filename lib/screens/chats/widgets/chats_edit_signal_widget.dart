@@ -11,10 +11,38 @@ class ChatsEditSignalWidget extends StatelessWidget {
     this.onTapClose,
   });
 
+  Widget _button(
+    BuildContext context, {
+    required bool isColor,
+    required String text,
+    Function()? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: Sizes.size10),
+        decoration: BoxDecoration(
+          color:
+              isColor ? Theme.of(context).primaryColor : Colors.grey.shade400,
+          borderRadius: BorderRadius.circular(Sizes.size10),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 350,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.vertical(
@@ -51,14 +79,32 @@ class ChatsEditSignalWidget extends StatelessWidget {
             ],
           ),
           Gaps.v10,
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: Sizes.size20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('조율 후 약속을 수정해주세요'),
+                const Text('조율 후 약속을 수정해주세요'),
                 Gaps.v16,
-                SignalEditCard(),
+                const SignalEditCard(),
+                Gaps.v16,
+                _button(
+                  context,
+                  isColor: false,
+                  text: '수정하기',
+                  onTap: () {
+                    print('수정하기');
+                  },
+                ),
+                Gaps.v4,
+                _button(
+                  context,
+                  isColor: true,
+                  text: '확인하기',
+                  onTap: () {
+                    print('확인하기');
+                  },
+                ),
               ],
             ),
           ),
