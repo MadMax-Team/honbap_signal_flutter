@@ -215,9 +215,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context, state) {
                   if(state.state == SignalState.matched) {
                     return StateCard(
-                      matchedInfo: SignalStateModel(
+                      matchedInfo: SignalStateModel( //test
                         oppoNickName: "닉네임",
-                        sigPromiseTime: "시간",
+                        sigPromiseTime: "2027-11-15 18:42:00",
                         sigPromiseArea: "장소",
                         sigPromiseMenu: "dd"
                       ),
