@@ -7,11 +7,13 @@ import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 class SignalEditCard extends StatefulWidget {
   final Function(SignalInfoModel)? onChange;
   final SignalInfoModel? initSignal;
+  final bool isBorder;
 
   const SignalEditCard({
     super.key,
     this.onChange,
     this.initSignal,
+    this.isBorder = true,
   });
 
   @override
@@ -106,9 +108,11 @@ class _SignalEditCardState extends State<SignalEditCard> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey.shade900,
-        ),
+        border: widget.isBorder
+            ? Border.all(
+                color: Colors.grey.shade900,
+              )
+            : null,
         borderRadius: BorderRadius.circular(Sizes.size10),
       ),
       padding: const EdgeInsets.all(Sizes.size10),
