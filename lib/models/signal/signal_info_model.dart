@@ -18,6 +18,17 @@ class SignalInfoModel extends Equatable {
   factory SignalInfoModel.fromJson(Map<String, dynamic> json) =>
       _$SignalInfoModelFromJson(json);
 
+  SignalInfoModel copyWith({
+    String? sigPromiseTime,
+    String? sigPromiseArea,
+    String? sigPromiseMenu,
+  }) =>
+      SignalInfoModel(
+        sigPromiseTime: sigPromiseTime ?? this.sigPromiseTime,
+        sigPromiseArea: sigPromiseArea ?? this.sigPromiseArea,
+        sigPromiseMenu: sigPromiseMenu ?? this.sigPromiseMenu,
+      );
+
   @override
   List<Object?> get props => [
         sigPromiseTime,
