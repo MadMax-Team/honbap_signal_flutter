@@ -56,6 +56,7 @@ class SignalBoxDialogBloc extends Bloc<SignalBoxDialogEvent, SignalBoxDialogStat
           sigPromiseTime: event.sigPromiseTime,
           sigPromiseArea: event.sigPromiseArea,
           sigPromiseMenu: event.sigPromiseMenu,
+          fcm: event.fcm
         );
 
         emit(state.copyWith(

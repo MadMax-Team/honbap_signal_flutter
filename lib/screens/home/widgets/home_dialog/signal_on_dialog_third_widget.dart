@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -77,11 +78,12 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       if (widget.time != null) print('Time: ${widget.time}');
                       if (widget.location != null) print('Location: ${widget.location}');
                       if (widget.favoriteFood != null) print('Favorite Food: ${widget.favoriteFood}');
-                      widget.parentContext.read<SignalBoxDialogBloc>().add(SendSignalDataEvent(jwt: context.read<UserCubit>().state.user!.jwt!, sigPromiseTime: widget.time, sigPromiseArea: widget.location, sigPromiseMenu: widget.favoriteFood));
+                      String? fcmToken = await FirebaseMessaging.instance.getToken();
+                      widget.parentContext.read<SignalBoxDialogBloc>().add(SendSignalDataEvent(jwt: context.read<UserCubit>().state.user!.jwt!, sigPromiseTime: widget.time, sigPromiseArea: widget.location, sigPromiseMenu: widget.favoriteFood, fcm: fcmToken));
                       Navigator.of(context).pop();
                     },
                     child: Container(

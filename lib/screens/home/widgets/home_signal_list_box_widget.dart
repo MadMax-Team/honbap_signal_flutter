@@ -12,6 +12,7 @@ class SignalListBox extends StatefulWidget {
     this.name,
     this.imgUri,
     required this.onTap,
+    required this.acceptTap,
     required this.deleteTap,
     Key? key
   }) : super(key: key);
@@ -20,6 +21,7 @@ class SignalListBox extends StatefulWidget {
   final String? name;
   final String? imgUri;
   final onTap;
+  final acceptTap;
   final deleteTap;
 
   @override
@@ -109,7 +111,11 @@ class _SignalListBox extends State<SignalListBox> {
                 Row(
                   children: [
                     CupertinoButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if(widget.acceptTap != null) {
+                          widget.acceptTap();
+                        }
+                      },
                       minSize: 0.0,
                       padding: const EdgeInsets.fromLTRB(7, 2, 6, 3),
                       color: const Color(0xffFF4B26),

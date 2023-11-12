@@ -12,6 +12,7 @@ class HomeSignalApplyedBloc extends Bloc<HomeSignalApplyedEvent, HomeSignalApply
       : super(const HomeSignalApplyedState(status: HomeSignalApplyedStatus.init)) {
     on<HomeSignalApplyedGetEvent>(_homeSignalApplyedGetEventHandler);
     on<HomeSignalApplyedDeleteEvent>(_homeSignalApplyedDeleteEventHandler);
+    on<HomeSignalApplyedAcceptEvent>(_homeSignalApplyedAcceptEventHanler);
   }
 
 
@@ -70,5 +71,34 @@ class HomeSignalApplyedBloc extends Bloc<HomeSignalApplyedEvent, HomeSignalApply
 
   }
 
+  Future<void> _homeSignalApplyedAcceptEventHanler(
+      HomeSignalApplyedAcceptEvent event,
+      Emitter<HomeSignalApplyedState> emit,
+      ) async {
+    emit(state.copyWith(status: HomeSignalApplyedStatus.loading));
 
+    try {
+      var isSuccess =
+      await _homeSignalApplyRepository.acceptFromApplyedList(jwt: event.jwt, matchedIdx: event.matchedIdx);
+
+      if(isSuccess) {
+        final updatedSignalApplyList = List<HomeSignalApplyedListModel>.from(state.signalApply)
+          ..removeWhere((item) => item.userIdx == event.matchedIdx);
+
+        emit(state.copyWith(
+          status: HomeSignalApplyedStatus.success,
+          signalApply: updatedSignalApplyList,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: HomeSignalApplyedStatus.error,
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSignalApplyedStatus.error,
+        message: e.toString(),
+      ));
+    }
+  }
 }

@@ -6,6 +6,20 @@ class HomeSignalApplyedGetEvent extends HomeSignalApplyedEvent {
   HomeSignalApplyedGetEvent({required this.jwt});
 }
 
+class HomeSignalApplyedAcceptEvent extends HomeSignalApplyedEvent {
+  final String jwt;
+  final int matchedIdx;
+
+  HomeSignalApplyedAcceptEvent({
+    required this.jwt,
+    required this.matchedIdx,
+  });
+
+  @override
+  List<Object?> get props => [jwt, matchedIdx];
+}
+
+
 class HomeSignalApplyedDeleteEvent extends HomeSignalApplyedEvent {
   final String jwt;
   final int userIdx;
