@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/screens/common/signal_edit_card/signal_edit_card.dart';
 
 class ChatsEditSignalWidget extends StatelessWidget {
   final Function()? onTapClose;
@@ -28,12 +29,16 @@ class ChatsEditSignalWidget extends StatelessWidget {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Gaps.h40,
-              const Text('시그널 글 작성'),
+              Text(
+                '시그널 글 작성',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
               SizedBox(
                 width: Sizes.size40,
                 child: IconButton(
@@ -44,6 +49,18 @@ class ChatsEditSignalWidget extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          Gaps.v10,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: Sizes.size20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('조율 후 약속을 수정해주세요'),
+                Gaps.v16,
+                SignalEditCard(),
+              ],
+            ),
           ),
         ],
       ),
