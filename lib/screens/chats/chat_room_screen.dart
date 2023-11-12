@@ -7,10 +7,12 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatbox_widget.dart';
+import 'package:honbap_signal_flutter/screens/chats/widgets/chats_edit_signal_widget.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_notice_card_widget.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_popup_menu_button.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_sendbox_widget.dart';
 import 'package:honbap_signal_flutter/screens/common/user_report_dialog.dart';
+import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 enum PopupItems { refresh, delete, declaration, block }
 
@@ -28,7 +30,21 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  final ScrollController _scrollController = ScrollController();
+  late final ScrollController _scrollController;
+  late final PanelController _panelController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _panelController = PanelController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   void _onPopupButtonSelected(PopupItems? value) {
     if (value == PopupItems.declaration) {
@@ -97,66 +113,81 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           ChatsPopupMenuButton(onSelected: _onPopupButtonSelected),
         ],
       ),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            const ChatsNoticeCardWidget(),
-            Flexible(
-              child: ShaderMask(
-                shaderCallback: (Rect rect) {
-                  return const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.purple,
-                      Colors.transparent,
-                      Colors.transparent,
-                      Colors.purple
-                    ],
-                    stops: [
-                      0.0,
-                      0.01,
-                      0.99,
-                      1.0
-                    ], // 10% purple, 80% transparent, 10% purple
-                  ).createShader(rect);
-                },
-                blendMode: BlendMode.dstOut,
-                child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
-                  buildWhen: (previous, current) =>
-                      previous.chats != current.chats,
-                  builder: (context, state) {
-                    if (state.status == ChatRoomStatus.init) {
-                      context.read<ChatRoomBloc>().add(ChatRoomGetEvent(
-                            jwt: context.read<UserCubit>().state.user!.jwt!,
-                          ));
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      );
-                    }
-                    if (state.status == ChatRoomStatus.loading &&
-                        state.chats.isEmpty) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      );
-                    }
-                    if (state.status == ChatRoomStatus.error) {
-                      return Center(
-                        child: Text(state.message ?? 'error'),
-                      );
-                    }
-                    return _buildBody(state);
+      body: SlidingUpPanel(
+        controller: _panelController,
+        minHeight: 0,
+        maxHeight: 300,
+        isDraggable: false,
+        body: Container(
+          height: double.infinity,
+          color: Colors.white,
+          child: Column(
+            children: [
+              ChatsNoticeCardWidget(onOpenTap: _panelController.open),
+              Flexible(
+                child: ShaderMask(
+                  shaderCallback: (Rect rect) {
+                    return const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.purple,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.purple
+                      ],
+                      stops: [
+                        0.0,
+                        0.01,
+                        0.99,
+                        1.0
+                      ], // 10% purple, 80% transparent, 10% purple
+                    ).createShader(rect);
                   },
+                  blendMode: BlendMode.dstOut,
+                  child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
+                    buildWhen: (previous, current) =>
+                        previous.chats != current.chats,
+                    builder: (context, state) {
+                      if (state.status == ChatRoomStatus.init) {
+                        context.read<ChatRoomBloc>().add(ChatRoomGetEvent(
+                              jwt: context.read<UserCubit>().state.user!.jwt!,
+                            ));
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        );
+                      }
+                      if (state.status == ChatRoomStatus.loading &&
+                          state.chats.isEmpty) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        );
+                      }
+                      if (state.status == ChatRoomStatus.error) {
+                        return Center(
+                          child: Text(state.message ?? 'error'),
+                        );
+                      }
+                      return _buildBody(state);
+                    },
+                  ),
                 ),
               ),
-            ),
-            const ChatsSendboxWidget(),
-          ],
+              const ChatsSendboxWidget(),
+              Gaps.v72,
+              SizedBox(
+                height: MediaQuery.of(context).padding.bottom,
+              ),
+            ],
+          ),
+        ),
+        renderPanelSheet: false,
+        panelBuilder: () => ChatsEditSignalWidget(
+          onTapClose: _panelController.close,
         ),
       ),
     );

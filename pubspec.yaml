@@ -61,6 +61,7 @@ dependencies:
   firebase_messaging: ^14.6.8
   firebase_analytics: ^10.5.0
   geolocator: ^9.0.1
+  sliding_up_panel2: ^3.3.0+1
 
 dev_dependencies:
   flutter_test:
