@@ -22,6 +22,7 @@ import 'package:honbap_signal_flutter/screens/splash/splash_page.dart';
 import 'bloc/chat/chat_list/chat_list_bloc.dart';
 import 'bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
 import 'bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
+import 'bloc/signal/signal_state_bloc.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -114,6 +115,9 @@ class _AppState extends State<App> {
                 BlocProvider(
                   create: (context) => SignalBoxDialogBloc(
                       context.read<HomeSignalBoxRepository>()),
+                ),
+                BlocProvider(
+                  create: (context) => SignalStateBloc(),
                 ),
                 BlocProvider(
                   create: (context) =>

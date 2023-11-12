@@ -9,6 +9,7 @@ import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_app
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_screen.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
@@ -24,6 +25,7 @@ import '../../bloc/home/get_signal_apply/home_signal_apply_state.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_state.dart';
+import '../../bloc/signal/signal_state_bloc.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../../cubit/user_cubit.dart';
@@ -158,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     }
                     else if (state.status == SignalBoxDialogStatus.onState) {
+                      BlocProvider.of<SignalStateBloc>(context).add(SignalStateOnEvent());
                       print('onstate');
                       return const SignalBox(
                         signal: true,
@@ -166,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     else {
                       if(state.status == SignalBoxDialogStatus.offState){
                         print('offState');
+                        BlocProvider.of<SignalStateBloc>(context).add(SignalStateOffEvent());
                       }
                       else if(state.status == SignalBoxDialogStatus.loading){
                         print('loading');
@@ -415,6 +419,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
+              Gaps.v72,
             ],
           ),
         ),
