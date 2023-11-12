@@ -9,6 +9,9 @@ import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_app
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_state_model.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/signup_userinfo_screen.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
@@ -19,15 +22,15 @@ import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_send_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signalbox_widget.dart';
 import 'package:honbap_signal_flutter/screens/routes/route_navigation_widget.dart';
-import 'package:honbap_signal_flutter/screens/signal/signal_list_screen.dart';
 import '../../bloc/home/get_signal_apply/home_signal_apply_state.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_state.dart';
+import '../../bloc/signal/signal_state_bloc.dart';
+import '../../bloc/signal/signal_state_state.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../../cubit/user_cubit.dart';
-import '../../models/home/home_list_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -37,12 +40,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<HomeListModel> futureHomeListModel;
 
   @override
   void initState() {
     super.initState();
-    futureHomeListModel = fetchHome();
   }
 
   @override
@@ -50,7 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF5F6FA),
       appBar: AppBar(
-        title: Image.asset('assets/icons/home_name_logo.png'),
+        title: Image.asset(
+            'assets/icons/home_name_logo.png',
+          width: 120,
+          height: 30,
+        ),
         backgroundColor: Colors.white,
         elevation: 0.0,
         actions: [
@@ -92,11 +97,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           if(state.status == SignalBoxDialogStatus.onState) {
                             return OutlinedButton(
                               onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => SignalSecondDialog(parentContext: context, modify: true),
-                                  barrierDismissible: false,
-                                );
+                                if (context.read<SignalStateBloc>().state.state != SignalState.matched) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => SignalSecondDialog(parentContext: context, modify: true),
+                                    barrierDismissible: false,
+                                  );
+                                }
                               },
                               style: OutlinedButton.styleFrom(
                                 minimumSize: Size.zero,
@@ -129,18 +136,20 @@ class _HomeScreenState extends State<HomeScreen> {
               Gaps.v11,
               GestureDetector(
                 onTap: () {
-                  if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
-                    showDialog(
-                      context: context, 
-                      builder: (_) => SignalOffDialog(parentContext: context),
-                      barrierDismissible: false,
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (_) => SignalOnDialog(parentContext: context),
-                      barrierDismissible: false,
-                    );
+                  if (context.read<SignalStateBloc>().state.state != SignalState.matched){
+                    if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOffDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOnDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    }
                   }
                 },
                 child: BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
@@ -158,6 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     }
                     else if (state.status == SignalBoxDialogStatus.onState) {
+                      BlocProvider.of<SignalStateBloc>(context).add(SignalStateOnEvent());
                       print('onstate');
                       return const SignalBox(
                         signal: true,
@@ -166,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     else {
                       if(state.status == SignalBoxDialogStatus.offState){
                         print('offState');
+                        BlocProvider.of<SignalStateBloc>(context).add(SignalStateOffEvent());
                       }
                       else if(state.status == SignalBoxDialogStatus.loading){
                         print('loading');
@@ -195,36 +206,52 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.black),
               ),
               Gaps.v11,
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(22, 18, 0, 18),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      //그림자
-                      color: Color.fromRGBO(173, 173, 173, 0.2),
-                      blurRadius: 10.0,
-                      spreadRadius: -2,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                  borderRadius:
-                      BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  '매칭된 상대가 없습니다',
-                  style: TextStyle(
-                      fontSize: Sizes.size18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                )
+              BlocBuilder<SignalStateBloc, SignalStateState>(
+                buildWhen: (pre, cur) {
+                  return pre != cur;
+                },
+                //처음 상태 받아오는게 필요함 not yet
+
+                builder: (context, state) {
+                  if(state.state == SignalState.matched) {
+                    return StateCard(
+                      matchedInfo: SignalStateModel( //test
+                        oppoNickName: "닉네임",
+                        sigPromiseTime: "2027-11-15 18:42:00",
+                        sigPromiseArea: "장소",
+                        sigPromiseMenu: "dd"
+                      ),
+                      url: "url",
+                    );
+                  } else {
+                    return Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.fromLTRB(22, 18, 0, 18),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: const [
+                            BoxShadow(
+                              //그림자
+                              color: Color.fromRGBO(173, 173, 173, 0.2),
+                              blurRadius: 10.0,
+                              spreadRadius: -2,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                          borderRadius:
+                          BorderRadius.circular(12),
+                        ),
+                        child: const Text(
+                          '매칭된 상대가 없습니다',
+                          style: TextStyle(
+                              fontSize: Sizes.size18,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        )
+                    );
+                  }
+                }
               ),
-              // snapshot.data!.matchedInfo != null
-              //     ? StateCard(
-              //         matchedInfo: snapshot.data!.matchedInfo!,
-              //       )
-              //     :
               const SizedBox(height: 34),
               const Text(
                 '나에게 온 시그널',
@@ -415,6 +442,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
+              Gaps.v72,
             ],
           ),
         ),
