@@ -338,6 +338,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 print('text click');
                               },
+                              acceptTap: () {
+                                context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedAcceptEvent(
+                                    jwt: context.read<UserCubit>().state.user!.jwt!,
+                                    matchedIdx: state.signalApply[index].userIdx,
+                                ));
+                              },
                               deleteTap: () {
                                 context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedDeleteEvent(
                                   jwt: context.read<UserCubit>().state.user!.jwt!,
