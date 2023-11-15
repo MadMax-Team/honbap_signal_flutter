@@ -86,7 +86,7 @@ class ChatsEditSignalWidget extends StatelessWidget {
               children: [
                 const Text('조율 후 약속을 수정해주세요'),
                 Gaps.v16,
-                const SignalEditCard(
+                const CommonSignalCardWidget(
                   isEditable: true,
                 ),
                 Gaps.v16,

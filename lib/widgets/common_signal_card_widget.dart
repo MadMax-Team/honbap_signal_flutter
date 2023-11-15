@@ -4,14 +4,14 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 
-class SignalEditCard extends StatefulWidget {
+class CommonSignalCardWidget extends StatefulWidget {
   final Function(SignalInfoModel)? onChange;
   final SignalInfoModel? initSignal;
   final bool isBorder;
   final bool isEditable;
   final Color primaryColor;
 
-  const SignalEditCard({
+  const CommonSignalCardWidget({
     super.key,
     this.onChange,
     this.initSignal,
@@ -21,10 +21,10 @@ class SignalEditCard extends StatefulWidget {
   });
 
   @override
-  State<SignalEditCard> createState() => _SignalEditCardState();
+  State<CommonSignalCardWidget> createState() => _CommonSignalCardWidgetState();
 }
 
-class _SignalEditCardState extends State<SignalEditCard> {
+class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
   late SignalInfoModel _currentSignalInfo;
 
   @override
@@ -34,7 +34,7 @@ class _SignalEditCardState extends State<SignalEditCard> {
   }
 
   @override
-  void didUpdateWidget(covariant SignalEditCard oldWidget) {
+  void didUpdateWidget(covariant CommonSignalCardWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.initSignal != widget.initSignal) {
       _currentSignalInfo = widget.initSignal ?? const SignalInfoModel();
