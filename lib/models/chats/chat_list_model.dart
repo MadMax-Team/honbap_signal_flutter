@@ -7,14 +7,14 @@ part 'chat_list_model.g.dart';
 class ChatListModel extends Equatable {
   final String? roomId;
   final String? profileImg;
-  final String? userName;
+  final String? nickName;
   final String? lastMessage;
   final String? lastSendedAt;
 
   const ChatListModel({
     this.roomId,
     this.profileImg,
-    this.userName,
+    this.nickName,
     this.lastMessage,
     this.lastSendedAt,
   });
@@ -22,14 +22,14 @@ class ChatListModel extends Equatable {
   ChatListModel copyWith({
     String? roomId,
     String? profileImg,
-    String? userName,
+    String? nickName,
     String? lastMessage,
     String? lastSendedAt,
   }) =>
       ChatListModel(
         roomId: roomId ?? this.roomId,
         profileImg: profileImg ?? this.profileImg,
-        userName: userName ?? this.userName,
+        nickName: nickName ?? this.nickName,
         lastMessage: lastMessage ?? this.lastMessage,
         lastSendedAt: roomId ?? this.roomId,
       );
@@ -43,7 +43,7 @@ class ChatListModel extends Equatable {
   List<Object?> get props => [
         roomId,
         profileImg,
-        userName,
+        nickName,
         lastMessage,
         lastSendedAt,
       ];

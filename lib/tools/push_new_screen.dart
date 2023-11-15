@@ -33,7 +33,7 @@ class PushNewScreen {
 
   static void openChatRoom({
     required String roomId,
-    required String userName,
+    required String nickName,
     required String profileImg,
     required dynamic context,
   }) {
@@ -45,10 +45,11 @@ class PushNewScreen {
           child: BlocProvider(
             create: (context) => ChatRoomBloc(
               context.read<ChatRoomRepository>(),
+              context.read<UserCubit>().state.user!.jwt!,
               roomId,
             ),
             child: ChatRoomScreen(
-              userName: userName,
+              nickName: nickName,
               profileImg: profileImg,
             ),
           ),

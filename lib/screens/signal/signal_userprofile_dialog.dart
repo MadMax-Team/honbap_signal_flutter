@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_list_model.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_dialog_usertag_widget.dart';
+import 'package:honbap_signal_flutter/widgets/common_profile_image_widget.dart';
+import 'package:honbap_signal_flutter/widgets/common_signal_card_widget.dart';
 
 class SignalUserDialog extends StatefulWidget {
   const SignalUserDialog({
@@ -90,31 +93,13 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                         child: Column(
                           children: [
                             Gaps.v32,
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  width: Sizes.size4,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                              child: Container(
-                                clipBehavior: Clip.hardEdge,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                // Image.network로 변경하면 됨
-                                child: Image.asset(
-                                  "assets/test/test_image.jpg",
-                                  width: Sizes.size64 * 2,
-                                  height: Sizes.size64 * 2,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
+                            CommonProfileImageWidget(
+                              profileImg: widget.signal.profileImg,
+                              size: Sizes.size44,
                             ),
                             Gaps.v16,
                             Text(
-                              widget.signal.userName ?? '',
+                              widget.signal.nickName ?? '',
                               style: const TextStyle(
                                 fontSize: Sizes.size14,
                                 fontWeight: FontWeight.w600,
@@ -127,69 +112,58 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                               textAlign: TextAlign.center,
                             ),
                             if (widget.signal.checkSigWrite != 0)
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(top: Sizes.size32),
-                                padding: const EdgeInsets.all(Sizes.size12),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: Sizes.size1,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.circular(Sizes.size7),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: Sizes.size20,
                                 ),
-                                child: Column(
-                                  children: [
-                                    InfoRow(
-                                      title: '만남위치',
-                                      icon: Icons.location_on_outlined,
-                                      info: widget.signal.sigPromiseArea ?? '',
-                                    ),
-                                    InfoRow(
-                                      title: '약속시간',
-                                      icon: Icons.access_time_rounded,
-                                      info: widget.signal.sigPromiseTime ?? '',
-                                    ),
-                                    const InfoRow(
-                                      title: '메뉴',
-                                      icon: Icons.restaurant_menu_rounded,
-                                      info: '스시, 해산물',
-                                    ),
-                                  ],
+                                child: CommonSignalCardWidget(
+                                  initSignal: SignalInfoModel(
+                                    sigPromiseArea:
+                                        widget.signal.sigPromiseArea,
+                                    sigPromiseTime:
+                                        widget.signal.sigPromiseTime,
+                                    sigPromiseMenu:
+                                        widget.signal.sigPromiseMenu,
+                                  ),
+                                  primaryColor: Theme.of(context).primaryColor,
                                 ),
                               )
                             else
                               Container(),
-                            Gaps.v32,
-                            const SizedBox(
-                              width: double.infinity,
-                              child: Wrap(
-                                direction: Axis.horizontal,
-                                spacing: Sizes.size4,
-                                runSpacing: Sizes.size4,
-                                children: <Widget>[
-                                  DialogUserTag(tag: '양꼬치'),
-                                  DialogUserTag(tag: '삼각지역'),
-                                  DialogUserTag(tag: '반주사랑'),
-                                  DialogUserTag(tag: '이구역토박이'),
-                                  DialogUserTag(tag: '한식'),
-                                ],
+                            if (widget.signal.interest?.isNotEmpty == true)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: Sizes.size32),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Wrap(
+                                    direction: Axis.horizontal,
+                                    spacing: Sizes.size4,
+                                    runSpacing: Sizes.size4,
+                                    children: [
+                                      for (var tag in widget.signal.interest
+                                              ?.split(',') ??
+                                          [])
+                                        DialogUserTag(tag: tag),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
                             Gaps.v32,
                             SizedBox(
                               width: double.infinity,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('불호음식: ${widget.signal.hateFood}'),
+                                  Text(
+                                      '불호음식: ${widget.signal.hateFood ?? '없음'}'),
                                   Gaps.v3,
-                                  Text('선호음식: ${widget.signal.taste}'),
+                                  Text('선호음식: ${widget.signal.taste ?? '없음'}'),
                                   Gaps.v3,
-                                  Text('선호장소: ${widget.signal.preferArea}'),
+                                  Text(
+                                      '선호장소: ${widget.signal.preferArea ?? '없음'}'),
                                   Gaps.v3,
-                                  Text('MBTI: ${widget.signal.mbti}'),
+                                  Text('MBTI: ${widget.signal.mbti ?? '비밀'}'),
                                 ],
                               ),
                             ),
@@ -205,13 +179,13 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                   children: [
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: Navigator.of(context).pop,
                         child: Container(
                           alignment: Alignment.center,
                           height: Sizes.size52,
                           color: Colors.grey.shade300,
                           child: const Text(
-                            '요청 거절하기',
+                            '닫기',
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
@@ -222,13 +196,15 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          print('request signal');
+                        },
                         child: Container(
                           alignment: Alignment.center,
                           height: Sizes.size52,
                           color: Theme.of(context).primaryColor,
                           child: const Text(
-                            '요청 수락하기',
+                            '시그널 요청 보내기',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -260,9 +236,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+                onPressed: Navigator.of(context).pop,
                 icon: Icon(
                   Icons.close,
                   color: Colors.grey.shade700,

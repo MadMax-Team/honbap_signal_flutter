@@ -4,23 +4,27 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 
-class SignalEditCard extends StatefulWidget {
+class CommonSignalCardWidget extends StatefulWidget {
   final Function(SignalInfoModel)? onChange;
   final SignalInfoModel? initSignal;
   final bool isBorder;
+  final bool isEditable;
+  final Color primaryColor;
 
-  const SignalEditCard({
+  const CommonSignalCardWidget({
     super.key,
     this.onChange,
     this.initSignal,
     this.isBorder = true,
+    this.isEditable = false,
+    this.primaryColor = const Color(0xFF212121),
   });
 
   @override
-  State<SignalEditCard> createState() => _SignalEditCardState();
+  State<CommonSignalCardWidget> createState() => _CommonSignalCardWidgetState();
 }
 
-class _SignalEditCardState extends State<SignalEditCard> {
+class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
   late SignalInfoModel _currentSignalInfo;
 
   @override
@@ -30,7 +34,7 @@ class _SignalEditCardState extends State<SignalEditCard> {
   }
 
   @override
-  void didUpdateWidget(covariant SignalEditCard oldWidget) {
+  void didUpdateWidget(covariant CommonSignalCardWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.initSignal != widget.initSignal) {
       _currentSignalInfo = widget.initSignal ?? const SignalInfoModel();
@@ -110,22 +114,32 @@ class _SignalEditCardState extends State<SignalEditCard> {
       decoration: BoxDecoration(
         border: widget.isBorder
             ? Border.all(
-                color: Colors.grey.shade900,
+                color: widget.primaryColor,
               )
             : null,
         borderRadius: BorderRadius.circular(Sizes.size10),
       ),
-      padding: const EdgeInsets.all(Sizes.size10),
+      padding: widget.isBorder
+          ? const EdgeInsets.symmetric(
+              horizontal: Sizes.size20,
+              vertical: Sizes.size10,
+            )
+          : null,
       child: Column(
         children: [
           GestureDetector(
-            onTap: _onTimeTap,
+            onTap: widget.isEditable ? _onTimeTap : null,
             behavior: HitTestBehavior.translucent,
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: Sizes.size60,
-                  child: Text('약속시간'),
+                  child: Text(
+                    '약속시간',
+                    style: TextStyle(
+                      color: widget.primaryColor,
+                    ),
+                  ),
                 ),
                 const Icon(
                   Icons.access_time,
@@ -144,9 +158,14 @@ class _SignalEditCardState extends State<SignalEditCard> {
           ),
           Row(
             children: [
-              const SizedBox(
+              SizedBox(
                 width: Sizes.size60,
-                child: Text('만날위치'),
+                child: Text(
+                  '만날위치',
+                  style: TextStyle(
+                    color: widget.primaryColor,
+                  ),
+                ),
               ),
               const Icon(
                 Icons.place,
@@ -158,8 +177,9 @@ class _SignalEditCardState extends State<SignalEditCard> {
                 child: SizedBox(
                   height: Sizes.size32,
                   child: TextFormField(
-                    initialValue: _currentSignalInfo.sigPromiseTime,
+                    initialValue: _currentSignalInfo.sigPromiseArea,
                     onChanged: _onLocationChange,
+                    enabled: widget.isEditable,
                     decoration: const InputDecoration(
                       hintText: '장소를 정해주세요',
                       hintStyle: TextStyle(
@@ -180,9 +200,14 @@ class _SignalEditCardState extends State<SignalEditCard> {
           ),
           Row(
             children: [
-              const SizedBox(
+              SizedBox(
                 width: Sizes.size60,
-                child: Text('메뉴'),
+                child: Text(
+                  '메뉴',
+                  style: TextStyle(
+                    color: widget.primaryColor,
+                  ),
+                ),
               ),
               const Icon(
                 Icons.restaurant_menu,
@@ -194,8 +219,9 @@ class _SignalEditCardState extends State<SignalEditCard> {
                 child: SizedBox(
                   height: Sizes.size32,
                   child: TextFormField(
-                    initialValue: _currentSignalInfo.sigPromiseTime,
+                    initialValue: _currentSignalInfo.sigPromiseMenu,
                     onChanged: _onMenuChange,
+                    enabled: widget.isEditable,
                     decoration: const InputDecoration(
                       hintText: '메뉴를 정해주세요',
                       hintStyle: TextStyle(
@@ -211,7 +237,7 @@ class _SignalEditCardState extends State<SignalEditCard> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],

@@ -38,7 +38,7 @@ class SignupPasswordChangedEvent extends SignupUserEvent {
   List<Object?> get props => [password];
 }
 
-// 닉네임 변경 이벤트
+// 유저 이름 변경 이벤트
 class SignupUserNameChangedEvent extends SignupUserEvent {
   final String userName;
 

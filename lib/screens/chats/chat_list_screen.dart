@@ -85,7 +85,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     child: GestureDetector(
                       onTap: () => PushNewScreen.openChatRoom(
                         roomId: chat.roomId!,
-                        userName: chat.userName!,
+                        nickName: chat.nickName!,
                         profileImg: chat.profileImg!,
                         context: context,
                       ),
