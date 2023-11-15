@@ -3,6 +3,7 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/chats/chat_list_model.dart';
 import 'package:honbap_signal_flutter/tools/datetime_formatter.dart';
+import 'package:honbap_signal_flutter/widgets/common_profile_image_widget.dart';
 
 class ChatCard extends StatelessWidget {
   const ChatCard({
@@ -34,10 +35,8 @@ class ChatCard extends StatelessWidget {
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                // Image.network로 변경하면 됨
-                child: Image.asset(
-                  "assets/test/test_image.jpg",
-                  fit: BoxFit.fill,
+                child: CommonProfileImageWidget(
+                  profileImg: chat.profileImg,
                 ),
               ),
               Flexible(

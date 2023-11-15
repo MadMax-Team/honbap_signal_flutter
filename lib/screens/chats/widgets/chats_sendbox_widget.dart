@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 
-class ChatsSendboxWidget extends StatelessWidget {
+class ChatsSendboxWidget extends StatefulWidget {
   const ChatsSendboxWidget({super.key});
+
+  @override
+  State<ChatsSendboxWidget> createState() => _ChatsSendboxWidgetState();
+}
+
+class _ChatsSendboxWidgetState extends State<ChatsSendboxWidget> {
+  late final TextEditingController _textEditingController;
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: Sizes.size48,
-      margin: const EdgeInsets.fromLTRB(
+      margin: EdgeInsets.fromLTRB(
         Sizes.size10,
         0,
         Sizes.size10,
-        Sizes.size24,
+        MediaQuery.of(context).padding.bottom + Sizes.size10,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Sizes.size24),
@@ -42,7 +61,9 @@ class ChatsSendboxWidget extends StatelessWidget {
           Expanded(
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: Sizes.size10),
-              child: const Text('input'),
+              child: TextFormField(
+                controller: _textEditingController,
+              ),
             ),
           ),
           IconButton(
