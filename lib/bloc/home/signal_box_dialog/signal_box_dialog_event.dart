@@ -30,15 +30,17 @@ class SendSignalDataEvent extends SignalBoxDialogEvent {
   final String? sigPromiseTime;
   final String? sigPromiseArea;
   final String? sigPromiseMenu;
+  final String? fcm;
 
   const SendSignalDataEvent({
     required this.jwt,
     this.sigPromiseTime,
     this.sigPromiseArea,
     this.sigPromiseMenu,
+    this.fcm,
   });
 
   @override
-  List<Object?> get props => [jwt, sigPromiseTime, sigPromiseArea, sigPromiseMenu];
+  List<Object?> get props => [jwt, sigPromiseTime, sigPromiseArea, sigPromiseMenu, fcm];
 }
 

@@ -81,4 +81,35 @@ class HomeSignalApplyRepository {
       throw Exception("failtd to fetch data");
     }
   }
+
+  Future<bool> acceptFromApplyedList({
+    required String jwt,
+    required int matchedIdx,
+  }) async {
+    final Map<String, String> headers = {
+      "Content-Type": "application/json",
+      'x-access-token': jwt,
+    };
+
+    final data = {
+      "matchedIdx": matchedIdx,
+    };
+
+    final res = await http.patch(
+      Uri.parse('${ApiEndpoint.honbab}/signal/list/matching'),
+      headers: headers,
+      body: json.encode(data),
+    );
+
+    if (res.statusCode == 200) {
+      final responseData = json.decode(res.body);
+      if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
+        return true;
+      } else {
+        throw Exception("failed to fetch data");
+      }
+    } else {
+      throw Exception("failtd to fetch data");
+    }
+  }
 }

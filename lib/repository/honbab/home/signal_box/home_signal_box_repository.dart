@@ -12,6 +12,7 @@ class HomeSignalBoxRepository {
     String? sigPromiseTime,
     String? sigPromiseArea,
     String? sigPromiseMenu,
+    String? fcm,
   }) async {
     final headers = {
       "Content-Type": "application/json",
@@ -46,6 +47,7 @@ class HomeSignalBoxRepository {
       "sigPromiseTime": sigPromiseTime,
       "sigPromiseArea": sigPromiseArea,
       "sigPromiseMenu": sigPromiseMenu,
+      "fcm": fcm,
     };
 
     final res = await http.post(
