@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
-import 'package:honbap_signal_flutter/screens/common/signal_edit_card/signal_edit_card.dart';
+import 'package:honbap_signal_flutter/widgets/common_signal_card_widget.dart';
 
 class ChatsEditSignalWidget extends StatelessWidget {
   final Function()? onTapClose;
@@ -86,7 +86,9 @@ class ChatsEditSignalWidget extends StatelessWidget {
               children: [
                 const Text('조율 후 약속을 수정해주세요'),
                 Gaps.v16,
-                const SignalEditCard(),
+                const SignalEditCard(
+                  isEditable: true,
+                ),
                 Gaps.v16,
                 _button(
                   context,
