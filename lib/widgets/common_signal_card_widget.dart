@@ -237,7 +237,7 @@ class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],

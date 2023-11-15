@@ -130,21 +130,25 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                               )
                             else
                               Container(),
-                            Gaps.v32,
-                            SizedBox(
-                              width: double.infinity,
-                              child: Wrap(
-                                direction: Axis.horizontal,
-                                spacing: Sizes.size4,
-                                runSpacing: Sizes.size4,
-                                children: [
-                                  for (var tag
-                                      in widget.signal.interest?.split(',') ??
+                            if (widget.signal.interest?.isNotEmpty == true)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: Sizes.size32),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Wrap(
+                                    direction: Axis.horizontal,
+                                    spacing: Sizes.size4,
+                                    runSpacing: Sizes.size4,
+                                    children: [
+                                      for (var tag in widget.signal.interest
+                                              ?.split(',') ??
                                           [])
-                                    DialogUserTag(tag: tag),
-                                ],
+                                        DialogUserTag(tag: tag),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
                             Gaps.v32,
                             SizedBox(
                               width: double.infinity,
