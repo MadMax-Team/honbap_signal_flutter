@@ -17,11 +17,11 @@ import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 enum PopupItems { refresh, delete, declaration, block }
 
 class ChatRoomScreen extends StatefulWidget {
-  final String userName, profileImg;
+  final String nickName, profileImg;
 
   const ChatRoomScreen({
     super.key,
-    required this.userName,
+    required this.nickName,
     required this.profileImg,
   });
 
@@ -86,7 +86,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             ),
           ),
           title: Text(
-            widget.userName,
+            widget.nickName,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           elevation: 0,
@@ -213,8 +213,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               chat: state.chats.reversed.toList(),
               index: index,
               profileImg: widget.profileImg,
-              isSended: state.chats.reversed.toList()[index].userName !=
-                  widget.userName,
+              isSended: state.chats.reversed.toList()[index].nickName !=
+                  widget.nickName,
             ),
             childCount: state.chats.length,
           ),

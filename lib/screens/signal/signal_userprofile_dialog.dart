@@ -99,7 +99,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                             ),
                             Gaps.v16,
                             Text(
-                              widget.signal.userName ?? '',
+                              widget.signal.nickName ?? '',
                               style: const TextStyle(
                                 fontSize: Sizes.size14,
                                 fontWeight: FontWeight.w600,

@@ -59,7 +59,7 @@ class SignalUserCard extends StatelessWidget {
               ),
               Gaps.v7,
               Text(
-                signal.userName ?? '',
+                signal.nickName ?? '',
                 style: TextStyle(
                   fontSize: Sizes.size14,
                   fontWeight: FontWeight.w600,

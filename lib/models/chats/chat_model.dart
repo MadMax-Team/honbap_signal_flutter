@@ -5,23 +5,23 @@ part 'chat_model.g.dart';
 
 @JsonSerializable()
 class ChatModel extends Equatable {
-  final String? userName;
+  final String? nickName;
   final String? text;
   final String? sendAt;
 
   const ChatModel({
-    this.userName,
+    this.nickName,
     this.text,
     this.sendAt,
   });
 
   ChatModel copyWith({
-    String? userName,
+    String? nickName,
     String? text,
     String? sendAt,
   }) =>
       ChatModel(
-        userName: userName ?? this.userName,
+        nickName: nickName ?? this.nickName,
         text: text ?? this.text,
         sendAt: sendAt ?? this.sendAt,
       );
@@ -33,7 +33,7 @@ class ChatModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        userName,
+        nickName,
         text,
         sendAt,
       ];

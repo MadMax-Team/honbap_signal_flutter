@@ -6,7 +6,7 @@ part 'signal_list_model.g.dart';
 @JsonSerializable()
 class SignalListModel extends Equatable {
   final int? userIdx, signalIdx, checkSigWrite;
-  final String? profileImg, userName, userIntroduce;
+  final String? profileImg, nickName, userIntroduce;
   final String? sigPromiseArea, sigPromiseTime, sigPromiseMenu;
   final String? interest;
   final String? taste, hateFood, preferArea, mbti;
@@ -17,7 +17,7 @@ class SignalListModel extends Equatable {
     this.signalIdx,
     this.checkSigWrite,
     this.profileImg,
-    this.userName,
+    this.nickName,
     this.userIntroduce,
     this.sigPromiseArea,
     this.sigPromiseTime,
@@ -39,7 +39,7 @@ class SignalListModel extends Equatable {
         signalIdx,
         checkSigWrite,
         profileImg,
-        userName,
+        nickName,
         userIntroduce,
         sigPromiseArea,
         sigPromiseTime,

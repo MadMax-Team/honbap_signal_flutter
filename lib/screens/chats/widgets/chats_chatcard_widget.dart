@@ -49,7 +49,7 @@ class ChatCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          chat.userName ?? '',
+                          chat.nickName ?? '',
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: Sizes.size14,

@@ -11,9 +11,11 @@ class ChatListRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabMock}/msg'),
+      Uri.parse('${ApiEndpoint.honbab}/msg'),
       headers: headers,
     );
+
+    print(res.body);
 
     List<ChatListModel> resultList = [];
     if (res.statusCode == 200) {

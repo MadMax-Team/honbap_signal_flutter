@@ -33,7 +33,7 @@ class PushNewScreen {
 
   static void openChatRoom({
     required String roomId,
-    required String userName,
+    required String nickName,
     required String profileImg,
     required dynamic context,
   }) {
@@ -48,7 +48,7 @@ class PushNewScreen {
               roomId,
             ),
             child: ChatRoomScreen(
-              userName: userName,
+              nickName: nickName,
               profileImg: profileImg,
             ),
           ),

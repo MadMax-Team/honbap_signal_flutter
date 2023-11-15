@@ -14,7 +14,7 @@ class ChatRoomRepository {
     };
 
     final res = await http.get(
-      Uri.parse('${ApiEndpoint.honbabMock}/msg/$roomId'),
+      Uri.parse('${ApiEndpoint.honbab}/msg/$roomId'),
       headers: headers,
     );
 

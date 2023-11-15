@@ -7,13 +7,13 @@ part of 'chat_model.dart';
 // **************************************************************************
 
 ChatModel _$ChatModelFromJson(Map<String, dynamic> json) => ChatModel(
-      userName: json['userName'] as String?,
+      nickName: json['nickName'] as String?,
       text: json['text'] as String?,
       sendAt: json['sendAt'] as String?,
     );
 
 Map<String, dynamic> _$ChatModelToJson(ChatModel instance) => <String, dynamic>{
-      'userName': instance.userName,
+      'nickName': instance.nickName,
       'text': instance.text,
       'sendAt': instance.sendAt,
     };
