@@ -8,6 +8,7 @@ import 'package:honbap_signal_flutter/screens/mypage/match_history/match_history
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_menu_divider.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_setting_button_widget.dart';
 import 'package:honbap_signal_flutter/tools/push_new_screen.dart';
+import 'package:honbap_signal_flutter/widgets/common_profile_image_widget.dart';
 
 class MyPageScreen extends StatelessWidget {
   const MyPageScreen({super.key});
@@ -73,27 +74,8 @@ class MyPageScreen extends StatelessWidget {
                           child: Stack(
                             alignment: Alignment.bottomRight,
                             children: [
-                              Container(
-                                clipBehavior: Clip.hardEdge,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: state.user?.userProfile?.profileImg ==
-                                        null
-                                    ? CircleAvatar(
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                        radius: Sizes.size32,
-                                        backgroundImage: Image.asset(
-                                          'assets/images/honbab_smile.png',
-                                        ).image,
-                                      )
-                                    : Image.network(
-                                        state.user!.userProfile!.profileImg!,
-                                        width: Sizes.size32 * 2,
-                                        height: Sizes.size32 * 2,
-                                        fit: BoxFit.fill,
-                                      ),
+                              CommonProfileImageWidget(
+                                profileImg: state.user?.userProfile?.profileImg,
                               ),
                               Container(
                                 width: Sizes.size24,

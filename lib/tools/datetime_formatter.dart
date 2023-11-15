@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 String diffDatetime(DateTime from) {
   DateTime now = DateTime.now();
-  var timeZoneOffset = DateTime.now().timeZoneOffset.inMilliseconds;
+  var timeZoneOffset = now.timeZoneOffset.inMilliseconds;
   int localNow = now.millisecondsSinceEpoch;
   int localFrom = from.millisecondsSinceEpoch - timeZoneOffset;
 

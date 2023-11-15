@@ -3,6 +3,7 @@ import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_list_model.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_card_usertag_widget.dart';
+import 'package:honbap_signal_flutter/widgets/common_profile_image_widget.dart';
 
 class SignalUserCard extends StatelessWidget {
   const SignalUserCard({
@@ -52,18 +53,9 @@ class SignalUserCard extends StatelessWidget {
           child: Column(
             children: [
               Gaps.v20,
-              Container(
-                clipBehavior: Clip.hardEdge,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                // Image.network로 변경하면 됨
-                child: Image.asset(
-                  "assets/test/test_image.jpg",
-                  width: Sizes.size80,
-                  height: Sizes.size80,
-                  fit: BoxFit.fill,
-                ),
+              CommonProfileImageWidget(
+                profileImg: signal.profileImg,
+                size: Sizes.size44,
               ),
               Gaps.v7,
               Text(
@@ -77,7 +69,7 @@ class SignalUserCard extends StatelessWidget {
               ),
               Gaps.v3,
               Text(
-                '나와 400m   19분 전',
+                '나와 ${signal.distance?.round()}m',
                 style: TextStyle(
                   color: signal.checkSigWrite == 0
                       ? Colors.grey.shade600
@@ -86,20 +78,17 @@ class SignalUserCard extends StatelessWidget {
                 ),
               ),
               Gaps.v5,
-              const Padding(
-                padding: EdgeInsets.all(Sizes.size10),
+              Padding(
+                padding: const EdgeInsets.all(Sizes.size10),
                 child: SizedBox(
                   width: double.infinity,
                   child: Wrap(
                     direction: Axis.horizontal,
                     spacing: Sizes.size4,
                     runSpacing: Sizes.size4,
-                    children: <Widget>[
-                      CardUserTag(tag: '양꼬치'),
-                      CardUserTag(tag: '삼각지역'),
-                      CardUserTag(tag: '반주사랑'),
-                      CardUserTag(tag: '이구역토박이'),
-                      CardUserTag(tag: '한식'),
+                    children: [
+                      for (var tag in signal.interest?.split(',') ?? [])
+                        CardUserTag(tag: tag),
                     ],
                   ),
                 ),
