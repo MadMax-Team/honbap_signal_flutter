@@ -119,7 +119,12 @@ class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
             : null,
         borderRadius: BorderRadius.circular(Sizes.size10),
       ),
-      padding: const EdgeInsets.all(Sizes.size10),
+      padding: widget.isBorder
+          ? const EdgeInsets.symmetric(
+              horizontal: Sizes.size20,
+              vertical: Sizes.size10,
+            )
+          : null,
       child: Column(
         children: [
           GestureDetector(
@@ -172,7 +177,7 @@ class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
                 child: SizedBox(
                   height: Sizes.size32,
                   child: TextFormField(
-                    initialValue: _currentSignalInfo.sigPromiseTime,
+                    initialValue: _currentSignalInfo.sigPromiseArea,
                     onChanged: _onLocationChange,
                     enabled: widget.isEditable,
                     decoration: const InputDecoration(
@@ -214,7 +219,7 @@ class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
                 child: SizedBox(
                   height: Sizes.size32,
                   child: TextFormField(
-                    initialValue: _currentSignalInfo.sigPromiseTime,
+                    initialValue: _currentSignalInfo.sigPromiseMenu,
                     onChanged: _onMenuChange,
                     enabled: widget.isEditable,
                     decoration: const InputDecoration(

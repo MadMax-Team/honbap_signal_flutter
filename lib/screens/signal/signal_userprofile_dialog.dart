@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_list_model.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_dialog_usertag_widget.dart';
 import 'package:honbap_signal_flutter/widgets/common_profile_image_widget.dart';
+import 'package:honbap_signal_flutter/widgets/common_signal_card_widget.dart';
 
 class SignalUserDialog extends StatefulWidget {
   const SignalUserDialog({
@@ -110,36 +112,20 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                               textAlign: TextAlign.center,
                             ),
                             if (widget.signal.checkSigWrite != 0)
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(top: Sizes.size32),
-                                padding: const EdgeInsets.all(Sizes.size12),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: Sizes.size1,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.circular(Sizes.size7),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: Sizes.size20,
                                 ),
-                                child: Column(
-                                  children: [
-                                    InfoRow(
-                                      title: '만남위치',
-                                      icon: Icons.location_on_outlined,
-                                      info: widget.signal.sigPromiseArea ?? '',
-                                    ),
-                                    InfoRow(
-                                      title: '약속시간',
-                                      icon: Icons.access_time_rounded,
-                                      info: widget.signal.sigPromiseTime ?? '',
-                                    ),
-                                    InfoRow(
-                                      title: '메뉴',
-                                      icon: Icons.restaurant_menu_rounded,
-                                      info: widget.signal.sigPromiseMenu ?? '',
-                                    ),
-                                  ],
+                                child: CommonSignalCardWidget(
+                                  initSignal: SignalInfoModel(
+                                    sigPromiseArea:
+                                        widget.signal.sigPromiseArea,
+                                    sigPromiseTime:
+                                        widget.signal.sigPromiseTime,
+                                    sigPromiseMenu:
+                                        widget.signal.sigPromiseMenu,
+                                  ),
+                                  primaryColor: Theme.of(context).primaryColor,
                                 ),
                               )
                             else
