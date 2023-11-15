@@ -1,7 +1,11 @@
 abstract class ChatRoomEvent {}
 
-class ChatRoomGetEvent extends ChatRoomEvent {
-  final String jwt;
+class ChatRoomGetEvent extends ChatRoomEvent {}
 
-  ChatRoomGetEvent({required this.jwt});
+class ChatSendEvent extends ChatRoomEvent {
+  final String msg;
+
+  ChatSendEvent({
+    required this.msg,
+  });
 }

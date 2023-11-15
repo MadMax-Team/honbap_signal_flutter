@@ -45,6 +45,7 @@ class PushNewScreen {
           child: BlocProvider(
             create: (context) => ChatRoomBloc(
               context.read<ChatRoomRepository>(),
+              context.read<UserCubit>().state.user!.jwt!,
               roomId,
             ),
             child: ChatRoomScreen(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_event.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 
 class ChatsSendboxWidget extends StatefulWidget {
@@ -27,8 +30,11 @@ class _ChatsSendboxWidgetState extends State<ChatsSendboxWidget> {
   }
 
   void _sendMessage() {
-    print('send: ${_textEditingController.value.text}');
-    _textEditingController.clear();
+    var msg = _textEditingController.value.text;
+    if (msg.isNotEmpty) {
+      context.read<ChatRoomBloc>().add(ChatSendEvent(msg: msg));
+      _textEditingController.clear();
+    }
   }
 
   @override
