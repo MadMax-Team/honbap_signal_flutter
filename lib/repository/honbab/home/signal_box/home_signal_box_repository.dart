@@ -22,32 +22,13 @@ class HomeSignalBoxRepository {
     final position = await LocationRepository().fetchLocation();
     print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
 
-    final location = {
-      "latitude": position.latitude,
-      "longitude": position.longitude,
-    };
-
-    final locRes = await http.patch(
-      Uri.parse('${ApiEndpoint.honbab}/signalFind'), // 요청 URL
-      headers: headers,
-      body: json.encode(location),
-    );
-
-    if (locRes.statusCode == 200) {
-      final responseData = json.decode(locRes.body);
-      if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
-      } else {
-        throw Exception("failed to location data");
-      }
-    } else {
-      throw Exception("failtd to location data");
-    }
-
     final data = {
       "sigPromiseTime": sigPromiseTime,
       "sigPromiseArea": sigPromiseArea,
       "sigPromiseMenu": sigPromiseMenu,
       "fcm": fcm,
+      "latitude": position.latitude,
+      "longitude": position.longitude,
     };
 
     final res = await http.post(
