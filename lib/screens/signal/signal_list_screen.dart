@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_state.dart';
+import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/cubit/signal_apply_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/signal/signal_userprofile_dialog.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_usercard_widget.dart';
@@ -55,7 +57,21 @@ class _SignalListScreenState extends State<SignalListScreen> {
           }
           if (state.status == SignalListStatus.error) {
             return Center(
-              child: Text(state.message ?? 'error'),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(state.message ?? 'error'),
+                  Gaps.v20,
+                  TextButton(
+                    onPressed: () {
+                      context.read<SignalListBloc>().add(SignalListGetEvent(
+                            jwt: context.read<UserCubit>().state.user!.jwt!,
+                          ));
+                    },
+                    child: const Text('다시 시도하기'),
+                  ),
+                ],
+              ),
             );
           }
           return SmartRefresher(
@@ -88,9 +104,10 @@ class _SignalListScreenState extends State<SignalListScreen> {
                             showDialog(
                               context: context,
                               barrierDismissible: false,
-                              builder: (context) {
+                              builder: (context_) {
                                 return SignalUserDialog(
                                   signal: state.signals[index],
+                                  cubit: context.read<SignalApplyCubit>(),
                                 );
                               },
                             );

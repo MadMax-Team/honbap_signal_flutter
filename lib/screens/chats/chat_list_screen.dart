@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_event.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_state.dart';
+import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatcard_widget.dart';
 import 'package:honbap_signal_flutter/tools/push_new_screen.dart';
@@ -30,15 +31,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
         elevation: 0,
         centerTitle: false,
         backgroundColor: Colors.white,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: const Icon(
-        //       Icons.refresh,
-        //       color: Colors.grey,
-        //     ),
-        //   ),
-        // ],
       ),
       body: BlocBuilder<ChatListBloc, ChatListState>(
         buildWhen: (previous, current) =>
@@ -64,7 +56,21 @@ class _ChatListScreenState extends State<ChatListScreen> {
           }
           if (state.status == ChatListStatus.error) {
             return Center(
-              child: Text(state.message ?? 'error'),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(state.message ?? 'error'),
+                  Gaps.v20,
+                  TextButton(
+                    onPressed: () {
+                      context.read<ChatListBloc>().add(ChatListGetEvent(
+                            jwt: context.read<UserCubit>().state.user!.jwt!,
+                          ));
+                    },
+                    child: const Text('다시 시도하기'),
+                  ),
+                ],
+              ),
             );
           }
           return SmartRefresher(

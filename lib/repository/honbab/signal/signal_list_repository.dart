@@ -20,7 +20,6 @@ class HonbabSignalListRepository {
 
     List<SignalListModel> resultList = [];
 
-    print(res.body);
     if (res.statusCode == 200) {
       for (var signalJson in json.decode(res.body)['result'] as List<dynamic>) {
         resultList.add(SignalListModel.fromJson(signalJson));
@@ -32,8 +31,8 @@ class HonbabSignalListRepository {
 
   Future<ResCodeModel> postSignalList({
     required String jwt,
-    required int userIdx,
-    required int applyedIdx,
+    required int userIdx, // 내 인덱스
+    required int applyedIdx, // 신청하고자 하는 상대방의 인덱스
   }) async {
     try {
       final Map<String, String> headers = {
@@ -46,12 +45,11 @@ class HonbabSignalListRepository {
       };
 
       final res = await http.post(
-        Uri.parse('${ApiEndpoint.honbab}/signalFind/list'),
+        Uri.parse('${ApiEndpoint.honbab}/signal/applylist'),
         headers: headers,
-        body: body,
+        body: jsonEncode(body),
       );
 
-      print(res.body);
       if (res.statusCode == 200) {
         return ResCodeModel.fromJson(await json.decode(res.body));
       }

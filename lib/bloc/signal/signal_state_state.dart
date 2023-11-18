@@ -30,7 +30,7 @@ class SignalStateState extends Equatable {
   });
 
   const SignalStateState.init()
-      : state = SignalState.idle,
+      : state = SignalState.init,
         message = null,
         signal = const SignalStateModel();
 
