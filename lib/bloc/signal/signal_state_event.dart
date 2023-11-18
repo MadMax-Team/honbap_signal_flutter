@@ -1,13 +1,24 @@
+import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_state_model.dart';
 
 abstract class SignalStateEvent {}
+
+/// 최초 시그널 정보 가져올 때 사용
+///
+class SignalStateGetEvent extends SignalStateEvent {
+  SignalStateGetEvent();
+}
 
 /// 시그널 ON 시 사용
 ///
 /// ---
 /// 해당 이벤트가 호출되면 자동으로 [signal.state] 가 [SignalState.signaling] 상태로 변경됩니다.
 class SignalStateOnEvent extends SignalStateEvent {
-  SignalStateOnEvent();
+  final SignalInfoModel? signalInfo;
+
+  SignalStateOnEvent({
+    this.signalInfo,
+  });
 }
 
 /// 시그널 OFF 시 사용
