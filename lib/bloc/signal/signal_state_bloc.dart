@@ -28,13 +28,38 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     emit(state.copyWith(state: SignalState.loading));
 
     try {
-      final bool signalState =
-          await homeSignalBoxRepository.getHomeSignalBoxState(jwt: jwt);
+      final resultData = await homeSignalBoxRepository.getHomeSignalBoxState(jwt: jwt);
+      final signalState = resultData['sigStatus'];
+      final matchedState = resultData['sigMatchStatus'];
+      final oppoUserIdx = resultData['applyedIdx'];
+      final oppoNickName = resultData['userName'];
+      final signalStateModel = SignalStateModel.fromJson(resultData);
 
-      if (signalState) {
-        emit(state.copyWith(state: SignalState.signaling));
-      } else {
-        emit(state.copyWith(state: SignalState.idle));
+      final customizedSignalStateModel = SignalStateModel(
+        oppoUserIdx: oppoUserIdx,
+        oppoNickName: oppoNickName,
+        sigPromiseTime: signalStateModel.sigPromiseTime,
+        sigPromiseArea: signalStateModel.sigPromiseArea,
+        sigPromiseMenu: signalStateModel.sigPromiseMenu,
+      );
+
+      if(matchedState == 1) {
+        emit(state.copyWith(
+          state: SignalState.matched,
+          signal: customizedSignalStateModel,
+        ));
+      } else{
+        if(signalState == 1) {
+          emit(state.copyWith(
+            state: SignalState.signaling,
+            signal: customizedSignalStateModel,
+          ));
+        } else {
+          emit(state.copyWith(
+            state: SignalState.idle,
+            signal: customizedSignalStateModel,
+          ));
+        }
       }
     } catch (e) {
       var prevState = state.state;

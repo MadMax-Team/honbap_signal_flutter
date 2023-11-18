@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.black),
                     ),
                     BlocBuilder<SignalStateBloc, SignalStateState>(
+                        buildWhen: (pre, cur) => pre.signal != cur.signal,
                         builder: (context, state) {
                           if(state.state == SignalState.signaling) {
                             return OutlinedButton(
@@ -190,17 +191,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 buildWhen: (pre, cur) {
                   return pre != cur;
                 },
-                //처음 상태 받아오는게 필요함 not yet
-
                 builder: (context, state) {
                   if(state.state == SignalState.matched) {
-                    return const StateCard(
-                      matchedInfo: SignalStateModel( //test
-                        oppoNickName: "닉네임",
-                        sigPromiseTime: "2027-11-15 18:42:00",
-                        sigPromiseArea: "장소",
-                        sigPromiseMenu: "dd"
-                      ),
+                    return StateCard(
+                      matchedInfo: state.signal,
                       url: "url",
                     );
                   } else {
