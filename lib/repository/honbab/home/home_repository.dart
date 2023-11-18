@@ -92,7 +92,7 @@ class HomeSignalApplyRepository {
     };
 
     final data = {
-      "matchedIdx": matchedIdx,
+      "applyIdx": matchedIdx,
     };
 
     final res = await http.patch(
