@@ -49,7 +49,7 @@ class HomeSignalBoxRepository {
     }
   }
 
-  Future<bool> getHomeSignalBoxState({required String jwt}) async {
+  Future<Map<String, dynamic>> getHomeSignalBoxState({required String jwt}) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       'x-access-token': jwt,
@@ -63,8 +63,8 @@ class HomeSignalBoxRepository {
     if (res.statusCode == 200) {
       final responseData = json.decode(res.body);
       if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
-        final resultState = responseData['result']['sigStatus'] == 1;
-        return resultState;
+        final resultData = responseData['result'] as Map<String, dynamic>;
+        return resultData;
       } else {
         throw Exception("failed to fetch data");
       }
