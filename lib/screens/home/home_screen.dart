@@ -55,18 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.white,
         elevation: 0.0,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            color: Colors.black,
-            onPressed: () {
-              // TODO: something to click more button
-            },
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Container(
