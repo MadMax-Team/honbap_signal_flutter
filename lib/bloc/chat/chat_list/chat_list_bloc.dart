@@ -29,6 +29,7 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
       emit(state.copyWith(
         status: ChatListStatus.error,
         message: e.toString(),
+        chatrooms: null,
       ));
     }
   }

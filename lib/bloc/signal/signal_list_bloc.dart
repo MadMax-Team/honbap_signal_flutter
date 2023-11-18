@@ -35,6 +35,7 @@ class SignalListBloc extends Bloc<SignalListEvent, SignalListState> {
       emit(state.copyWith(
         status: SignalListStatus.error,
         message: e.toString(),
+        signals: null,
       ));
     }
   }
