@@ -29,12 +29,12 @@ class FCMCubit extends Cubit<FCMState> {
         print('fg fcm: ${message.notification?.title}');
         print('fg fcm: ${message.notification?.body}');
         print('fg fcm: ${message.data}');
-        emit(FCMState(
-          state: FCMEvent.message,
-          body: message.notification!.body,
-          data: FCMDataModel.fromJson(message.data),
-        ));
       }
+      emit(FCMState(
+        state: FCMEvent.message,
+        body: message.notification?.body,
+        data: FCMDataModel.fromJson(message.data),
+      ));
     }
     emit(const FCMState());
   }

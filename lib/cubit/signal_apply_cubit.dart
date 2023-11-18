@@ -12,14 +12,13 @@ class SignalApplyCubit extends Cubit<SignalApplyState> {
     required this.userModel,
   }) : super(const SignalApplyState());
 
-  void applySignal() async {
+  void applySignal(int oppoIdx) async {
     emit(const SignalApplyState(status: SignalApplyStatus.loading));
 
-    // TODO: update indexies
     final res = await signalRepository.postSignalList(
       jwt: userModel.jwt ?? '',
-      userIdx: 0,
-      applyedIdx: 0,
+      userIdx: userModel.userIdx!,
+      applyedIdx: oppoIdx,
     );
 
     if (res.code == 1000) {

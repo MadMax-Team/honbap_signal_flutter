@@ -9,6 +9,7 @@ import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
+import 'package:honbap_signal_flutter/cubit/signal_apply_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
@@ -110,7 +111,10 @@ class _AppState extends State<App> {
                 ),
                 BlocProvider(
                   create: (context) => SignalListBloc(
-                      context.read<HonbabSignalListRepository>()),
+                    honbabSignalListRepository:
+                        context.read<HonbabSignalListRepository>(),
+                    myUserIdx: context.read<UserCubit>().state.user!.userIdx!,
+                  ),
                 ),
                 BlocProvider(
                   create: (context) => HomeSignalApplyBloc(
@@ -123,6 +127,13 @@ class _AppState extends State<App> {
                 BlocProvider(
                   create: (context) =>
                       ChatListBloc(context.read<ChatListRepository>()),
+                ),
+                BlocProvider(
+                  create: (context) => SignalApplyCubit(
+                    signalRepository:
+                        context.read<HonbabSignalListRepository>(),
+                    userModel: context.read<UserCubit>().state.user!,
+                  ),
                 ),
               ],
               child: const RouteNavigationWidget(),

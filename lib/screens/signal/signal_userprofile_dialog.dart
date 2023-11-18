@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/cubit/signal_apply_cubit.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_list_model.dart';
 import 'package:honbap_signal_flutter/screens/signal/widgets/signal_dialog_usertag_widget.dart';
@@ -8,12 +9,14 @@ import 'package:honbap_signal_flutter/widgets/common_profile_image_widget.dart';
 import 'package:honbap_signal_flutter/widgets/common_signal_card_widget.dart';
 
 class SignalUserDialog extends StatefulWidget {
+  final SignalApplyCubit cubit;
+  final SignalListModel signal;
+
   const SignalUserDialog({
     super.key,
     required this.signal,
+    required this.cubit,
   });
-
-  final SignalListModel signal;
 
   @override
   State<SignalUserDialog> createState() => _SignalUserDialogState();
@@ -41,6 +44,10 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+  }
+
+  void _applySignal() {
+    widget.cubit.applySignal(widget.signal.userIdx!);
   }
 
   @override
@@ -196,9 +203,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {
-                          print('request signal');
-                        },
+                        onTap: _applySignal,
                         child: Container(
                           alignment: Alignment.center,
                           height: Sizes.size52,
