@@ -136,26 +136,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 Gaps.v11,
                 GestureDetector(
                   onTap: () {
-                    if (context.read<SignalStateBloc>().state.state != SignalState.matched){
-                      if (context.read<SignalStateBloc>().state.state == SignalState.signaling){
-                        showDialog(
-                          context: context,
-                          builder: (_) => SignalOffDialog(parentContext: context),
-                          barrierDismissible: false,
-                        );
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (_) => SignalOnDialog(parentContext: context),
-                          barrierDismissible: false,
-                        );
-                      }
+                    if (context.read<SignalStateBloc>().state.state == SignalState.signaling){
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOffDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOnDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
                     }
                   },
                   child: BlocBuilder<SignalStateBloc, SignalStateState>(
-                    buildWhen: (pre, cur) {
-                      return pre != cur;
-                    },
                     builder: (context, state) {
                       if (state.state == SignalState.init) {
                         context.read<SignalStateBloc>().add(SignalStateGetEvent());
@@ -202,9 +197,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Gaps.v11,
                 BlocBuilder<SignalStateBloc, SignalStateState>(
-                  buildWhen: (pre, cur) {
-                    return pre != cur;
-                  },
                   builder: (context, state) {
                     if(state.state == SignalState.matched) {
                       return StateCard(
@@ -251,7 +243,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Gaps.v11,
                 BlocBuilder<HomeSignalApplyedBloc, HomeSignalApplyedState>(
-                  buildWhen: (pre, cur) => pre.signalApply != cur.signalApply,
                   builder: (context, state) {
                     if (state.status == HomeSignalApplyedStatus.init) {
                       context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedGetEvent(
@@ -374,7 +365,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Gaps.v11,
                 BlocBuilder<HomeSignalApplyBloc, HomeSignalApplyState>(
-                  buildWhen: (pre, cur) => pre.signalApply != cur.signalApply,
                   builder: (context, state) {
                     if (state.status == HomeSignalApplyStatus.init) {
                       context.read<HomeSignalApplyBloc>().add(HomeSignalApplyGetEvent(
