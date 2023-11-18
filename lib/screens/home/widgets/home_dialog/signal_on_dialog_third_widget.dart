@@ -2,10 +2,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
-import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
-
-import '../../../../bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 import '../../../../cubit/user_cubit.dart';
@@ -17,7 +16,12 @@ class SignalThirdBox extends StatefulWidget {
 
   final BuildContext parentContext;
 
-  const SignalThirdBox({super.key, this.time, this.location, this.favoriteFood, required this.parentContext});
+  const SignalThirdBox(
+      {super.key,
+      this.time,
+      this.location,
+      this.favoriteFood,
+      required this.parentContext});
   @override
   State<SignalThirdBox> createState() => _SignalThirdBoxState();
 }
@@ -80,10 +84,21 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                   child: GestureDetector(
                     onTap: () async {
                       if (widget.time != null) print('Time: ${widget.time}');
-                      if (widget.location != null) print('Location: ${widget.location}');
-                      if (widget.favoriteFood != null) print('Favorite Food: ${widget.favoriteFood}');
-                      String? fcmToken = await FirebaseMessaging.instance.getToken();
-                      widget.parentContext.read<SignalBoxDialogBloc>().add(SendSignalDataEvent(jwt: context.read<UserCubit>().state.user!.jwt!, sigPromiseTime: widget.time, sigPromiseArea: widget.location, sigPromiseMenu: widget.favoriteFood, fcm: fcmToken));
+                      if (widget.location != null) {
+                        print('Location: ${widget.location}');
+                      }
+                      if (widget.favoriteFood != null) {
+                        print('Favorite Food: ${widget.favoriteFood}');
+                      }
+                      widget.parentContext
+                          .read<SignalStateBloc>()
+                          .add(SignalStateOnEvent(
+                            signalInfo: SignalInfoModel(
+                              sigPromiseTime: widget.time,
+                              sigPromiseArea: widget.location,
+                              sigPromiseMenu: widget.favoriteFood,
+                            ),
+                          ));
                       Navigator.of(context).pop();
                     },
                     child: Container(

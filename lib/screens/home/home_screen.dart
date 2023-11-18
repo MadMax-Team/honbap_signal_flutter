@@ -6,9 +6,6 @@ import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bl
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_event.dart';
-import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
-import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_event.dart';
-import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_state_model.dart';
@@ -92,9 +89,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
-                    BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
+                    BlocBuilder<SignalStateBloc, SignalStateState>(
                         builder: (context, state) {
-                          if(state.status == SignalBoxDialogStatus.onState) {
+                          if(state.state == SignalState.signaling) {
                             return OutlinedButton(
                               onPressed: () {
                                 if (context.read<SignalStateBloc>().state.state != SignalState.matched) {
@@ -137,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
               GestureDetector(
                 onTap: () {
                   if (context.read<SignalStateBloc>().state.state != SignalState.matched){
-                    if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
+                    if (context.read<SignalStateBloc>().state.state == SignalState.signaling){
                       showDialog(
                         context: context,
                         builder: (_) => SignalOffDialog(parentContext: context),
@@ -152,33 +149,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   }
                 },
-                child: BlocBuilder<SignalBoxDialogBloc, SignalBoxDialogState>(
+                child: BlocBuilder<SignalStateBloc, SignalStateState>(
                   buildWhen: (pre, cur) {
                     return pre != cur;
                   },
                   builder: (context, state) {
-                    if (state.status == SignalBoxDialogStatus.init) {
-                      context.read<SignalBoxDialogBloc>().add(GetSignalStateEvent(
-                        jwt: context.read<UserCubit>().state.user!.jwt!,
-                        ),
-                      );
+                    if (state.state == SignalState.init) {
+                      context.read<SignalStateBloc>().add(SignalStateGetEvent());
                       return const SignalBox(
                         signal: false,
                       );
                     }
-                    else if (state.status == SignalBoxDialogStatus.onState) {
-                      BlocProvider.of<SignalStateBloc>(context).add(SignalStateOnEvent());
+                    else if (state.state == SignalState.signaling) {
                       print('onstate');
                       return const SignalBox(
                         signal: true,
                       );
                     }
                     else {
-                      if(state.status == SignalBoxDialogStatus.offState){
+                      if(state.state == SignalState.idle){
                         print('offState');
-                        BlocProvider.of<SignalStateBloc>(context).add(SignalStateOffEvent());
                       }
-                      else if(state.status == SignalBoxDialogStatus.loading){
+                      else if(state.state == SignalState.loading){
                         print('loading');
                       }
                       return const SignalBox(
@@ -214,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 builder: (context, state) {
                   if(state.state == SignalState.matched) {
-                    return StateCard(
+                    return const StateCard(
                       matchedInfo: SignalStateModel( //test
                         oppoNickName: "닉네임",
                         sigPromiseTime: "2027-11-15 18:42:00",

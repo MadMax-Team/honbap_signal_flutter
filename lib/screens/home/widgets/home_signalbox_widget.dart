@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
-import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_state.dart';
-
 import '../../../bloc/signal/signal_state_bloc.dart';
 import '../../../bloc/signal/signal_state_state.dart';
 import '../../../constants/gaps.dart';
@@ -85,7 +82,7 @@ class _SignalBoxState extends State<SignalBox>
                   padding: 3,
                   onToggle: (value) {
                     if (context.read<SignalStateBloc>().state.state != SignalState.matched) {
-                      if (context.read<SignalBoxDialogBloc>().state.status == SignalBoxDialogStatus.onState){
+                      if (context.read<SignalStateBloc>().state.state == SignalState.signaling){
                         showDialog(
                           context: context,
                           builder: (_) => SignalOffDialog(parentContext: context),

@@ -5,10 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
-import 'package:honbap_signal_flutter/bloc/home/signal_box_dialog/signal_box_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
@@ -101,7 +101,12 @@ class _AppState extends State<App> {
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(
-                  create: (context) => SignalStateBloc(),
+                  create: (context) => SignalStateBloc(
+                    homeSignalBoxRepository:
+                        context.read<HomeSignalBoxRepository>(),
+                    jwt: context.read<UserCubit>().state.user!.jwt!,
+                    fcmToken: context.read<FCMCubit>().token,
+                  ),
                 ),
                 BlocProvider(
                   create: (context) => SignalListBloc(
@@ -114,13 +119,6 @@ class _AppState extends State<App> {
                 BlocProvider(
                   create: (context) => HomeSignalApplyedBloc(
                       context.read<HomeSignalApplyRepository>()),
-                ),
-                BlocProvider(
-                  create: (context) => SignalBoxDialogBloc(
-                      context.read<HomeSignalBoxRepository>()),
-                ),
-                BlocProvider(
-                  create: (context) => SignalStateBloc(),
                 ),
                 BlocProvider(
                   create: (context) =>
