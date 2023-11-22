@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_profile_upload_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_pw_change_cubit.dart';
@@ -36,6 +37,7 @@ class PushNewScreen {
     required String nickName,
     required String profileImg,
     required dynamic context,
+    SignalStateBloc? signalStateBloc,
   }) {
     Navigator.push(
       context,
@@ -51,6 +53,7 @@ class PushNewScreen {
             child: ChatRoomScreen(
               nickName: nickName,
               profileImg: profileImg,
+              signalStateBloc: signalStateBloc,
             ),
           ),
         ),
