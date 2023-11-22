@@ -62,6 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
       if (state.data?.code == "10000") {
         _refreshScreen();
       }
+      if (state.data?.code == '10001') {
+        _refreshScreen();
+      }
     },
       child: Scaffold(
         backgroundColor: const Color(0xffF5F6FA),
