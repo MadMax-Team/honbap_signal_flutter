@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_event.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_state.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatcard_widget.dart';
@@ -94,6 +95,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                         nickName: chat.nickName!,
                         profileImg: chat.profileImg!,
                         context: context,
+                        signalStateBloc: context.read<SignalStateBloc>(),
                       ),
                       child: ChatCard(chat: chat),
                     ),

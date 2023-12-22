@@ -42,6 +42,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _refreshScreen();
+  }
+
+  void _refreshScreen() {
+    context.read<SignalStateBloc>().add(SignalStateGetEvent());
+    context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedGetEvent(
+      jwt: context.read<UserCubit>().state.user!.jwt!,
+    ));
+    context.read<HomeSignalApplyBloc>().add(HomeSignalApplyGetEvent(
+      jwt: context.read<UserCubit>().state.user!.jwt!,
+    ));
   }
 
   @override
@@ -49,14 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocListener<FCMCubit, FCMState>(
         listener: (context, state) {
       if (state.data?.code == "10000") {
-        context.read<SignalStateBloc>().add(SignalStateGetEvent());
-
-        context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedGetEvent(
-          jwt: context.read<UserCubit>().state.user!.jwt!,
-        ));
-        context.read<HomeSignalApplyBloc>().add(HomeSignalApplyGetEvent(
-          jwt: context.read<UserCubit>().state.user!.jwt!,
-        ));
+        _refreshScreen();
+      }
+      if (state.data?.code == '10001') {
+        _refreshScreen();
       }
     },
       child: Scaffold(
@@ -326,8 +333,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 deleteTap: () {
                                   context.read<HomeSignalApplyedBloc>().add(HomeSignalApplyedDeleteEvent(
                                     jwt: context.read<UserCubit>().state.user!.jwt!,
-                                    userIdx: state.signalApply[index].userIdx,
-                                    applyedIdx: context.read<UserCubit>().state.user!.userIdx!,
+                                    userIdx: context.read<UserCubit>().state.user!.userIdx!,
+                                    applyedIdx: state.signalApply[index].userIdx,
                                   ));
                                 },
                               ),

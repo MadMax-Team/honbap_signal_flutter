@@ -56,7 +56,7 @@ class ChatCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          diffDatetime(_strToDT(chat.lastSendedAt!)),
+                          chat.lastSendedAt != null ? diffDatetime(_strToDT(chat.lastSendedAt!)) : '',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: Sizes.size10,

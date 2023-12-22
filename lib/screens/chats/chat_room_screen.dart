@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_event.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_state.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatbox_widget.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_edit_signal_widget.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_notice_card_widget.dart';
@@ -17,11 +19,13 @@ enum PopupItems { refresh, delete, declaration, block }
 
 class ChatRoomScreen extends StatefulWidget {
   final String nickName, profileImg;
+  final SignalStateBloc? signalStateBloc;
 
   const ChatRoomScreen({
     super.key,
     required this.nickName,
     required this.profileImg,
+    this.signalStateBloc,
   });
 
   @override
@@ -179,6 +183,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               isDraggable: false,
               renderPanelSheet: false,
               panelBuilder: () => ChatsEditSignalWidget(
+                initSignal: SignalInfoModel(
+                  sigPromiseArea:
+                      widget.signalStateBloc?.state.signal.sigPromiseArea,
+                  sigPromiseMenu:
+                      widget.signalStateBloc?.state.signal.sigPromiseMenu,
+                  sigPromiseTime:
+                      widget.signalStateBloc?.state.signal.sigPromiseTime,
+                ),
                 onTapClose: () {
                   FocusScope.of(context).unfocus();
                   _panelController.close();
