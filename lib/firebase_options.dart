@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,34 +49,15 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDAU4ixm8up4Ra_sssQPbmjmF4mfx1lgYw',
-    appId: '1:483919816962:web:3c96dcf8bf6adeb5d0ba1b',
-    messagingSenderId: '483919816962',
-    projectId: 'honbab-signal',
-    authDomain: 'honbab-signal.firebaseapp.com',
-    storageBucket: 'honbab-signal.appspot.com',
-    measurementId: 'G-G1GCLJGPE5',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAsJ8JtdgB_o1wH03rr1bPDkMFySxz_aoA',
-    appId: '1:483919816962:android:02d46b8419348f7ed0ba1b',
+    appId: '1:483919816962:android:a48e682b01908d00d0ba1b',
     messagingSenderId: '483919816962',
     projectId: 'honbab-signal',
     storageBucket: 'honbab-signal.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCl-X1QxVohby75LJEYWHi4aaK4_Xyx22Q',
-    appId: '1:483919816962:ios:bab5b492c723f14fd0ba1b',
-    messagingSenderId: '483919816962',
-    projectId: 'honbab-signal',
-    storageBucket: 'honbab-signal.appspot.com',
-    iosBundleId: 'com.example.honbapSignalFlutter',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCl-X1QxVohby75LJEYWHi4aaK4_Xyx22Q',
     appId: '1:483919816962:ios:bab5b492c723f14fd0ba1b',
     messagingSenderId: '483919816962',
