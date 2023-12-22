@@ -1,4 +1,4 @@
-package com.example.honbap_signal_flutter
+package com.madmax.honbabsignal
 
 import io.flutter.embedding.android.FlutterActivity
 

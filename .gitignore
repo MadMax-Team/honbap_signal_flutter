@@ -50,6 +50,7 @@ kakao_api_key.dart
 encrypt_key.dart
 Debug.xcconfig
 Release.xcconfig
+android/app/google-services.json
 
 # For text
 lib/legacy/
