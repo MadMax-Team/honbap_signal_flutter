@@ -63,6 +63,7 @@ dependencies:
   geolocator: ^9.0.1
   sliding_up_panel2: ^3.3.0+1
   change_app_package_name: ^1.1.0
+  flutter_native_splash: ^2.3.7
 
 dev_dependencies:
   flutter_test:
@@ -140,3 +141,12 @@ flutter:
           weight: 800
         - asset: assets/fonts/Pretendard-Black.ttf
           weight: 900
+
+flutter_native_splash:
+  color: "#ff4b25"
+  image: assets/images/honbab.png
+  android_12:
+    color: "#ff4b25"
+    image: assets/images/honbab.png
+  android: true # Generate splash screen for Android
+  ios: true # Generate splash screen for iOS
