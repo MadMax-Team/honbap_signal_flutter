@@ -125,8 +125,10 @@ class _AppState extends State<App> {
                       context.read<HomeSignalApplyRepository>()),
                 ),
                 BlocProvider(
-                  create: (context) =>
-                      ChatListBloc(context.read<ChatListRepository>()),
+                  create: (context) => ChatListBloc(
+                    chatListRepository: context.read<ChatListRepository>(),
+                    jwt: context.read<UserCubit>().state.user!.jwt!,
+                  ),
                 ),
                 BlocProvider(
                   create: (context) => SignalApplyCubit(

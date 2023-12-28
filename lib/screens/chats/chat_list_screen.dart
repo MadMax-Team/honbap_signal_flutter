@@ -5,8 +5,8 @@ import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_event.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_list/chat_list_state.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
-import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatcard_widget.dart';
+import 'package:honbap_signal_flutter/screens/chats/widgets/chats_leave_dialog.dart';
 import 'package:honbap_signal_flutter/tools/push_new_screen.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -38,9 +38,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
             previous.chatrooms != current.chatrooms,
         builder: (context, state) {
           if (state.status == ChatListStatus.init) {
-            context.read<ChatListBloc>().add(ChatListGetEvent(
-                  jwt: context.read<UserCubit>().state.user!.jwt!,
-                ));
+            context.read<ChatListBloc>().add(ChatListGetEvent());
             return Center(
               child: CircularProgressIndicator(
                 color: Theme.of(context).primaryColor,
@@ -64,9 +62,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                   Gaps.v20,
                   TextButton(
                     onPressed: () {
-                      context.read<ChatListBloc>().add(ChatListGetEvent(
-                            jwt: context.read<UserCubit>().state.user!.jwt!,
-                          ));
+                      context.read<ChatListBloc>().add(ChatListGetEvent());
                     },
                     child: const Text('다시 시도하기'),
                   ),
@@ -77,9 +73,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
           return SmartRefresher(
             controller: _refreshController,
             onRefresh: () {
-              context.read<ChatListBloc>().add(ChatListGetEvent(
-                    jwt: context.read<UserCubit>().state.user!.jwt!,
-                  ));
+              context.read<ChatListBloc>().add(ChatListGetEvent());
               _refreshController.refreshCompleted();
             },
             onLoading: () {
@@ -97,6 +91,19 @@ class _ChatListScreenState extends State<ChatListScreen> {
                         context: context,
                         signalStateBloc: context.read<SignalStateBloc>(),
                       ),
+                      onLongPress: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context_) {
+                            return ChatsLeaveDialog(
+                              chatListBloc: context.read<ChatListBloc>(),
+                              roomId: chat.roomId!,
+                              nickName: chat.nickName!,
+                            );
+                          },
+                        );
+                      },
                       child: ChatCard(chat: chat),
                     ),
                   ),

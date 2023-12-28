@@ -1,7 +1,11 @@
 abstract class ChatListEvent {}
 
-class ChatListGetEvent extends ChatListEvent {
-  final String jwt;
+class ChatListGetEvent extends ChatListEvent {}
 
-  ChatListGetEvent({required this.jwt});
+class ChatLeaveEvent extends ChatListEvent {
+  final String roomId;
+
+  ChatLeaveEvent({
+    required this.roomId,
+  });
 }

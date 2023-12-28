@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
-        android:label="honbap_signal_flutter"
+        android:label="혼밥시그널"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data
