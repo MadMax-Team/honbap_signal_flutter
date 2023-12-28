@@ -159,10 +159,13 @@ class SplashPage extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/honbab_smile.png',
-                      width: Sizes.size72 * 2,
-                      height: Sizes.size72 * 2,
+                    Transform.scale(
+                      scale: 1.5,
+                      child: Image.asset(
+                        'assets/images/honbab_splash.png',
+                        width: Sizes.size72 * 2,
+                        height: Sizes.size72 * 2,
+                      ),
                     ),
                     Text(
                       "${state.status.message} 중입니다.",
