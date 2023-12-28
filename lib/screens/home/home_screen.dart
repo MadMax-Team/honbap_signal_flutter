@@ -58,54 +58,55 @@ class _HomeScreenState extends State<HomeScreen> {
                       '시그널 온오프',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: Sizes.size18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                        fontSize: Sizes.size18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
                     ),
                     BlocBuilder<SignalStateBloc, SignalStateState>(
-                        buildWhen: (pre, cur) => pre.signal != cur.signal,
-                        builder: (context, state) {
-                          if (state.state == SignalState.signaling) {
-                            return OutlinedButton(
-                              onPressed: () {
-                                if (context
-                                        .read<SignalStateBloc>()
-                                        .state
-                                        .state !=
-                                    SignalState.matched) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) => SignalSecondDialog(
-                                        parentContext: context, modify: true),
-                                    barrierDismissible: false,
-                                  );
-                                }
-                              },
-                              style: OutlinedButton.styleFrom(
-                                minimumSize: Size.zero,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 12),
-                                side: const BorderSide(
-                                  width: 1,
-                                  color: Color(0xFFFF4B26),
-                                ),
-                                backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
+                      buildWhen: (pre, cur) => pre.signal != cur.signal,
+                      builder: (context, state) {
+                        if (state.state == SignalState.signaling) {
+                          return OutlinedButton(
+                            onPressed: () {
+                              if (context.read<SignalStateBloc>().state.state !=
+                                  SignalState.matched) {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => SignalSecondDialog(
+                                    parentContext: context,
+                                    modify: true,
+                                  ),
+                                  barrierDismissible: false,
+                                );
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: Size.zero,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 12),
+                              side: const BorderSide(
+                                width: 1,
+                                color: Color(0xFFFF4B26),
                               ),
-                              child: const Text(
-                                "시그널 글 수정",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFFFF4B26),
-                                ),
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
                               ),
-                            );
-                          } else {
-                            return const SizedBox();
-                          }
-                        }),
+                            ),
+                            child: const Text(
+                              "시그널 글 수정",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFFF4B26),
+                              ),
+                            ),
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -158,29 +159,31 @@ class _HomeScreenState extends State<HomeScreen> {
               const Text(
                 ' *시그널을 켜두면 상대방이 나의 프로필을 확인할 수 있습니다. 시그널은 1시간 후 자동으로 꺼집니다',
                 style: TextStyle(
-                    fontSize: Sizes.size9,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xff8E8E8E)),
+                  fontSize: Sizes.size9,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff8E8E8E),
+                ),
               ),
               const SizedBox(height: 39),
               const Text(
                 '나의 매칭 상태',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: Sizes.size18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                  fontSize: Sizes.size18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
               ),
               Gaps.v11,
               BlocBuilder<SignalStateBloc, SignalStateState>(
-                  builder: (context, state) {
-                if (state.state == SignalState.matched) {
-                  return StateCard(
-                    matchedInfo: state.signal,
-                    url: "url", //TODO: require when get matched info
-                  );
-                } else {
-                  return Container(
+                builder: (context, state) {
+                  if (state.state == SignalState.matched) {
+                    return StateCard(
+                      matchedInfo: state.signal,
+                      url: "url", //TODO: require when get matched info
+                    );
+                  } else {
+                    return Container(
                       width: double.infinity,
                       padding: const EdgeInsets.fromLTRB(22, 18, 0, 18),
                       decoration: BoxDecoration(
@@ -199,20 +202,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: const Text(
                         '매칭된 상대가 없습니다',
                         style: TextStyle(
-                            fontSize: Sizes.size18,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                      ));
-                }
-              }),
+                          fontSize: Sizes.size18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
               const SizedBox(height: 34),
               const Text(
                 '나에게 온 시그널',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: Sizes.size18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                  fontSize: Sizes.size18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
               ),
               Gaps.v11,
               BlocBuilder<HomeSignalApplyedBloc, HomeSignalApplyedState>(
@@ -267,10 +274,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 '시그널 찾기',
                                 style: TextStyle(
-                                    fontSize: Sizes.size18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black),
-                              )
+                                  fontSize: Sizes.size18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -292,35 +300,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                 print('text click');
                               },
                               acceptTap: () {
-                                context
-                                    .read<HomeSignalApplyedBloc>()
-                                    .add(HomeSignalApplyedAcceptEvent(
-                                      jwt: context
-                                          .read<UserCubit>()
-                                          .state
-                                          .user!
-                                          .jwt!,
-                                      matchedIdx:
-                                          state.signalApply[index].userIdx,
-                                    ));
+                                context.read<HomeSignalApplyedBloc>().add(
+                                      HomeSignalApplyedAcceptEvent(
+                                        jwt: context
+                                            .read<UserCubit>()
+                                            .state
+                                            .user!
+                                            .jwt!,
+                                        matchedIdx:
+                                            state.signalApply[index].userIdx,
+                                      ),
+                                    );
                               },
                               deleteTap: () {
-                                context
-                                    .read<HomeSignalApplyedBloc>()
-                                    .add(HomeSignalApplyedDeleteEvent(
-                                      jwt: context
-                                          .read<UserCubit>()
-                                          .state
-                                          .user!
-                                          .jwt!,
-                                      userIdx: context
-                                          .read<UserCubit>()
-                                          .state
-                                          .user!
-                                          .userIdx!,
-                                      applyedIdx:
-                                          state.signalApply[index].userIdx,
-                                    ));
+                                context.read<HomeSignalApplyedBloc>().add(
+                                      HomeSignalApplyedDeleteEvent(
+                                        jwt: context
+                                            .read<UserCubit>()
+                                            .state
+                                            .user!
+                                            .jwt!,
+                                        userIdx: context
+                                            .read<UserCubit>()
+                                            .state
+                                            .user!
+                                            .userIdx!,
+                                        applyedIdx:
+                                            state.signalApply[index].userIdx,
+                                      ),
+                                    );
                               },
                             ),
                           );
@@ -351,9 +359,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 '내가 보낸 요청',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: Sizes.size18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
+                  fontSize: Sizes.size18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
               ),
               Gaps.v11,
               BlocBuilder<HomeSignalApplyBloc, HomeSignalApplyState>(
@@ -391,22 +400,22 @@ class _HomeScreenState extends State<HomeScreen> {
                               print('text click');
                             },
                             deleteTap: () {
-                              context
-                                  .read<HomeSignalApplyBloc>()
-                                  .add(HomeSignalApplyDeleteEvent(
-                                    jwt: context
-                                        .read<UserCubit>()
-                                        .state
-                                        .user!
-                                        .jwt!,
-                                    userIdx: context
-                                        .read<UserCubit>()
-                                        .state
-                                        .user!
-                                        .userIdx!,
-                                    applyedIdx:
-                                        state.signalApply[index].applyedIdx,
-                                  ));
+                              context.read<HomeSignalApplyBloc>().add(
+                                    HomeSignalApplyDeleteEvent(
+                                      jwt: context
+                                          .read<UserCubit>()
+                                          .state
+                                          .user!
+                                          .jwt!,
+                                      userIdx: context
+                                          .read<UserCubit>()
+                                          .state
+                                          .user!
+                                          .userIdx!,
+                                      applyedIdx:
+                                          state.signalApply[index].applyedIdx,
+                                    ),
+                                  );
                             },
                           ),
                         );
