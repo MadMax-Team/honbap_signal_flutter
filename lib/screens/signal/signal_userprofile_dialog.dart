@@ -48,6 +48,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
 
   void _applySignal() {
     widget.cubit.applySignal(widget.signal.userIdx!);
+    Navigator.of(context).pop();
   }
 
   @override

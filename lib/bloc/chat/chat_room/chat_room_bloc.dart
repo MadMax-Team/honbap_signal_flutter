@@ -15,6 +15,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   ) : super(const ChatRoomState(status: ChatRoomStatus.init)) {
     on<ChatRoomGetEvent>(_chatRoomGetEventHandler);
     on<ChatSendEvent>(_chatSendEventHandler);
+    on<ChatChangeSignalInfoEvent>(_chatChangeSignalInfoEventHandler);
   }
 
   Future<void> _chatRoomGetEventHandler(
@@ -56,6 +57,28 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     if (chatResults.code == 1000) {
       // update message
       await _chatRoomGetEventHandler(ChatRoomGetEvent(), emit);
+      emit(state.copyWith(status: ChatRoomStatus.success));
+    } else {
+      emit(state.copyWith(
+        status: ChatRoomStatus.error,
+        message: chatResults.message,
+      ));
+    }
+  }
+
+  Future<void> _chatChangeSignalInfoEventHandler(
+    ChatChangeSignalInfoEvent event,
+    Emitter<ChatRoomState> emit,
+  ) async {
+    emit(state.copyWith(status: ChatRoomStatus.loading));
+
+    var chatResults = await _chatRoomRepository.changeSignalInfo(
+      jwt: jwt,
+      roomId: roomId,
+      signalInfo: event.signalInfo,
+    );
+
+    if (chatResults.code == 1000) {
       emit(state.copyWith(status: ChatRoomStatus.success));
     } else {
       emit(state.copyWith(
