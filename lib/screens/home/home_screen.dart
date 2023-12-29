@@ -65,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     BlocBuilder<SignalStateBloc, SignalStateState>(
-                      buildWhen: (pre, cur) => pre.signal != cur.signal,
                       builder: (context, state) {
                         if (state.state == SignalState.signaling) {
                           return OutlinedButton(
