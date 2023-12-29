@@ -55,7 +55,6 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
         //contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
         child: SingleChildScrollView(
           child: SizedBox(
-            //여기에 추가??------------
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height - 20,
             child: Column(
@@ -177,11 +176,13 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
-                          showDialog(
-                              context: context,
-                              builder: (_) => SignalThirdBox(
-                                  parentContext: widget.parentContext),
-                              barrierDismissible: false);
+                          if(!widget.modify) {
+                            showDialog(
+                                context: context,
+                                builder: (_) => SignalThirdBox(
+                                    parentContext: widget.parentContext),
+                                barrierDismissible: false);
+                          }
                         },
                         behavior: HitTestBehavior.opaque,
                         child: Container(
@@ -189,9 +190,9 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                           alignment: Alignment.center,
                           height: Sizes.size46,
                           width: double.maxFinite,
-                          child: const Text(
-                            '건너뛰기',
-                            style: TextStyle(
+                          child: Text(
+                            widget.modify ? '취소' : '건너뛰기',
+                            style: const TextStyle(
                               fontSize: Sizes.size14,
                               color: Color(0xffC4C4C4),
                               fontWeight: FontWeight.w500,
@@ -220,9 +221,9 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                           alignment: Alignment.center,
                           height: Sizes.size46,
                           width: double.maxFinite,
-                          child: const Text(
-                            '작성완료',
-                            style: TextStyle(
+                          child: Text(
+                            widget.modify ? '수정완료' : '작성완료',
+                            style: const TextStyle(
                               fontSize: Sizes.size14,
                               color: Color(0xffF35928),
                               fontWeight: FontWeight.w500,
