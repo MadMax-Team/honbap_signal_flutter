@@ -122,7 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     barrierDismissible: false,
                     );
                   }
-                  else {
+                  else if (context.read<SignalStateBloc>().state.state !=
+                      SignalState.loading) {
                     if (context.read<SignalStateBloc>().state.state ==
                         SignalState.signaling) {
                       showDialog(
@@ -174,6 +175,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
+                          ),
+                        ],
+                      );
+                    }
+                    else if (state.state == SignalState.loading) {
+                      return Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          const SignalBox(signal: false),
+                          Container(
+                            height: 130,
+                            color: Colors.transparent,
                           ),
                         ],
                       );
