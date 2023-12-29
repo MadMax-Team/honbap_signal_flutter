@@ -4,6 +4,7 @@ import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_app
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/matched_save_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_widget.dart';
@@ -64,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     BlocBuilder<SignalStateBloc, SignalStateState>(
-                      buildWhen: (pre, cur) => pre.signal != cur.signal,
                       builder: (context, state) {
                         if (state.state == SignalState.signaling) {
                           return OutlinedButton(
@@ -114,18 +114,30 @@ class _HomeScreenState extends State<HomeScreen> {
               GestureDetector(
                 onTap: () {
                   if (context.read<SignalStateBloc>().state.state ==
-                      SignalState.signaling) {
+                      SignalState.matched) {
+                    print('matched');
                     showDialog(
-                      context: context,
-                      builder: (_) => SignalOffDialog(parentContext: context),
-                      barrierDismissible: false,
+                    context: context,
+                    builder: (_) => MatchedSaveDialog(parentContext: context),
+                    barrierDismissible: false,
                     );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (_) => SignalOnDialog(parentContext: context),
-                      barrierDismissible: false,
-                    );
+                  }
+                  else if (context.read<SignalStateBloc>().state.state !=
+                      SignalState.loading) {
+                    if (context.read<SignalStateBloc>().state.state ==
+                        SignalState.signaling) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOffDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOnDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    }
                   }
                 },
                 child: BlocBuilder<SignalStateBloc, SignalStateState>(
@@ -142,7 +154,44 @@ class _HomeScreenState extends State<HomeScreen> {
                       return const SignalBox(
                         signal: true,
                       );
-                    } else {
+                    } else if (state.state == SignalState.matched) {
+                      print('matched');
+                      return Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          const SignalBox(signal: false),
+                          Container(
+                            height: 130,
+                            color: Colors.transparent,
+                            alignment: Alignment.topCenter,
+                            child: const Padding(
+                              padding: EdgeInsets.only(top: 10.0),
+                              child: Text(
+                                'Matched',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    else if (state.state == SignalState.loading) {
+                      return Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          const SignalBox(signal: false),
+                          Container(
+                            height: 130,
+                            color: Colors.transparent,
+                          ),
+                        ],
+                      );
+                    }
+                    else {
                       if (state.state == SignalState.idle) {
                         print('offState');
                       } else if (state.state == SignalState.loading) {
