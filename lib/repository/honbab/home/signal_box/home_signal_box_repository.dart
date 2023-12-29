@@ -121,4 +121,29 @@ class HomeSignalBoxRepository {
       throw Exception("failtd to fetch data");
     }
   }
+
+  Future<void> matchedSave({
+    required String jwt,
+  }) async {
+    final headers = {
+      "Content-Type": "application/json",
+      'x-access-token': jwt,
+    };
+
+    final res = await http.patch(
+      Uri.parse('${ApiEndpoint.honbab}/signal/save'), // 요청 URL
+      headers: headers,
+    );
+
+    if (res.statusCode == 200) {
+      final responseData = json.decode(res.body);
+      if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
+
+      } else {
+        throw Exception("failed to send data");
+      }
+    } else {
+      throw Exception("failtd to send data");
+    }
+  }
 }

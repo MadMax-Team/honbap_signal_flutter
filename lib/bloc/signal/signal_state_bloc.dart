@@ -19,6 +19,7 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     on<SignalStateOffEvent>(_signalStateOffEventHandler);
     on<SignalStateUpdateEvent>(_signalStateUpdateEventHandler);
     on<SignalStateCloseMatchEvent>(_signalStateCloseMatchEventHandler);
+    on<MatchedSateSaveEvent>(_matchedStateSaveEventHandler);
   }
 
   Future<void> _signalStateGetEventHandler(
@@ -152,5 +153,28 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
       state: SignalState.idle,
       signal: const SignalStateModel(),
     ));
+  }
+
+  Future<void> _matchedStateSaveEventHandler(
+      MatchedSateSaveEvent event,
+      Emitter<SignalStateState> emit,
+      ) async {
+    emit(state.copyWith(state: SignalState.loading));
+
+    try {
+      await homeSignalBoxRepository.matchedSave(jwt: jwt);
+
+      emit(state.copyWith(state: SignalState.idle));
+    } catch (e) {
+      var prevState = state.state;
+      emit(state.copyWith(
+        state: SignalState.error,
+        message: e.toString(),
+      ));
+      emit(state.copyWith(
+        state: prevState,
+        message: e.toString(),
+      ));
+    }
   }
 }

@@ -29,6 +29,14 @@ class SignalStateOffEvent extends SignalStateEvent {
   SignalStateOffEvent();
 }
 
+/// 매칭 종료 시 사용
+///
+/// ---
+/// 해당 이벤트가 호출되면 자동으로 [signal.matched] 가 [SignalState.idle] 상태로 변경됩니다.
+class MatchedSateSaveEvent extends SignalStateEvent {
+  MatchedSateSaveEvent();
+}
+
 /// 시그널의 변경시 사용
 /// - 최초 매칭된 시그널
 /// - 업데이트되는 매칭된 시그널
