@@ -60,7 +60,6 @@ class HomeSignalApplyRepository {
     };
 
     final data = {
-      "userIdx": userIdx,
       "applyedIdx": applyedIdx,
     };
 
