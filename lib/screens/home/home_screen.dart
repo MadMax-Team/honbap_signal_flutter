@@ -298,7 +298,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       return StateCard(
                         matchedInfo: state.signal,
                         onTap: () {
-                          print('text click');
+                          final signalUserStateBloc = context.read<SignalUserStateBloc>();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return BlocProvider.value(
+                                value: signalUserStateBloc,
+                                child: HomeUserDialog(
+                                  parentContext: context,
+                                  userIdx: state.signal.oppoUserIdx!,
+                                  button1: '매칭 취소',
+                                  button2: '쪽지방으로',
+                                  leftTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) => MatchedSaveDialog(parentContext: context),
+                                      barrierDismissible: false,
+                                    );
+                                  },
+                                  rightTap: () {
+                                    //TODO: move to 쪽지함
+                                  },
+                                ),
+                              );
+                            },
+                            barrierDismissible: false,
+                          );
                         },
                         url: "url", //TODO: require when get matched info
                       );
