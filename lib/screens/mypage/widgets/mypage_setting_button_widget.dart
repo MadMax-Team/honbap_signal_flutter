@@ -28,6 +28,7 @@ class MyPageSettingButton extends StatelessWidget {
             Image.asset(
               imgLink,
               width: Sizes.size24,
+              color: onTap != null ? null : Colors.grey.shade400,
             ),
             Gaps.h20,
             Expanded(
@@ -37,7 +38,9 @@ class MyPageSettingButton extends StatelessWidget {
                 child: Text(
                   text,
                   style: TextStyle(
-                    color: Colors.grey.shade700,
+                    color: onTap != null
+                        ? Colors.grey.shade700
+                        : Colors.grey.shade400,
                     fontSize: Sizes.size16,
                   ),
                 ),
@@ -45,7 +48,8 @@ class MyPageSettingButton extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: Colors.grey.shade700,
+              color:
+                  onTap != null ? Colors.grey.shade700 : Colors.grey.shade400,
               size: Sizes.size16,
             ),
           ],

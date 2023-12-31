@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_bloc.dart';
-import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
-import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
-import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
+// import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
+// import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_event.dart';
+// import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_app_send_veri/post_app_send_veri_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signin/post_user_signin_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/post_user_signup/post_user_signup_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
-import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
+// import 'package:honbap_signal_flutter/models/kakao_login_model.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
-import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
+// import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
 import 'package:honbap_signal_flutter/screens/auth/signin/auth_signin_screen.dart';
 import 'package:honbap_signal_flutter/screens/auth/signup_routes/auth_signup_route_screen.dart';
 import 'package:honbap_signal_flutter/screens/auth/widgets/auth_login_button.dart';
@@ -61,46 +61,46 @@ class AuthScreen extends StatelessWidget {
     );
   }
 
-  void _authWithKakao(BuildContext context) async {
-    KakaoLoginModel? kakaoModel =
-        await context.read<KakaoRepository>().authWithKakao();
+  // void _authWithKakao(BuildContext context) async {
+  //   KakaoLoginModel? kakaoModel =
+  //       await context.read<KakaoRepository>().authWithKakao();
 
-    if (kakaoModel == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('카카오톡 로그인에 실패했습니다.'),
-          elevation: 0,
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-      );
-      return;
-    }
+  //   if (kakaoModel == null) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: const Text('카카오톡 로그인에 실패했습니다.'),
+  //         elevation: 0,
+  //         backgroundColor: Theme.of(context).primaryColor,
+  //       ),
+  //     );
+  //     return;
+  //   }
 
-    var res = await context.read<HonbabAuthRepository>().signin(
-          platform: AuthenticationWith.kakao,
-          kakaoModel: kakaoModel,
-        );
+  //   var res = await context.read<HonbabAuthRepository>().signin(
+  //         platform: AuthenticationWith.kakao,
+  //         kakaoModel: kakaoModel,
+  //       );
 
-    if (res == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('로그인에 실패했습니다.'),
-          elevation: 0,
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-      );
-      return;
-    }
+  //   if (res == null) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: const Text('로그인에 실패했습니다.'),
+  //         elevation: 0,
+  //         backgroundColor: Theme.of(context).primaryColor,
+  //       ),
+  //     );
+  //     return;
+  //   }
 
-    // jwt 저장
-    // const storage = FlutterSecureStorage();
-    // await storage.write(key: 'jwt', value: jwt);
+  //   // jwt 저장
+  //   // const storage = FlutterSecureStorage();
+  //   // await storage.write(key: 'jwt', value: jwt);
 
-    // splash 화면으로 돌아가기
-    context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
-          status: AuthenticationStatus.init,
-        ));
-  }
+  //   // splash 화면으로 돌아가기
+  //   context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
+  //         status: AuthenticationStatus.init,
+  //       ));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -172,59 +172,66 @@ class AuthScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Flexible(
-                flex: 2,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Container(
-                            height: Sizes.size2,
-                            color: const Color(0xffe6e6e6),
-                          ),
-                        ),
-                        const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: Sizes.size14),
-                          child: Text(
-                            '간편로그인',
-                            style: TextStyle(
-                              color: Color(0xFFB8B8B8),
-                              fontSize: Sizes.size14,
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: Container(
-                            height: Sizes.size2,
-                            color: const Color(0xffe6e6e6),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Gaps.v20,
-                    GestureDetector(
-                      onTap: () => _authWithKakao(context),
-                      child: AuthLoginButton(
-                        title: "카카오로 로그인",
-                        bgColor: const Color(0xffffe500),
-                        borderColor: const Color(0xffffe500),
-                        textColor: const Color(0xff402326),
-                        icon: Image.asset(
-                          'assets/images/kakaotalk_logo.png',
-                          width: Sizes.size24,
-                          height: Sizes.size24,
-                        ),
-                      ),
-                    ),
-                    Gaps.v10,
-                    Text(
-                      '회원가입 시 혼밥시그널의 서비스 이용 약관과 개인정보 보호정책에 동의하게 됩니다.',
-                      style: Theme.of(context).textTheme.labelSmall,
-                    )
-                  ],
-                ),
+              // Flexible(
+              //   flex: 2,
+              //   child: Column(
+              //     children: [
+              //       Row(
+              //         children: [
+              //           Flexible(
+              //             child: Container(
+              //               height: Sizes.size2,
+              //               color: const Color(0xffe6e6e6),
+              //             ),
+              //           ),
+              //           const Padding(
+              //             padding:
+              //                 EdgeInsets.symmetric(horizontal: Sizes.size14),
+              //             child: Text(
+              //               '간편로그인',
+              //               style: TextStyle(
+              //                 color: Color(0xFFB8B8B8),
+              //                 fontSize: Sizes.size14,
+              //               ),
+              //             ),
+              //           ),
+              //           Flexible(
+              //             child: Container(
+              //               height: Sizes.size2,
+              //               color: const Color(0xffe6e6e6),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       Gaps.v20,
+              //       GestureDetector(
+              //         onTap: () => _authWithKakao(context),
+              //         child: AuthLoginButton(
+              //           title: "카카오로 로그인",
+              //           bgColor: const Color(0xffffe500),
+              //           borderColor: const Color(0xffffe500),
+              //           textColor: const Color(0xff402326),
+              //           icon: Image.asset(
+              //             'assets/images/kakaotalk_logo.png',
+              //             width: Sizes.size24,
+              //             height: Sizes.size24,
+              //           ),
+              //         ),
+              //       ),
+              //       Gaps.v10,
+              //       Text(
+              //         '회원가입 시 혼밥시그널의 서비스 이용 약관과 개인정보 보호정책에 동의하게 됩니다.',
+              //         style: Theme.of(context).textTheme.labelSmall,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              Text(
+                '회원가입 시 혼밥시그널의 서비스 이용 약관과 개인정보 보호정책에 동의하게 됩니다.',
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).padding.bottom + Sizes.size20,
               ),
             ],
           ),

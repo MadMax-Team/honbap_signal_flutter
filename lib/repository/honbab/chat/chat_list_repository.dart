@@ -38,12 +38,15 @@ class ChatListRepository {
         'x-access-token': jwt,
       };
 
-      final res = await http.delete(
-        Uri.parse('${ApiEndpoint.honbab}/msg/$roomId'),
-        headers: headers,
-      );
+      final Map<String, String> body = {
+        'roomId': roomId,
+      };
 
-      print(res.body);
+      final res = await http.delete(
+        Uri.parse('${ApiEndpoint.honbab}/msg'),
+        headers: headers,
+        body: jsonEncode(body),
+      );
 
       if (res.statusCode == 200) {
         return ResCodeModel.fromJson(jsonDecode(res.body));

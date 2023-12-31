@@ -77,6 +77,7 @@ class ChatRoomRepository {
         "Content-Type": "application/json",
         'x-access-token': jwt,
       };
+
       final Map<String, String> body = {
         'where': signalInfo.sigPromiseArea!,
         'when': signalInfo.sigPromiseTime!,

@@ -120,10 +120,10 @@ class MyPageScreen extends StatelessWidget {
             Column(
               children: [
                 const MyPageMenuDivider(title: '매칭관리'),
-                MyPageSettingButton(
+                const MyPageSettingButton(
                   imgLink: 'assets/icons/icon_match_history.png',
                   text: '매칭전적',
-                  onTap: () => _onMatchHistoryTap(context),
+                  // onTap: () => _onMatchHistoryTap(context),
                 ),
                 _horizontalDivider(),
                 const MyPageSettingButton(

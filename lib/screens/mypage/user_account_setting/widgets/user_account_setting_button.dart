@@ -6,12 +6,14 @@ class UserAccountSettingButton extends StatelessWidget {
   final String title;
   final String? value;
   final Function()? onTap;
+  final bool enabled;
 
   const UserAccountSettingButton({
     super.key,
     required this.title,
     this.value,
     this.onTap,
+    this.enabled = true,
   });
 
   @override
@@ -27,21 +29,31 @@ class UserAccountSettingButton extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(title),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: enabled ? null : Colors.grey.shade400,
+                    ),
+                  ),
                   if (value != null)
                     Text(
                       value!,
-                      style: TextStyle(color: Colors.grey.shade700),
+                      style: TextStyle(
+                        color: enabled
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade400,
+                      ),
                     ),
                 ],
               ),
             ),
             if (onTap != null)
-              const Padding(
-                padding: EdgeInsets.only(left: Sizes.size16),
+              Padding(
+                padding: const EdgeInsets.only(left: Sizes.size16),
                 child: Icon(
                   FontAwesomeIcons.chevronRight,
                   size: Sizes.size12,
+                  color: enabled ? null : Colors.grey.shade400,
                 ),
               ),
           ],

@@ -75,6 +75,7 @@ class UserAccountSettingScreen extends StatelessWidget {
               UserAccountSettingButton(
                 title: '회원탈퇴',
                 onTap: () {},
+                enabled: false,
               ),
             ],
           ),
