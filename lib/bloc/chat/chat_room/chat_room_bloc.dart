@@ -4,15 +4,17 @@ import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_state.dart';
 import 'package:honbap_signal_flutter/repository/honbab/chat/chat_room_repository.dart';
 
 class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
-  final ChatRoomRepository _chatRoomRepository;
+  final ChatRoomRepository chatRoomRepository;
   final String jwt;
   final String roomId;
+  final int? applyedIdx;
 
-  ChatRoomBloc(
-    this._chatRoomRepository,
-    this.jwt,
-    this.roomId,
-  ) : super(const ChatRoomState(status: ChatRoomStatus.init)) {
+  ChatRoomBloc({
+    required this.chatRoomRepository,
+    required this.jwt,
+    required this.roomId,
+    this.applyedIdx,
+  }) : super(const ChatRoomState(status: ChatRoomStatus.init)) {
     on<ChatRoomGetEvent>(_chatRoomGetEventHandler);
     on<ChatSendEvent>(_chatSendEventHandler);
     on<ChatChangeSignalInfoEvent>(_chatChangeSignalInfoEventHandler);
@@ -25,7 +27,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
     emit(state.copyWith(status: ChatRoomStatus.loading));
 
     try {
-      var chatResults = await _chatRoomRepository.getChats(
+      var chatResults = await chatRoomRepository.getChats(
         jwt: jwt,
         roomId: roomId,
       );
@@ -48,7 +50,7 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   ) async {
     emit(state.copyWith(status: ChatRoomStatus.loading));
 
-    var chatResults = await _chatRoomRepository.sendChat(
+    var chatResults = await chatRoomRepository.sendChat(
       jwt: jwt,
       roomId: roomId,
       msg: event.msg,
@@ -72,10 +74,11 @@ class ChatRoomBloc extends Bloc<ChatRoomEvent, ChatRoomState> {
   ) async {
     emit(state.copyWith(status: ChatRoomStatus.loading));
 
-    var chatResults = await _chatRoomRepository.changeSignalInfo(
+    var chatResults = await chatRoomRepository.changeSignalInfo(
       jwt: jwt,
       roomId: roomId,
       signalInfo: event.signalInfo,
+      applyedIdx: applyedIdx!,
     );
 
     if (chatResults.code == 1000) {

@@ -71,6 +71,7 @@ class ChatRoomRepository {
     required String jwt,
     required String roomId,
     required SignalInfoModel signalInfo,
+    required int applyedIdx,
   }) async {
     try {
       final Map<String, String> headers = {
@@ -79,6 +80,7 @@ class ChatRoomRepository {
       };
 
       final Map<String, String> body = {
+        'applyedIdx': applyedIdx.toString(),
         'where': signalInfo.sigPromiseArea!,
         'when': signalInfo.sigPromiseTime!,
         'menu': signalInfo.sigPromiseMenu!,

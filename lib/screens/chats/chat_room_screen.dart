@@ -18,11 +18,12 @@ import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 enum PopupItems { refresh, delete, declaration, block }
 
 class ChatRoomScreen extends StatefulWidget {
-  final String nickName, profileImg;
+  final String nickName, profileImg, roomId;
   final SignalStateBloc? signalStateBloc;
 
   const ChatRoomScreen({
     super.key,
+    required this.roomId,
     required this.nickName,
     required this.profileImg,
     this.signalStateBloc,
@@ -170,12 +171,15 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               ),
               bottomNavigationBar: const ChatsSendboxWidget(),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + Sizes.size56,
+            if (widget.roomId.contains(
+                widget.signalStateBloc?.state.signal.oppoUserIdx?.toString() ??
+                    'null'))
+              Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top + Sizes.size56,
+                ),
+                child: ChatsNoticeCardWidget(onOpenTap: _panelController.open),
               ),
-              child: ChatsNoticeCardWidget(onOpenTap: _panelController.open),
-            ),
             SlidingUpPanel(
               controller: _panelController,
               minHeight: 0,

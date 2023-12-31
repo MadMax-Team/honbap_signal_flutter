@@ -105,6 +105,7 @@ class _AppState extends State<App> {
                   create: (context) => SignalStateBloc(
                     homeSignalBoxRepository:
                         context.read<HomeSignalBoxRepository>(),
+                    myIdx: context.read<UserCubit>().state.user!.userIdx!,
                     jwt: context.read<UserCubit>().state.user!.jwt!,
                     fcmToken: context.read<FCMCubit>().token,
                   ),

@@ -6,11 +6,13 @@ import 'package:honbap_signal_flutter/repository/honbab/home/signal_box/home_sig
 
 class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
   final HomeSignalBoxRepository homeSignalBoxRepository;
+  final int myIdx;
   final String jwt;
   final String fcmToken;
 
   SignalStateBloc({
     required this.homeSignalBoxRepository,
+    required this.myIdx,
     required this.jwt,
     required this.fcmToken,
   }) : super(const SignalStateState.init()) {
@@ -29,10 +31,14 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     emit(state.copyWith(state: SignalState.loading));
 
     try {
-      final resultData = await homeSignalBoxRepository.getHomeSignalBoxState(jwt: jwt);
+      final resultData =
+          await homeSignalBoxRepository.getHomeSignalBoxState(jwt: jwt);
       final signalState = resultData['sigStatus'];
       final matchedState = resultData['sigMatchStatus'];
-      final oppoUserIdx = resultData['applyedIdx'];
+      // final oppoUserIdx = resultData['userIdx'];
+      final oppoUserIdx = myIdx == resultData['applyedIdx']
+          ? resultData['userIdx']
+          : resultData['applyedIdx'];
       final oppoNickName = resultData['userName'];
       final signalStateModel = SignalStateModel.fromJson(resultData);
 
@@ -44,13 +50,14 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
         sigPromiseMenu: signalStateModel.sigPromiseMenu,
       );
 
-      if(matchedState == 1) {
+      if (matchedState == 1) {
         emit(state.copyWith(
           state: SignalState.matched,
           signal: customizedSignalStateModel,
         ));
-      } else{
-        if(signalState == 1) {
+        print(customizedSignalStateModel);
+      } else {
+        if (signalState == 1) {
           emit(state.copyWith(
             state: SignalState.signaling,
             signal: customizedSignalStateModel,
@@ -133,11 +140,12 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     SignalStateUpdateEvent event,
     Emitter<SignalStateState> emit,
   ) async {
+    print(event);
     emit(state.copyWith(
-      state: SignalState.matched,
       signal: SignalStateModel(
-        oppoUserIdx: event.incomeSignal.oppoUserIdx,
-        oppoNickName: event.incomeSignal.oppoNickName,
+        // 현재 api 사양에 맞지 않음
+        // oppoUserIdx: event.incomeSignal.oppoUserIdx,
+        // oppoNickName: event.incomeSignal.oppoNickName,
         sigPromiseTime: event.incomeSignal.sigPromiseTime,
         sigPromiseArea: event.incomeSignal.sigPromiseArea,
         sigPromiseMenu: event.incomeSignal.sigPromiseMenu,
@@ -156,9 +164,9 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
   }
 
   Future<void> _matchedStateSaveEventHandler(
-      MatchedSateSaveEvent event,
-      Emitter<SignalStateState> emit,
-      ) async {
+    MatchedSateSaveEvent event,
+    Emitter<SignalStateState> emit,
+  ) async {
     emit(state.copyWith(state: SignalState.loading));
 
     try {

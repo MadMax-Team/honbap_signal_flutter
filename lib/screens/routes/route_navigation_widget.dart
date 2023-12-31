@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_bloc.dart';
@@ -9,6 +11,7 @@ import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
+import 'package:honbap_signal_flutter/models/signal/signal_state_model.dart';
 import 'package:honbap_signal_flutter/screens/chats/chat_list_screen.dart';
 import 'package:honbap_signal_flutter/screens/home/home_screen.dart';
 import 'package:honbap_signal_flutter/screens/mypage/mypage_screen.dart';
@@ -45,6 +48,12 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
         ));
   }
 
+  void _updateSignalInfo(SignalStateModel incomeSignal) {
+    context.read<SignalStateBloc>().add(SignalStateUpdateEvent(
+          incomeSignal: incomeSignal,
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<FCMCubit, FCMState>(
@@ -54,6 +63,11 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
         }
         if (state.data?.code == '10001') {
           _refreshScreen();
+        }
+        if (state.data?.code == '11001') {
+          _updateSignalInfo(SignalStateModel.fromJson(jsonDecode(
+            state.data!.message!,
+          )));
         }
       },
       child: DefaultTabController(
