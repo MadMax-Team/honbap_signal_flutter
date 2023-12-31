@@ -229,6 +229,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (state.state == SignalState.matched) {
                     return StateCard(
                       matchedInfo: state.signal,
+                      onTap: () {
+                        print('text click');
+                      },
                       url: "url", //TODO: require when get matched info
                     );
                   } else {

@@ -11,10 +11,12 @@ class StateCard extends StatefulWidget {
   const StateCard({
     Key? key,
     required this.matchedInfo,
+    required this.onTap,
     this.url,
   }) : super(key: key);
 
   final SignalStateModel matchedInfo;
+  final onTap;
   final String? url;
 
   @override
@@ -40,42 +42,49 @@ class _StateCardState extends State<StateCard> {
             ],
             borderRadius: BorderRadius.circular(12), //모서리를 둥글게
           ),
-          child: Row(
-            children: [
-              Container(
-                height: Sizes.size48,
-                width: Sizes.size48,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(125)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25.0),
-                  child: widget.url != null
-                  ? Image.network(
-                    widget.url!,
-                    fit: BoxFit.fill,
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                    'assets/icons/home_signal_list_box_user.png',
-                    alignment: Alignment.center,
-                    fit: BoxFit.fill,
+          child: GestureDetector(
+            onTap: () async {
+            if(widget.onTap != null) {
+            widget.onTap();
+            }
+            },
+            child: Row(
+              children: [
+                Container(
+                  height: Sizes.size48,
+                  width: Sizes.size48,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(125)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25.0),
+                    child: widget.url != null
+                    ? Image.network(
+                      widget.url!,
+                      fit: BoxFit.fill,
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                      'assets/icons/home_signal_list_box_user.png',
+                      alignment: Alignment.center,
+                      fit: BoxFit.fill,
+                      ),
+                    )
+                    : Image.asset(
+                      'assets/icons/home_signal_list_box_user.png',
+                      alignment: Alignment.center,
+                      fit: BoxFit.fill,
                     ),
-                  )
-                  : Image.asset(
-                    'assets/icons/home_signal_list_box_user.png',
-                    alignment: Alignment.center,
-                    fit: BoxFit.fill,
                   ),
                 ),
-              ),
-              Gaps.h16,
-              Text(
-                widget.matchedInfo.oppoNickName ?? '익명의 유저',
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    fontSize: Sizes.size18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
-              ),
-            ],
+                Gaps.h16,
+                Text(
+                    widget.matchedInfo.oppoNickName ?? '익명의 유저',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontSize: Sizes.size18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+              ],
+            ),
           ),
         ),
         Gaps.v9,
