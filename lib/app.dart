@@ -7,6 +7,7 @@ import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bl
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_user/signal_user_bloc.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
 import 'package:honbap_signal_flutter/cubit/signal_apply_cubit.dart';
@@ -135,6 +136,12 @@ class _AppState extends State<App> {
                     signalRepository:
                         context.read<HonbabSignalListRepository>(),
                     userModel: context.read<UserCubit>().state.user!,
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => SignalUserStateBloc(
+                    homeSignalApplyRepository:
+                    context.read<HomeSignalApplyRepository>(),
                   ),
                 ),
               ],

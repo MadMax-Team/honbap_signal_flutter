@@ -4,6 +4,7 @@ import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_app
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
+import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/matched_save_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
@@ -12,6 +13,7 @@ import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_state_wi
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_send_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signalbox_widget.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/home_user_dialog/home_user_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/signal_process_dialog/signal_accept_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/signal_process_dialog/signal_delete_dialog_widget.dart';
 import '../../bloc/home/get_signal_apply/home_signal_apply_state.dart';
@@ -19,6 +21,8 @@ import '../../bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_state.dart';
 import '../../bloc/signal/signal_state_bloc.dart';
+import '../../bloc/signal/signal_user/signal_user_bloc.dart';
+import '../../bloc/signal/signal_user/signal_user_event.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../../cubit/user_cubit.dart';
@@ -413,7 +417,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                 name: state.signalApply[index].nickName,
                                 imgUri: state.signalApply[index].profileImg,
                                 onTap: () {
-                                  print('text click');
+                                  final signalUserStateBloc = context.read<SignalUserStateBloc>();
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BlocProvider.value(
+                                        value: signalUserStateBloc,
+                                        child: HomeUserDialog(
+                                            parentContext: context,
+                                            userIdx: state.signalApply[index].userIdx,
+                                          button1: '닫기',
+                                          button2: '수락하기',
+                                          rightTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (_) => SignalAcceptDialog(
+                                                  parentContext: context,
+                                                  userIdx: state.signalApply[index].userIdx,
+                                                  nickname: state.signalApply[index].nickName
+                                              ),
+                                              barrierDismissible: false,
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    barrierDismissible: false,
+                                  );
                                 },
                                 acceptTap: () {
                                   showDialog(
@@ -522,7 +552,51 @@ class _HomeScreenState extends State<HomeScreen> {
                               name: state.signalApply[index].nickName,
                               imgUri: state.signalApply[index].profileImg,
                               onTap: () {
-                                print('text click');
+                                final signalUserStateBloc = context.read<SignalUserStateBloc>();
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return BlocProvider.value(
+                                      value: signalUserStateBloc,
+                                      child: HomeUserDialog(
+                                        parentContext: context,
+                                        userIdx: state.signalApply[index].applyedIdx,
+                                        button1: '닫기',
+                                        button2: '거절하기',
+                                        rightTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) => SignalDeleteDialog(
+                                                parentContext: context,
+                                                userIdx: state.signalApply[index].applyedIdx,
+                                                nickname: state.signalApply[index].nickName,
+                                                deleteTap: () {
+                                                  context.read<HomeSignalApplyBloc>().add(
+                                                    HomeSignalApplyDeleteEvent(
+                                                      jwt: context
+                                                          .read<UserCubit>()
+                                                          .state
+                                                          .user!
+                                                          .jwt!,
+                                                      userIdx: context
+                                                          .read<UserCubit>()
+                                                          .state
+                                                          .user!
+                                                          .userIdx!,
+                                                      applyedIdx:
+                                                      state.signalApply[index].applyedIdx,
+                                                    ),
+                                                  );
+                                                }
+                                            ),
+                                            barrierDismissible: false,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  barrierDismissible: false,
+                                );
                               },
                               deleteTap: () {
                                 showDialog(
