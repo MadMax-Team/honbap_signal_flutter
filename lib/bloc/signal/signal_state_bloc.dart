@@ -79,7 +79,7 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     SignalStateOnEvent event,
     Emitter<SignalStateState> emit,
   ) async {
-    emit(state.copyWith(state: SignalState.loading));
+    emit(state.copyWith(state: SignalState.changing));
 
     try {
       await homeSignalBoxRepository.sendDataWithJwt(
@@ -110,7 +110,7 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     SignalStateOffEvent event,
     Emitter<SignalStateState> emit,
   ) async {
-    emit(state.copyWith(state: SignalState.loading));
+    emit(state.copyWith(state: SignalState.changing));
 
     try {
       await homeSignalBoxRepository.sendToSignalOff(jwt: jwt);

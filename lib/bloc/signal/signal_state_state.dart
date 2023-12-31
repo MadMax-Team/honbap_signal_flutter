@@ -7,12 +7,15 @@ import 'package:honbap_signal_flutter/models/signal/signal_state_model.dart';
 /// [init] 최초 상태 \
 /// [loading] 로딩, 정보 받아오는 중 \
 /// [error] 처리 실패
+///
+/// [changing] 시그널 변경 중 \
 enum SignalState {
   idle,
   signaling,
   matched,
   init,
   loading,
+  changing,
   error;
 
   const SignalState();
