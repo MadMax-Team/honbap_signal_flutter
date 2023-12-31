@@ -10,18 +10,19 @@ import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 import '../../../../cubit/user_cubit.dart';
 
-class SignalAcceptDialog extends StatefulWidget {
+class SignalDeleteDialog extends StatefulWidget {
   final BuildContext parentContext;
   final String? nickname;
   final int userIdx;
+  final deleteTap;
 
-  const SignalAcceptDialog({super.key, required this.parentContext, required this.userIdx, this.nickname});
+  const SignalDeleteDialog({super.key, required this.parentContext, required this.userIdx, required this.deleteTap, this.nickname});
 
   @override
-  State<SignalAcceptDialog> createState() => _SignalAcceptDialog();
+  State<SignalDeleteDialog> createState() => _SignalDeleteDialog();
 }
 
-class _SignalAcceptDialog extends State<SignalAcceptDialog> {
+class _SignalDeleteDialog extends State<SignalDeleteDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -37,7 +38,7 @@ class _SignalAcceptDialog extends State<SignalAcceptDialog> {
           children: [
             Gaps.v35,
             Text(
-              '\'${widget.nickname ?? '익명의 유저'}\'님의 시그널을 수락하시겠습니까?',
+              '\'${widget.nickname ?? '익명의 유저'}\'님의 시그널을 삭제하시겠습니까?',
               style: const TextStyle(
                 fontSize: Sizes.size14,
                 fontWeight: FontWeight.w500,
@@ -47,7 +48,7 @@ class _SignalAcceptDialog extends State<SignalAcceptDialog> {
             Gaps.v19,
             const Text(
               textAlign: TextAlign.center,
-              '시그널을 수락하시면 상대방의 매칭 여부 확인 후,\n상대방과 매칭되며 다른 이의 요청은 수락할 수 없습니다.',
+              '시그널을 삭제하시면 상대방에게 알람은 가지 않으며,\n\‘나에게 온 시그널\’에서 표시되지 않습니다.',
               style: TextStyle(
                 fontSize: Sizes.size12,
                 fontWeight: FontWeight.w400,
@@ -83,17 +84,9 @@ class _SignalAcceptDialog extends State<SignalAcceptDialog> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
-                      widget.parentContext.read<HomeSignalApplyedBloc>().add(
-                        HomeSignalApplyedAcceptEvent(
-                          jwt: context
-                              .read<UserCubit>()
-                              .state
-                              .user!
-                              .jwt!,
-                          matchedIdx:
-                          widget.userIdx,
-                        ),
-                      );
+                      if(widget.deleteTap != null) {
+                        widget.deleteTap();
+                      }
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Container(
@@ -101,7 +94,7 @@ class _SignalAcceptDialog extends State<SignalAcceptDialog> {
                       height: Sizes.size46,
                       width: double.maxFinite,
                       child: const Text(
-                        '수락하기',
+                        '삭제하기',
                         style: TextStyle(
                           fontSize: Sizes.size14,
                           color: Color(0xffF35928),
