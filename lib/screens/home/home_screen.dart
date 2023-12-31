@@ -12,6 +12,8 @@ import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_state_wi
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_send_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signalbox_widget.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/signal_process_dialog/signal_accept_dialog_widget.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/signal_process_dialog/signal_delete_dialog_widget.dart';
 import '../../bloc/home/get_signal_apply/home_signal_apply_state.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
@@ -229,6 +231,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (state.state == SignalState.matched) {
                     return StateCard(
                       matchedInfo: state.signal,
+                      onTap: () {
+                        print('text click');
+                      },
                       url: "url", //TODO: require when get matched info
                     );
                   } else {
@@ -349,21 +354,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                 print('text click');
                               },
                               acceptTap: () {
-                                context.read<HomeSignalApplyedBloc>().add(
-                                      HomeSignalApplyedAcceptEvent(
-                                        jwt: context
-                                            .read<UserCubit>()
-                                            .state
-                                            .user!
-                                            .jwt!,
-                                        matchedIdx:
-                                            state.signalApply[index].userIdx,
-                                      ),
-                                    );
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => SignalAcceptDialog(
+                                      parentContext: context,
+                                      userIdx: state.signalApply[index].userIdx,
+                                      nickname: state.signalApply[index].nickName
+                                  ),
+                                  barrierDismissible: false,
+                                );
                               },
                               deleteTap: () {
-                                context.read<HomeSignalApplyedBloc>().add(
-                                      HomeSignalApplyedDeleteEvent(
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => SignalDeleteDialog(
+                                      parentContext: context,
+                                      userIdx: state.signalApply[index].userIdx,
+                                      nickname: state.signalApply[index].nickName,
+                                      deleteTap: () {
+                                        context.read<HomeSignalApplyedBloc>().add(
+                                        HomeSignalApplyedDeleteEvent(
                                         jwt: context
                                             .read<UserCubit>()
                                             .state
@@ -375,9 +385,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .user!
                                             .userIdx!,
                                         applyedIdx:
-                                            state.signalApply[index].userIdx,
-                                      ),
-                                    );
+                                        state.signalApply[index].userIdx,
+                                        ),
+                                      );
+                                    }
+                                  ),
+                                  barrierDismissible: false,
+                                );
                               },
                             ),
                           );
@@ -449,22 +463,33 @@ class _HomeScreenState extends State<HomeScreen> {
                               print('text click');
                             },
                             deleteTap: () {
-                              context.read<HomeSignalApplyBloc>().add(
-                                    HomeSignalApplyDeleteEvent(
-                                      jwt: context
-                                          .read<UserCubit>()
-                                          .state
-                                          .user!
-                                          .jwt!,
-                                      userIdx: context
-                                          .read<UserCubit>()
-                                          .state
-                                          .user!
-                                          .userIdx!,
-                                      applyedIdx:
+                              showDialog(
+                                context: context,
+                                builder: (_) => SignalDeleteDialog(
+                                    parentContext: context,
+                                    userIdx: state.signalApply[index].applyedIdx,
+                                    nickname: state.signalApply[index].nickName,
+                                    deleteTap: () {
+                                      context.read<HomeSignalApplyBloc>().add(
+                                        HomeSignalApplyDeleteEvent(
+                                          jwt: context
+                                              .read<UserCubit>()
+                                              .state
+                                              .user!
+                                              .jwt!,
+                                          userIdx: context
+                                              .read<UserCubit>()
+                                              .state
+                                              .user!
+                                              .userIdx!,
+                                          applyedIdx:
                                           state.signalApply[index].applyedIdx,
-                                    ),
-                                  );
+                                        ),
+                                      );
+                                    }
+                                ),
+                                barrierDismissible: false,
+                              );
                             },
                           ),
                         );

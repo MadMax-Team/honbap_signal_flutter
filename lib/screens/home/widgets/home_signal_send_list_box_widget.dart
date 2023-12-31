@@ -121,6 +121,7 @@ class _SignalListBox extends State<SignalSendListBox> {
                       child: const Text(
                         '요청취소',
                         style: TextStyle(
+                          color: Color(0xFFFFFFFF),
                           fontSize: Sizes.size12,
                         ),
                       ),
