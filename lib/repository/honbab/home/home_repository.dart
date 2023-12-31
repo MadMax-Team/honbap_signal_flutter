@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../constants/api.dart';
 import '../../../models/home/home_signal_applyed_list_model.dart';
+import '../../../models/signal/signal_list_model.dart';
 
 class HomeSignalApplyRepository {
   Future<List<HomeSignalApplyedListModel>> getHomeSignalApplyedList({required String jwt}) async {
@@ -104,6 +105,39 @@ class HomeSignalApplyRepository {
       final responseData = json.decode(res.body);
       if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
         return true;
+      } else {
+        throw Exception("failed to fetch data");
+      }
+    } else {
+      throw Exception("failtd to fetch data");
+    }
+  }
+
+  Future<SignalListModel> getUserProfile({
+    required int user,
+  }) async {
+    final Map<String, String> headers = {
+      "Content-Type": "application/json"
+    };
+
+    final url = '${ApiEndpoint.honbab}/user/userIdxinfo/$user';
+
+    final res = await http.get(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    if (res.statusCode == 200) {
+      final responseData = json.decode(res.body);
+      if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
+
+        List<dynamic> result = responseData['result'];
+
+        List<SignalListModel> signals = result
+            .map((signalJson) => SignalListModel.fromJson(signalJson))
+            .toList();
+
+        return signals.first;
       } else {
         throw Exception("failed to fetch data");
       }
