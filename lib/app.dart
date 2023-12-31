@@ -173,6 +173,10 @@ class _AppState extends State<App> {
           // titleLarge, titleMedium, titleSmall
           // bodyLarge, bodyMedium, bodySmall
           // labelLarge, labelMedium, labelSmall
+          titleLarge: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: Sizes.size24,
+          ),
           titleMedium: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: Sizes.size20,
