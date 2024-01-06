@@ -78,7 +78,9 @@ class _MatchedSaveDialogState extends State<MatchedSaveDialog> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      widget.parentContext.read<SignalStateBloc>().add(SignalStateOffEvent());
+                      widget.parentContext
+                          .read<SignalStateBloc>()
+                          .add(MatchedSateSaveEvent());
                       Navigator.of(context).pop();
                     },
                     behavior: HitTestBehavior.opaque,

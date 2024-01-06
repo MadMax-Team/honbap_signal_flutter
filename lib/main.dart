@@ -11,11 +11,11 @@ import 'package:honbap_signal_flutter/firebase_options.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/auth/auth_signup_repository.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
-import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
+// import 'package:honbap_signal_flutter/repository/kakao/kakao_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+// import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:path_provider/path_provider.dart';
-import 'apis/kakao_api_key.dart';
+// import 'apis/kakao_api_key.dart';
 
 RemoteMessage? bgMessage;
 
@@ -56,7 +56,7 @@ Future<void> initializeDependencies() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
   // Kakao SDK initialize
-  KakaoSdk.init(nativeAppKey: KAKAO_API_KEY);
+  // KakaoSdk.init(nativeAppKey: KAKAO_API_KEY);
   // set FCM permission
   FirebaseMessaging.instance.requestPermission(
     badge: true,
@@ -80,9 +80,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(
-          create: (context) => KakaoRepository(),
-        ),
+        // RepositoryProvider(
+        //   create: (context) => KakaoRepository(),
+        // ),
         RepositoryProvider(
           create: (context) => HonbabAuthSignupRepository(),
         ),

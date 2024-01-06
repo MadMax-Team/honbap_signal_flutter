@@ -140,7 +140,6 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     SignalStateUpdateEvent event,
     Emitter<SignalStateState> emit,
   ) async {
-    print(event);
     emit(state.copyWith(
       signal: SignalStateModel(
         // 현재 api 사양에 맞지 않음
@@ -170,10 +169,14 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     emit(state.copyWith(state: SignalState.loading));
 
     try {
-      await homeSignalBoxRepository.matchedSave(jwt: jwt);
+      await homeSignalBoxRepository.matchedSave(
+        jwt: jwt,
+        applyedIdx: state.signal.oppoUserIdx!,
+      );
 
       emit(state.copyWith(state: SignalState.idle));
     } catch (e) {
+      print(e);
       var prevState = state.state;
       emit(state.copyWith(
         state: SignalState.error,
