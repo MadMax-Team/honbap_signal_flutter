@@ -11,10 +11,12 @@ part 'signal_state_model.g.dart';
 class SignalStateModel extends SignalInfoModel {
   final int? oppoUserIdx;
   final String? oppoNickName;
+  final String? imgUrl;
 
   const SignalStateModel({
     this.oppoUserIdx,
     this.oppoNickName,
+    this.imgUrl,
     super.sigPromiseTime,
     super.sigPromiseArea,
     super.sigPromiseMenu,
@@ -27,6 +29,7 @@ class SignalStateModel extends SignalInfoModel {
   List<Object?> get props => [
         oppoUserIdx,
         oppoNickName,
+        imgUrl,
         sigPromiseTime,
         sigPromiseArea,
         sigPromiseMenu,

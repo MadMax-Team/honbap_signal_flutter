@@ -12,12 +12,10 @@ class StateCard extends StatefulWidget {
     Key? key,
     required this.matchedInfo,
     required this.onTap,
-    this.url,
   }) : super(key: key);
 
   final SignalStateModel matchedInfo;
   final onTap;
-  final String? url;
 
   @override
   State<StateCard> createState() => _StateCardState();
@@ -57,9 +55,9 @@ class _StateCardState extends State<StateCard> {
                       BoxDecoration(borderRadius: BorderRadius.circular(125)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
-                    child: widget.url != null
+                    child: widget.matchedInfo.imgUrl != null
                     ? Image.network(
-                      widget.url!,
+                      widget.matchedInfo.imgUrl!,
                       fit: BoxFit.fill,
                       errorBuilder: (context, error, stackTrace) => Image.asset(
                       'assets/icons/home_signal_list_box_user.png',

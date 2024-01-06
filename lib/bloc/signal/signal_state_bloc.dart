@@ -34,11 +34,13 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
       final matchedState = resultData['sigMatchStatus'];
       final oppoUserIdx = resultData['applyedIdx'];
       final oppoNickName = resultData['userName'];
+      final imgUrl = resultData['profileImg'];
       final signalStateModel = SignalStateModel.fromJson(resultData);
 
       final customizedSignalStateModel = SignalStateModel(
         oppoUserIdx: oppoUserIdx,
         oppoNickName: oppoNickName,
+        imgUrl: imgUrl,
         sigPromiseTime: signalStateModel.sigPromiseTime,
         sigPromiseArea: signalStateModel.sigPromiseArea,
         sigPromiseMenu: signalStateModel.sigPromiseMenu,

@@ -317,7 +317,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                                   },
                                   rightTap: () {
-                                    //TODO: move to 쪽지함
+                                    //TODO: move to 쪽지함 (but. roomid등 존재하지 않는 데이터 존재)
+                                    // PushNewScreen.openChatRoom(
+                                    //   roomId: chat.roomId!,
+                                    //   nickName: chat.nickName!,
+                                    //   profileImg: chat.profileImg!,
+                                    //   context: context,
+                                    //   signalStateBloc: context.read<SignalStateBloc>(),
+                                    // );
+                                    DefaultTabController.of(context)
+                                        .animateTo(3); //to chat room
                                   },
                                 ),
                               );
@@ -325,7 +334,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             barrierDismissible: false,
                           );
                         },
-                        url: "url", //TODO: require when get matched info
                       );
                     } else {
                       return Container(
