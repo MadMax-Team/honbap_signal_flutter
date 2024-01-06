@@ -32,14 +32,14 @@ class PushNewScreen {
     );
   }
 
-  static void openChatRoom({
+  static Future<void> openChatRoom({
     required String roomId,
     required String nickName,
     required String profileImg,
     required dynamic context,
     SignalStateBloc? signalStateBloc,
-  }) {
-    Navigator.push(
+  }) async {
+    await Navigator.push(
       context,
       _createRoute(
         RepositoryProvider(

@@ -84,13 +84,16 @@ class _ChatListScreenState extends State<ChatListScreen> {
                 for (var chat in state.chatrooms)
                   SliverToBoxAdapter(
                     child: GestureDetector(
-                      onTap: () => PushNewScreen.openChatRoom(
-                        roomId: chat.roomId!,
-                        nickName: chat.nickName!,
-                        profileImg: chat.profileImg!,
-                        context: context,
-                        signalStateBloc: context.read<SignalStateBloc>(),
-                      ),
+                      onTap: () async {
+                        await PushNewScreen.openChatRoom(
+                          roomId: chat.roomId!,
+                          nickName: chat.nickName!,
+                          profileImg: chat.profileImg!,
+                          context: context,
+                          signalStateBloc: context.read<SignalStateBloc>(),
+                        );
+                        context.read<ChatListBloc>().add(ChatListGetEvent());
+                      },
                       onLongPress: () {
                         showDialog(
                           context: context,
