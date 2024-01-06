@@ -144,16 +144,15 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     SignalStateUpdateEvent event,
     Emitter<SignalStateState> emit,
   ) async {
-    emit(state.copyWith(
-      signal: SignalStateModel(
-        // 현재 api 사양에 맞지 않음
-        // oppoUserIdx: event.incomeSignal.oppoUserIdx,
-        // oppoNickName: event.incomeSignal.oppoNickName,
-        sigPromiseTime: event.incomeSignal.sigPromiseTime,
-        sigPromiseArea: event.incomeSignal.sigPromiseArea,
-        sigPromiseMenu: event.incomeSignal.sigPromiseMenu,
+    emit(
+      state.copyWith(
+        signal: state.signal.copyWith(
+          sigPromiseTime: event.incomeSignal.sigPromiseTime,
+          sigPromiseArea: event.incomeSignal.sigPromiseArea,
+          sigPromiseMenu: event.incomeSignal.sigPromiseMenu,
+        ),
       ),
-    ));
+    );
   }
 
   Future<void> _signalStateCloseMatchEventHandler(

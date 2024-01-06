@@ -30,6 +30,28 @@ class SignalStateModel extends SignalInfoModel {
       _$SignalStateModelFromJson(json);
 
   @override
+  SignalStateModel copyWith({
+    String? sigPromiseTime,
+    String? sigPromiseArea,
+    String? sigPromiseMenu,
+    int? oppoUserIdx,
+    int? matchUserIdx,
+    int? matchApplyIdx,
+    String? oppoNickName,
+    String? imgUrl,
+  }) =>
+      SignalStateModel(
+        oppoUserIdx: oppoUserIdx ?? this.oppoUserIdx,
+        matchUserIdx: matchUserIdx ?? this.matchUserIdx,
+        matchApplyIdx: matchApplyIdx ?? this.matchApplyIdx,
+        oppoNickName: oppoNickName ?? this.oppoNickName,
+        imgUrl: imgUrl ?? this.imgUrl,
+        sigPromiseTime: sigPromiseTime ?? super.sigPromiseTime,
+        sigPromiseArea: sigPromiseArea ?? super.sigPromiseArea,
+        sigPromiseMenu: sigPromiseMenu ?? super.sigPromiseMenu,
+      );
+
+  @override
   List<Object?> get props => [
         oppoUserIdx,
         matchUserIdx,
