@@ -10,11 +10,15 @@ part 'signal_state_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class SignalStateModel extends SignalInfoModel {
   final int? oppoUserIdx;
+  final int? matchUserIdx;
   final String? oppoNickName;
+  final String? imgUrl;
 
   const SignalStateModel({
     this.oppoUserIdx,
+    this.matchUserIdx,
     this.oppoNickName,
+    this.imgUrl,
     super.sigPromiseTime,
     super.sigPromiseArea,
     super.sigPromiseMenu,
@@ -26,7 +30,9 @@ class SignalStateModel extends SignalInfoModel {
   @override
   List<Object?> get props => [
         oppoUserIdx,
+        matchUserIdx,
         oppoNickName,
+        imgUrl,
         sigPromiseTime,
         sigPromiseArea,
         sigPromiseMenu,

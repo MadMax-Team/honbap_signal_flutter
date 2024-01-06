@@ -123,6 +123,7 @@ class _SignalListBox extends State<SignalListBox> {
                       child: const Text(
                         '수락하기',
                         style: TextStyle(
+                            color: Color(0xFFFFFFFF),
                             fontSize: Sizes.size12,
                         ),
                       ),

@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
-import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
-import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
 
+import '../../../../bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
+import '../../../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
+import '../../../../cubit/user_cubit.dart';
 
-class MatchedSaveDialog extends StatefulWidget {
+class SignalAcceptDialog extends StatefulWidget {
   final BuildContext parentContext;
-  final userIdx;
-  final applyIdx;
+  final String? nickname;
+  final int userIdx;
 
-  const MatchedSaveDialog({super.key, required this.parentContext, required this.userIdx, required this.applyIdx});
+  const SignalAcceptDialog({super.key, required this.parentContext, required this.userIdx, this.nickname});
 
   @override
-  State<MatchedSaveDialog> createState() => _MatchedSaveDialogState();
+  State<SignalAcceptDialog> createState() => _SignalAcceptDialog();
 }
 
-class _MatchedSaveDialogState extends State<MatchedSaveDialog> {
+class _SignalAcceptDialog extends State<SignalAcceptDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -34,9 +36,9 @@ class _MatchedSaveDialogState extends State<MatchedSaveDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Gaps.v35,
-            const Text(
-              '매칭을 종료하시겠습니까?',
-              style: TextStyle(
+            Text(
+              '\'${widget.nickname ?? '익명의 유저'}\'님의 시그널을 수락하시겠습니까?',
+              style: const TextStyle(
                 fontSize: Sizes.size14,
                 fontWeight: FontWeight.w500,
                 color: Colors.black,
@@ -45,7 +47,7 @@ class _MatchedSaveDialogState extends State<MatchedSaveDialog> {
             Gaps.v19,
             const Text(
               textAlign: TextAlign.center,
-              '매칭을 종료해도 매칭 상대와의 쪽지 내역이 사라지지 않습니다',
+              '시그널을 수락하시면 상대방의 매칭 여부 확인 후,\n상대방과 매칭되며 다른 이의 요청은 수락할 수 없습니다.',
               style: TextStyle(
                 fontSize: Sizes.size12,
                 fontWeight: FontWeight.w400,
@@ -80,8 +82,18 @@ class _MatchedSaveDialogState extends State<MatchedSaveDialog> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      widget.parentContext.read<SignalStateBloc>().add(MatchedSateSaveEvent(userIdx: widget.userIdx, applyIdx: widget.applyIdx));
                       Navigator.of(context).pop();
+                      widget.parentContext.read<HomeSignalApplyedBloc>().add(
+                        HomeSignalApplyedAcceptEvent(
+                          jwt: context
+                              .read<UserCubit>()
+                              .state
+                              .user!
+                              .jwt!,
+                          matchedIdx:
+                          widget.userIdx,
+                        ),
+                      );
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Container(
@@ -89,7 +101,7 @@ class _MatchedSaveDialogState extends State<MatchedSaveDialog> {
                       height: Sizes.size46,
                       width: double.maxFinite,
                       child: const Text(
-                        '네',
+                        '수락하기',
                         style: TextStyle(
                           fontSize: Sizes.size14,
                           color: Color(0xffF35928),

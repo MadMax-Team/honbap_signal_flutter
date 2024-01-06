@@ -122,21 +122,22 @@ class HomeSignalBoxRepository {
 
   Future<void> matchedSave({
     required String jwt,
-    required int applyedIdx,
+    required int userIdx,
+    required int applyIdx,
   }) async {
     final headers = {
       "Content-Type": "application/json",
       'x-access-token': jwt,
     };
-
-    final body = {
-      'applyedIdx': applyedIdx,
+    final data = {
+      "userIdx": userIdx,
+      "applyIdx": applyIdx,
     };
 
     final res = await http.patch(
       Uri.parse('${ApiEndpoint.honbab}/signal/save'), // 요청 URL
       headers: headers,
-      body: jsonEncode(body),
+      body: json.encode(data),
     );
 
     print(res.body);
