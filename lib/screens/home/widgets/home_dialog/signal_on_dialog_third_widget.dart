@@ -7,7 +7,7 @@ import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
 class SignalThirdBox extends StatefulWidget {
-  final String? time;
+  final DateTime? time;
   final String? location;
   final String? favoriteFood;
 

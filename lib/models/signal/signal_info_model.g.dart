@@ -8,14 +8,14 @@ part of 'signal_info_model.dart';
 
 SignalInfoModel _$SignalInfoModelFromJson(Map<String, dynamic> json) =>
     SignalInfoModel(
-      sigPromiseTime: json['sigPromiseTime'] as String?,
+      sigPromiseTime: strToDt(json['sigPromiseTime'] as String?),
       sigPromiseArea: json['sigPromiseArea'] as String?,
       sigPromiseMenu: json['sigPromiseMenu'] as String?,
     );
 
 Map<String, dynamic> _$SignalInfoModelToJson(SignalInfoModel instance) =>
     <String, dynamic>{
-      'sigPromiseTime': instance.sigPromiseTime,
+      'sigPromiseTime': dtToStr(instance.sigPromiseTime),
       'sigPromiseArea': instance.sigPromiseArea,
       'sigPromiseMenu': instance.sigPromiseMenu,
     };

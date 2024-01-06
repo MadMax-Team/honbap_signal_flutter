@@ -7,7 +7,7 @@ import '../location_repository.dart';
 class HomeSignalBoxRepository {
   Future<void> sendDataWithJwt({
     required String jwt,
-    String? sigPromiseTime,
+    DateTime? sigPromiseTime,
     String? sigPromiseArea,
     String? sigPromiseMenu,
     String? fcm,
@@ -22,7 +22,7 @@ class HomeSignalBoxRepository {
         'Latitude: ${position.latitude}, Longitude: ${position.longitude}');
 
     final data = {
-      "sigPromiseTime": sigPromiseTime,
+      "sigPromiseTime": sigPromiseTime?.toIso8601String(),
       "sigPromiseArea": sigPromiseArea,
       "sigPromiseMenu": sigPromiseMenu,
       "fcm": fcm,

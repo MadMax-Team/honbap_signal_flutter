@@ -42,10 +42,9 @@ class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
   }
 
   void _onDateTimeChange(DateTime datetime) {
-    String formattedDateTime = datetime.toIso8601String();
     setState(() {
       _currentSignalInfo = _currentSignalInfo.copyWith(
-        sigPromiseTime: formattedDateTime,
+        sigPromiseTime: datetime,
       );
     });
 
@@ -93,9 +92,7 @@ class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.time,
             use24hFormat: true,
-            initialDateTime: _currentSignalInfo.sigPromiseTime != null
-                ? DateTime.parse(_currentSignalInfo.sigPromiseTime!)
-                : null,
+            initialDateTime: _currentSignalInfo.sigPromiseTime,
             onDateTimeChanged: _onDateTimeChange,
           ),
         ),
@@ -103,10 +100,9 @@ class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
     );
   }
 
-  String _hm(String? dateTimeStr) {
-    if (dateTimeStr == null) return '시간을 정해주세요';
-    var datetime = DateTime.parse(dateTimeStr);
-    return '${datetime.hour.toString().padLeft(2, "0")} : ${datetime.minute.toString().padLeft(2, "0")}';
+  String _hm(DateTime? dateTime) {
+    if (dateTime == null) return '시간을 정해주세요';
+    return '${dateTime.hour.toString().padLeft(2, "0")} : ${dateTime.minute.toString().padLeft(2, "0")}';
   }
 
   @override
