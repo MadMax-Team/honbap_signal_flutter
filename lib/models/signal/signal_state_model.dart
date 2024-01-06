@@ -1,4 +1,5 @@
 import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
+import 'package:honbap_signal_flutter/tools/datetime_formatter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'signal_state_model.g.dart';
@@ -31,7 +32,7 @@ class SignalStateModel extends SignalInfoModel {
 
   @override
   SignalStateModel copyWith({
-    String? sigPromiseTime,
+    DateTime? sigPromiseTime,
     String? sigPromiseArea,
     String? sigPromiseMenu,
     int? oppoUserIdx,

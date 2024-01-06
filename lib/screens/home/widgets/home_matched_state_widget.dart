@@ -258,14 +258,12 @@ class _StateCardState extends State<StateCard> {
     );
   }
 
-  String? formatTime(String? dateTimeString) {
+  String? formatTime(DateTime? dateTimeString) {
     if (dateTimeString == null) return null;
 
     try {
-      final dateTime = DateTime.parse(dateTimeString);
-
       final timeFormatter = DateFormat('HH:mm');
-      final dateString = timeFormatter.format(dateTime);
+      final dateString = timeFormatter.format(dateTimeString);
 
       return dateString;
     } on FormatException {
@@ -273,14 +271,13 @@ class _StateCardState extends State<StateCard> {
     }
   }
 
-  calculateTime(String? sigPromiseTime) {
+  calculateTime(DateTime? sigPromiseTime) {
     if (sigPromiseTime == null) return null;
 
     try {
-      final dateTime = DateTime.parse(sigPromiseTime);
       var now = DateTime.now();
       now = now.toUtc().add(const Duration(hours: 9));
-      Duration difference = now.difference(dateTime);
+      Duration difference = now.difference(sigPromiseTime);
       String prefix = difference.isNegative ? '' : '-'; // 과거는 '-', 미래는 ''
       difference = difference.abs(); // 절대값으로 변환
 

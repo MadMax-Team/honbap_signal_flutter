@@ -82,7 +82,7 @@ class ChatRoomRepository {
       final Map<String, String> body = {
         'applyedIdx': applyedIdx.toString(),
         'where': signalInfo.sigPromiseArea!,
-        'when': signalInfo.sigPromiseTime!,
+        'when': signalInfo.sigPromiseTime!.toIso8601String(),
         'menu': signalInfo.sigPromiseMenu!,
       };
 

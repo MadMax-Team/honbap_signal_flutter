@@ -27,3 +27,13 @@ String diffDatetime(DateTime from) {
   // 나머지
   return DateFormat('yyyy-MM-dd aa h:mm', 'ko').format(dateFrom);
 }
+
+DateTime? strToDt(String? datetime) {
+  if (datetime == null) return null;
+  return DateTime.parse(datetime);
+}
+
+String? dtToStr(DateTime? datetime) {
+  if (datetime == null) return null;
+  return datetime.toIso8601String();
+}
