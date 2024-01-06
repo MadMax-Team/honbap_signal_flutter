@@ -167,7 +167,7 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     emit(state.copyWith(state: SignalState.loading));
 
     try {
-      await homeSignalBoxRepository.matchedSave(jwt: jwt);
+      await homeSignalBoxRepository.matchedSave(jwt: jwt, userIdx: event.userIdx, applyIdx: event.applyIdx);
 
       emit(state.copyWith(state: SignalState.idle));
     } catch (e) {
