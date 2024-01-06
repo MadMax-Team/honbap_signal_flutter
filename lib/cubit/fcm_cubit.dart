@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/models/fcm/fcm_data_model.dart';
 
@@ -26,9 +27,9 @@ class FCMCubit extends Cubit<FCMState> {
   void listenFCM(RemoteMessage? message) {
     if (message != null) {
       if (message.notification != null) {
-        print('fg fcm: ${message.notification?.title}');
-        print('fg fcm: ${message.notification?.body}');
-        print('fg fcm: ${message.data}');
+        debugPrint('fg fcm: ${message.notification?.title}');
+        debugPrint('fg fcm: ${message.notification?.body}');
+        debugPrint('fg fcm: ${message.data}');
       }
       emit(FCMState(
         state: FCMEvent.message,

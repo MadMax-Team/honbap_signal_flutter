@@ -1,13 +1,10 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
-import '../../../../cubit/user_cubit.dart';
 
 class SignalThirdBox extends StatefulWidget {
   final String? time;
@@ -83,13 +80,6 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () async {
-                      if (widget.time != null) print('Time: ${widget.time}');
-                      if (widget.location != null) {
-                        print('Location: ${widget.location}');
-                      }
-                      if (widget.favoriteFood != null) {
-                        print('Favorite Food: ${widget.favoriteFood}');
-                      }
                       widget.parentContext
                           .read<SignalStateBloc>()
                           .add(SignalStateOnEvent(

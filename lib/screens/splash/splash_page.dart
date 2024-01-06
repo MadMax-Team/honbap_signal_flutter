@@ -33,7 +33,7 @@ class SplashPage extends StatelessWidget {
     final userAuthModel =
         AuthSigninUserDataModel.fromJson(await jsonDecode(userAuth));
 
-    print(
+    debugPrint(
         '자동 로그인 - jwt 유효성 검사 [jwt: ${userAuthModel.jwt}, userIdx: ${userAuthModel.userIdx}]');
 
     var res = await context.read<HonbabAuthRepository>().autoSignin(
@@ -86,8 +86,6 @@ class SplashPage extends StatelessWidget {
         .read<HonbabAuthRepository>()
         .getUserProfileData(user!.jwt!);
 
-    print(userProfileRes);
-
     if (userProfileRes == null ||
         userProfileRes.result == null ||
         userProfileRes.code != 1000) {
@@ -132,17 +130,17 @@ class SplashPage extends StatelessWidget {
               listener: (context, state) {
                 if (state.status == LoadStatus.loadingAuth) {
                   // 자동 로그인 - jwt 유효성 검사
-                  print('자동 로그인 - jwt 유효성 검사');
+                  debugPrint('자동 로그인 - jwt 유효성 검사');
                   autoSignin(context);
                 }
                 if (state.status == LoadStatus.loadingUserData) {
                   // 기본 사용자 정보 로드
-                  print('기본 사용자 정보 로드');
+                  debugPrint('기본 사용자 정보 로드');
                   getUserData(context);
                 }
                 if (state.status == LoadStatus.loadingUserProfileData) {
                   // 사용자 프로필 정보 로드
-                  print('사용자 프로필 정보 로드');
+                  debugPrint('사용자 프로필 정보 로드');
                   getUserProfileData(context);
                 }
               },

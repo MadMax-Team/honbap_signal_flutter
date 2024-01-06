@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
@@ -31,7 +30,8 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
     return AlertDialog(
       backgroundColor: const Color(0xffF2F2F2),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(7.0),
+        borderRadius: BorderRadius.all(
+          Radius.circular(7.0),
         ),
       ),
       contentPadding: const EdgeInsets.fromLTRB(0, 9, 0, 0),
@@ -72,11 +72,11 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                             height: Sizes.size72,
                             width: Sizes.size72,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(125),
-                                border: Border.all(
-                                  width: Sizes.size3,
-                                  color: const Color(0xffF35928),
-                                ),
+                              borderRadius: BorderRadius.circular(125),
+                              border: Border.all(
+                                width: Sizes.size3,
+                                color: const Color(0xffF35928),
+                              ),
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(25.0),
@@ -94,10 +94,10 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                             ),
                           ),
                           Gaps.h14,
-                          Column(
+                          const Column(
                             children: [
                               Row(
-                                children: const [
+                                children: [
                                   Text(
                                     //matched
                                     '마이닉네임',
@@ -118,7 +118,7 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                                   ),
                                 ],
                               ),
-                              const Text(
+                              Text(
                                 '만남은 어떠셨나요?',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -158,7 +158,7 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                         ),
                       ),
                       onRatingUpdate: (rating) {
-                        print(rating);
+                        // print(rating);
                       },
                     ),
                     Gaps.v8,
@@ -188,7 +188,7 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                                   reviewList.contains(review[i])
                                       ? reviewList.remove(review[i])
                                       : reviewList.add(review[i]);
-                                  print(reviewList);
+                                  // print(reviewList);
                                   setState(() {});
                                 },
                                 child: Container(
@@ -232,20 +232,20 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                         maxLines: 4,
                         textAlign: TextAlign.left,
                         decoration: InputDecoration(
-                            hintText: '기타 남기고 싶은 피드백이 있다면 적어주세요',
-                            isDense: true,
-                            contentPadding: EdgeInsets.fromLTRB(11, 8, 11, 8),
-                            filled: true,
-                            fillColor: Color(0xffDBDBDB),
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: Sizes.size12,
-                              color: Color(0xff737373),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.zero,
-                            ),
+                          hintText: '기타 남기고 싶은 피드백이 있다면 적어주세요',
+                          isDense: true,
+                          contentPadding: EdgeInsets.fromLTRB(11, 8, 11, 8),
+                          filled: true,
+                          fillColor: Color(0xffDBDBDB),
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: Sizes.size12,
+                            color: Color(0xff737373),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.zero,
+                          ),
                         ),
                         style: TextStyle(
                           fontSize: Sizes.size12,
@@ -260,7 +260,7 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          print('click 신고');
+                          // print('click 신고');
                         },
                         style: TextButton.styleFrom(
                           minimumSize: Size.zero,

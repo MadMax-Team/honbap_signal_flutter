@@ -5,7 +5,6 @@ import 'package:flutter_switch/flutter_switch.dart';
 import '../../../bloc/signal/signal_state_bloc.dart';
 import '../../../bloc/signal/signal_state_state.dart';
 import '../../../constants/gaps.dart';
-import '../../../constants/sizes.dart';
 import 'home_dialog/signal_off_dialog_widget.dart';
 import 'home_dialog/signal_on_dialog_widget.dart';
 
@@ -59,52 +58,54 @@ class _SignalBoxState extends State<SignalBox>
           ),
         ),
         Positioned(
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (widget.signal)
-                  SvgPicture.asset('assets/icons/home_signal_box_off_trans.svg')
-                else
-                  SvgPicture.asset('assets/icons/home_signal_box_off.svg'),
-                Gaps.h11,
-                FlutterSwitch(
-                  width: 105,
-                  height: 42,
-                  toggleSize: 35,
-                  activeColor: Colors.white,
-                  inactiveColor: Colors.white,
-                  toggleColor: const Color(0xffF8280B),
-                  value: widget.signal,
-                  padding: 3,
-                  onToggle: (value) {
-                    if (context.read<SignalStateBloc>().state.state != SignalState.matched) {
-                      if (context.read<SignalStateBloc>().state.state == SignalState.signaling){
-                        showDialog(
-                          context: context,
-                          builder: (_) => SignalOffDialog(parentContext: context),
-                          barrierDismissible: false,
-                        );
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (_) => SignalOnDialog(parentContext: context),
-                          barrierDismissible: false,
-                        );
-                      }
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (widget.signal)
+                SvgPicture.asset('assets/icons/home_signal_box_off_trans.svg')
+              else
+                SvgPicture.asset('assets/icons/home_signal_box_off.svg'),
+              Gaps.h11,
+              FlutterSwitch(
+                width: 105,
+                height: 42,
+                toggleSize: 35,
+                activeColor: Colors.white,
+                inactiveColor: Colors.white,
+                toggleColor: const Color(0xffF8280B),
+                value: widget.signal,
+                padding: 3,
+                onToggle: (value) {
+                  if (context.read<SignalStateBloc>().state.state !=
+                      SignalState.matched) {
+                    if (context.read<SignalStateBloc>().state.state ==
+                        SignalState.signaling) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOffDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (_) => SignalOnDialog(parentContext: context),
+                        barrierDismissible: false,
+                      );
                     }
-                  },
-                ),
-                Gaps.h15,
-                if (widget.signal)
-                  SvgPicture.asset('assets/icons/home_signal_box_on.svg')
-                else
-                  SvgPicture.asset('assets/icons/home_signal_box_on_trans.svg')
-              ],
-            ),
+                  }
+                },
+              ),
+              Gaps.h15,
+              if (widget.signal)
+                SvgPicture.asset('assets/icons/home_signal_box_on.svg')
+              else
+                SvgPicture.asset('assets/icons/home_signal_box_on_trans.svg')
+            ],
+          ),
         ),
       ],
     );

@@ -31,7 +31,7 @@ void main() async {
 
   // get fcm token
   String? fcmToken = await FirebaseMessaging.instance.getToken();
-  print('FCM Token: $fcmToken');
+  debugPrint('FCM Token: $fcmToken');
 
   runApp(MyApp(
     fcmToken: fcmToken ?? '',
@@ -41,9 +41,9 @@ void main() async {
 
 Future<void> _onBackgroundMessage(RemoteMessage message) async {
   bgMessage = message;
-  print('bg fcm: ${message.notification?.title}');
-  print('bg fcm: ${message.notification?.body}');
-  print('bg fcm: ${message.data}');
+  debugPrint('bg fcm: ${message.notification?.title}');
+  debugPrint('bg fcm: ${message.notification?.body}');
+  debugPrint('bg fcm: ${message.data}');
 }
 
 Future<void> initializeDependencies() async {

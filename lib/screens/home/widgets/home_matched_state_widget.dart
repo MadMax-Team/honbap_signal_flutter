@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_state_model.dart';
-import 'package:honbap_signal_flutter/screens/home/widgets/home_matched_user_tag_widget.dart';
 import 'package:intl/intl.dart';
-
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
@@ -15,7 +12,7 @@ class StateCard extends StatefulWidget {
   }) : super(key: key);
 
   final SignalStateModel matchedInfo;
-  final onTap;
+  final Function() onTap;
 
   @override
   State<StateCard> createState() => _StateCardState();
@@ -41,11 +38,7 @@ class _StateCardState extends State<StateCard> {
             borderRadius: BorderRadius.circular(12), //모서리를 둥글게
           ),
           child: GestureDetector(
-            onTap: () async {
-            if(widget.onTap != null) {
-            widget.onTap();
-            }
-            },
+            onTap: widget.onTap,
             child: Row(
               children: [
                 Container(
@@ -56,31 +49,32 @@ class _StateCardState extends State<StateCard> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
                     child: widget.matchedInfo.imgUrl != null
-                    ? Image.network(
-                      widget.matchedInfo.imgUrl!,
-                      fit: BoxFit.fill,
-                      errorBuilder: (context, error, stackTrace) => Image.asset(
-                      'assets/icons/home_signal_list_box_user.png',
-                      alignment: Alignment.center,
-                      fit: BoxFit.fill,
-                      ),
-                    )
-                    : Image.asset(
-                      'assets/icons/home_signal_list_box_user.png',
-                      alignment: Alignment.center,
-                      fit: BoxFit.fill,
-                    ),
+                        ? Image.network(
+                            widget.matchedInfo.imgUrl!,
+                            fit: BoxFit.fill,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Image.asset(
+                              'assets/icons/home_signal_list_box_user.png',
+                              alignment: Alignment.center,
+                              fit: BoxFit.fill,
+                            ),
+                          )
+                        : Image.asset(
+                            'assets/icons/home_signal_list_box_user.png',
+                            alignment: Alignment.center,
+                            fit: BoxFit.fill,
+                          ),
                   ),
                 ),
                 Gaps.h16,
                 Text(
-                    widget.matchedInfo.oppoNickName ?? '익명의 유저',
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                        fontSize: Sizes.size18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
+                  widget.matchedInfo.oppoNickName ?? '익명의 유저',
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                      fontSize: Sizes.size18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
+                ),
               ],
             ),
           ),
@@ -127,8 +121,7 @@ class _StateCardState extends State<StateCard> {
                             style: TextStyle(
                                 fontSize: Sizes.size12,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black
-                            ),
+                                color: Colors.black),
                           ),
                         ),
                       )
@@ -138,7 +131,8 @@ class _StateCardState extends State<StateCard> {
                           child: Column(
                             children: [
                               Text(
-                                formatTime(widget.matchedInfo.sigPromiseTime) ?? '시간 정보 없음',
+                                formatTime(widget.matchedInfo.sigPromiseTime) ??
+                                    '시간 정보 없음',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: Sizes.size24,
@@ -147,7 +141,9 @@ class _StateCardState extends State<StateCard> {
                                 ),
                               ),
                               Text(
-                                calculateTime(widget.matchedInfo.sigPromiseTime) ?? '',
+                                calculateTime(
+                                        widget.matchedInfo.sigPromiseTime) ??
+                                    '',
                                 style: const TextStyle(
                                   fontSize: Sizes.size10,
                                   fontWeight: FontWeight.w400,
@@ -201,8 +197,7 @@ class _StateCardState extends State<StateCard> {
                           style: const TextStyle(
                               fontSize: Sizes.size12,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black
-                          ),
+                              color: Colors.black),
                         ),
                       ),
                     ),
@@ -249,8 +244,7 @@ class _StateCardState extends State<StateCard> {
                           style: const TextStyle(
                               fontSize: Sizes.size12,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black
-                          ),
+                              color: Colors.black),
                         ),
                       ),
                     ),
@@ -277,7 +271,7 @@ class _StateCardState extends State<StateCard> {
     } on FormatException {
       return null;
     }
-}
+  }
 
   calculateTime(String? sigPromiseTime) {
     if (sigPromiseTime == null) return null;
