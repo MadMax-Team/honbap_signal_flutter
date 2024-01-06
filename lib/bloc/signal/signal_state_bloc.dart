@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
+import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_state_model.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/signal_box/home_signal_box_repository.dart';
 
@@ -32,13 +33,15 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
       final resultData = await homeSignalBoxRepository.getHomeSignalBoxState(jwt: jwt);
       final signalState = resultData['sigStatus'];
       final matchedState = resultData['sigMatchStatus'];
+      final matchUserIdx = resultData['userIdx'];
       final oppoUserIdx = resultData['applyedIdx'];
-      final oppoNickName = resultData['userName'];
+      final oppoNickName = resultData['nickName'];
       final imgUrl = resultData['profileImg'];
       final signalStateModel = SignalStateModel.fromJson(resultData);
 
       final customizedSignalStateModel = SignalStateModel(
         oppoUserIdx: oppoUserIdx,
+        matchUserIdx: matchUserIdx,
         oppoNickName: oppoNickName,
         imgUrl: imgUrl,
         sigPromiseTime: signalStateModel.sigPromiseTime,

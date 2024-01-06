@@ -306,7 +306,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 value: signalUserStateBloc,
                                 child: HomeUserDialog(
                                   parentContext: context,
-                                  userIdx: state.signal.oppoUserIdx!,
+                                  userIdx: (state.signal.oppoUserIdx == context.read<UserCubit>().state.user!.userIdx)
+                                      ? state.signal.matchUserIdx!
+                                      : state.signal.oppoUserIdx!,
                                   button1: '매칭 취소',
                                   button2: '쪽지방으로',
                                   leftTap: () {

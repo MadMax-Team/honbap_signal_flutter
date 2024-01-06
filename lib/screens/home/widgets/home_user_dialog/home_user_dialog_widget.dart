@@ -144,7 +144,9 @@ class _HomeUserDialog extends State<HomeUserDialog> {
                                 children: [
                                   Gaps.v32,
                                   CommonProfileImageWidget(
-                                    profileImg: state.userProfile.profileImg,
+                                    profileImg: (state.userProfile.profileImg != null && state.userProfile.profileImg != "")
+                                        ? state.userProfile.profileImg
+                                        : null,
                                     size: Sizes.size44,
                                   ),
                                   Gaps.v16,
