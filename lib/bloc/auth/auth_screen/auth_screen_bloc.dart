@@ -4,7 +4,8 @@ import 'package:honbap_signal_flutter/bloc/auth/auth_screen/auth_screen_state.da
 
 class AuthScreenBloc extends Bloc<AuthScreenEvent, AuthScreenState> {
   AuthScreenBloc()
-      : super(const AuthScreenState(screen: AuthScreenEnum.phoneCheck)) {
+      // TODO: AuthScreenEnum.phoneCheck 핸드폰 번호 인증 비활성화
+      : super(const AuthScreenState(screen: AuthScreenEnum.userInfo)) {
     on<AuthScreenEvent>(_handleAuthScreenEvent);
   }
 

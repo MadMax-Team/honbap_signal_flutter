@@ -32,25 +32,27 @@ class PushNewScreen {
     );
   }
 
-  static void openChatRoom({
+  static Future<void> openChatRoom({
     required String roomId,
     required String nickName,
     required String profileImg,
     required dynamic context,
     SignalStateBloc? signalStateBloc,
-  }) {
-    Navigator.push(
+  }) async {
+    await Navigator.push(
       context,
       _createRoute(
         RepositoryProvider(
           create: (context) => ChatRoomRepository(),
           child: BlocProvider(
             create: (context) => ChatRoomBloc(
-              context.read<ChatRoomRepository>(),
-              context.read<UserCubit>().state.user!.jwt!,
-              roomId,
+              chatRoomRepository: context.read<ChatRoomRepository>(),
+              jwt: context.read<UserCubit>().state.user!.jwt!,
+              roomId: roomId,
+              applyedIdx: signalStateBloc?.state.signal.oppoUserIdx,
             ),
             child: ChatRoomScreen(
+              roomId: roomId,
               nickName: nickName,
               profileImg: profileImg,
               signalStateBloc: signalStateBloc,

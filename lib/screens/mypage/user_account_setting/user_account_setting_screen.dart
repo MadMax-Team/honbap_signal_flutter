@@ -37,17 +37,17 @@ class UserAccountSettingScreen extends StatelessWidget {
                 title: '이름',
                 value: context.read<UserCubit>().state.user?.userName ?? '',
               ),
-              UserAccountSettingButton(
-                title: '휴대폰 번호',
-                value: context
-                        .read<UserCubit>()
-                        .state
-                        .user
-                        ?.phoneNum
-                        ?.replaceAllMapped(RegExp(r'(\d{3})(\d{3,4})(\d{4})'),
-                            (m) => '${m[1]}-${m[2]}-${m[3]}') ??
-                    '',
-              ),
+              // UserAccountSettingButton(
+              //   title: '휴대폰 번호',
+              //   value: context
+              //           .read<UserCubit>()
+              //           .state
+              //           .user
+              //           ?.phoneNum
+              //           ?.replaceAllMapped(RegExp(r'(\d{3})(\d{3,4})(\d{4})'),
+              //               (m) => '${m[1]}-${m[2]}-${m[3]}') ??
+              //       '',
+              // ),
               UserAccountSettingButton(
                 title: '로그아웃',
                 onTap: () {
@@ -75,6 +75,7 @@ class UserAccountSettingScreen extends StatelessWidget {
               UserAccountSettingButton(
                 title: '회원탈퇴',
                 onTap: () {},
+                enabled: false,
               ),
             ],
           ),

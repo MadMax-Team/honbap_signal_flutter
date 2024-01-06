@@ -148,7 +148,8 @@ class UserProfileSettingScreen extends StatelessWidget {
           }
         },
         builder: (context, state) => BottomAppBar(
-          color: Theme.of(context).primaryColor,
+          padding: EdgeInsets.zero,
+          height: Sizes.size52,
           child: GestureDetector(
             onTap: state.status == UserProfileUploadStatus.uploading
                 ? null

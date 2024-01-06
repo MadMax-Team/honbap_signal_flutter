@@ -71,13 +71,16 @@ class ChatRoomRepository {
     required String jwt,
     required String roomId,
     required SignalInfoModel signalInfo,
+    required int applyedIdx,
   }) async {
     try {
       final Map<String, String> headers = {
         "Content-Type": "application/json",
         'x-access-token': jwt,
       };
+
       final Map<String, String> body = {
+        'applyedIdx': applyedIdx.toString(),
         'where': signalInfo.sigPromiseArea!,
         'when': signalInfo.sigPromiseTime!,
         'menu': signalInfo.sigPromiseMenu!,

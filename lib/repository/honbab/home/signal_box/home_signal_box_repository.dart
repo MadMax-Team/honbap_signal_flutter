@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import '../location_repository.dart';
 
 class HomeSignalBoxRepository {
-
   Future<void> sendDataWithJwt({
     required String jwt,
     String? sigPromiseTime,
@@ -40,7 +39,6 @@ class HomeSignalBoxRepository {
     if (res.statusCode == 200) {
       final responseData = json.decode(res.body);
       if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
-
       } else {
         throw Exception("failed to fetch data");
       }
@@ -49,7 +47,8 @@ class HomeSignalBoxRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getHomeSignalBoxState({required String jwt}) async {
+  Future<Map<String, dynamic>> getHomeSignalBoxState(
+      {required String jwt}) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       'x-access-token': jwt,
@@ -89,7 +88,6 @@ class HomeSignalBoxRepository {
     if (res.statusCode == 200) {
       final responseData = json.decode(res.body);
       if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
-
       } else {
         throw Exception("failed to send data");
       }
@@ -142,10 +140,11 @@ class HomeSignalBoxRepository {
       body: json.encode(data),
     );
 
+    print(res.body);
+
     if (res.statusCode == 200) {
       final responseData = json.decode(res.body);
       if (responseData['isSuccess'] == true && responseData['code'] == 1000) {
-
       } else {
         throw Exception("failed to send data");
       }

@@ -9,7 +9,8 @@ class UserPasswordSubmitButton extends StatelessWidget {
   void _onTap(BuildContext context) {
     final cubit = context.read<UserPWChangeCubit>();
 
-    if (cubit.state.newPassword?.isNotEmpty == true) {
+    if (cubit.state.newPassword?.isNotEmpty == true &&
+        cubit.state.oldPassword?.isNotEmpty == true) {
       if (cubit.state.status == UserPWChangeStatus.updating) return;
 
       cubit.updatePassword();
@@ -25,7 +26,8 @@ class UserPasswordSubmitButton extends StatelessWidget {
           height: Sizes.size48,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Sizes.size5),
-            color: state.newPassword?.isNotEmpty == true
+            color: state.newPassword?.isNotEmpty == true &&
+                    state.oldPassword?.isNotEmpty == true
                 ? Theme.of(context).primaryColor
                 : Colors.grey.shade400,
           ),

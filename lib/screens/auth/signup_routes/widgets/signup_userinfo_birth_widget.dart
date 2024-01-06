@@ -18,6 +18,7 @@ class _SignupUserInfoBirthState extends State<SignupUserInfoBirth> {
     DateTime today = DateTime.now();
     final DateTime? picked = await showDatePicker(
       context: context,
+      locale: const Locale('ko'),
       initialDate: today,
       firstDate: DateTime(1900, 1),
       lastDate: today,
@@ -83,9 +84,9 @@ class _SignupUserInfoBirthState extends State<SignupUserInfoBirth> {
                       ? '0000-00-00'
                       : state.formData.birth ?? '',
                   style: TextStyle(
-                    color: state.formData.birth == ''
-                        ? Colors.black
-                        : Colors.grey.shade400,
+                    color: (state.formData.birth ?? '') == ''
+                        ? Colors.grey.shade400
+                        : Colors.black,
                     fontSize: Sizes.size12,
                   ),
                 ),

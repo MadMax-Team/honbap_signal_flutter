@@ -17,6 +17,8 @@ class UserLogoutDialog extends StatelessWidget {
         ),
       ),
       contentPadding: const EdgeInsets.all(0),
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -49,7 +49,7 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     );
 
     if (res.code == 1000) {
-      _chatListGetEventHandler(ChatListGetEvent(), emit);
+      await _chatListGetEventHandler(ChatListGetEvent(), emit);
     } else {
       emit(state.copyWith(
         status: ChatListStatus.error,

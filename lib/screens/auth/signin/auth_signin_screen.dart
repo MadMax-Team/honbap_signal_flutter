@@ -110,7 +110,8 @@ class _AuthSigninScreenState extends State<AuthSigninScreen> {
             }
           },
           builder: (context, state) => BottomAppBar(
-            color: Theme.of(context).primaryColor,
+            padding: EdgeInsets.zero,
+            height: Sizes.size52,
             child: GestureDetector(
               onTap: _onNextBtnTap,
               child: AuthBtnWidget(

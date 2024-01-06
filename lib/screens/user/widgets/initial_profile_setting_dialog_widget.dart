@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:honbap_signal_flutter/screens/user/widgets/initial_profile_confirm_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/user/widgets/initial_profile_text_field_widget.dart';
 
@@ -348,9 +348,9 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
         barrierDismissible: false,
       );
     } else {
-      setState(() {
-        Fluttertoast.showToast(msg: "서버와의 통신에 실패했습니다.");
-      });
+      // setState(() {
+      //   Fluttertoast.showToast(msg: "서버와의 통신에 실패했습니다.");
+      // });
     }
   }
 }
