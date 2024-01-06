@@ -42,9 +42,10 @@ class _CommonSignalCardWidgetState extends State<CommonSignalCardWidget> {
   }
 
   void _onDateTimeChange(DateTime datetime) {
+    String formattedDateTime = datetime.toIso8601String();
     setState(() {
       _currentSignalInfo = _currentSignalInfo.copyWith(
-        sigPromiseTime: datetime.toString(),
+        sigPromiseTime: formattedDateTime,
       );
     });
 
