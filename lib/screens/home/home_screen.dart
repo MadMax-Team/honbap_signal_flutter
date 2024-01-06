@@ -13,6 +13,7 @@ import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_list_box_
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signal_send_list_box_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_signalbox_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_user_dialog/home_user_dialog_widget.dart';
+import 'package:honbap_signal_flutter/screens/home/widgets/signal_process_dialog/signal_accept_denied_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/signal_process_dialog/signal_accept_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/signal_process_dialog/signal_delete_dialog_widget.dart';
 import '../../bloc/home/get_signal_apply/home_signal_apply_state.dart';
@@ -498,16 +499,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 },
                                 acceptTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) => SignalAcceptDialog(
-                                        parentContext: context,
-                                        userIdx:
-                                            state.signalApply[index].userIdx,
-                                        nickname:
-                                            state.signalApply[index].nickName),
-                                    barrierDismissible: false,
-                                  );
+                                  if(context.read<SignalStateBloc>().state.state == SignalState.signaling) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) => SignalAcceptDialog(
+                                          parentContext: context,
+                                          userIdx:
+                                          state.signalApply[index].userIdx,
+                                          nickname:
+                                          state.signalApply[index].nickName),
+                                      barrierDismissible: false,
+                                    );
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (_) => const SignalDeniedDialog(),
+                                        barrierDismissible: false,
+                                    );
+                                  }
                                 },
                                 deleteTap: () {
                                   showDialog(
