@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
-import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_state_model.dart';
 import 'package:honbap_signal_flutter/repository/honbab/home/signal_box/home_signal_box_repository.dart';
 
@@ -61,7 +60,6 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
           state: SignalState.matched,
           signal: customizedSignalStateModel,
         ));
-        print(customizedSignalStateModel);
       } else {
         if (signalState == 1) {
           emit(state.copyWith(
@@ -175,11 +173,11 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
     emit(state.copyWith(state: SignalState.loading));
 
     try {
-      await homeSignalBoxRepository.matchedSave(jwt: jwt, userIdx: event.userIdx, applyIdx: event.applyIdx);
+      await homeSignalBoxRepository.matchedSave(
+          jwt: jwt, userIdx: event.userIdx, applyIdx: event.applyIdx);
 
       emit(state.copyWith(state: SignalState.idle));
     } catch (e) {
-      print(e);
       var prevState = state.state;
       emit(state.copyWith(
         state: SignalState.error,

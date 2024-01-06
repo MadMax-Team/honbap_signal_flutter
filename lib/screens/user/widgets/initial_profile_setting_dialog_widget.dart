@@ -151,7 +151,6 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                                   favoriteFoodList.contains(food[i])
                                       ? favoriteFoodList.remove(food[i])
                                       : favoriteFoodList.add(food[i]);
-                                  print(favoriteFoodList);
                                   setState(() {});
                                 },
                                 child: Container(
@@ -210,7 +209,6 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                                   hateFoodList.contains(food[i])
                                       ? hateFoodList.remove(food[i])
                                       : hateFoodList.add(food[i]);
-                                  print(hateFoodList);
                                   setState(() {});
                                 },
                                 child: Container(
@@ -340,7 +338,6 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
       if (!mounted) return; //위젯이 mount 되지 않은 경우
 
       Navigator.of(context).pop();
-      print(formData);
       //post가 성공일 때에만 다음 창 띄우고, 아니면 toast message
       showDialog(
         context: context,

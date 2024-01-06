@@ -71,7 +71,6 @@ class UserProfileUploadCubit extends Cubit<UserProfileUploadState> {
         emit(state.copyWith(status: UserProfileUploadStatus.init));
       }
     } catch (e) {
-      print(e);
       emit(state.copyWith(status: UserProfileUploadStatus.fail));
       emit(state.copyWith(status: UserProfileUploadStatus.init));
     }

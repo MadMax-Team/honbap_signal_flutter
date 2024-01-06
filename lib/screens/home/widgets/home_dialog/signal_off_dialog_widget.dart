@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
-import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
-import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
-
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
@@ -78,7 +75,9 @@ class _SignalOffDialogState extends State<SignalOffDialog> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      widget.parentContext.read<SignalStateBloc>().add(SignalStateOffEvent());
+                      widget.parentContext
+                          .read<SignalStateBloc>()
+                          .add(SignalStateOffEvent());
                       Navigator.of(context).pop();
                     },
                     behavior: HitTestBehavior.opaque,

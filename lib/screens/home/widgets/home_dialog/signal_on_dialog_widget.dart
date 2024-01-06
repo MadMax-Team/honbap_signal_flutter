@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
-
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
@@ -80,7 +76,9 @@ class _SignalOnDialogState extends State<SignalOnDialog> {
                       Navigator.of(context).pop();
                       showDialog(
                           context: context,
-                          builder: (_) => SignalSecondDialog(parentContext: widget.parentContext, modify: false),
+                          builder: (_) => SignalSecondDialog(
+                              parentContext: widget.parentContext,
+                              modify: false),
                           barrierDismissible: false);
                     },
                     behavior: HitTestBehavior.opaque,

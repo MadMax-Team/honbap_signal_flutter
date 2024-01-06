@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 class HomeSignalApplyListModel extends Equatable {
   final int applyedIdx;
@@ -29,6 +28,9 @@ class HomeSignalApplyListModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [applyedIdx, profileImg, nickName];
-
+  List<Object?> get props => [
+        applyedIdx,
+        profileImg,
+        nickName,
+      ];
 }

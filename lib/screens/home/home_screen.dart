@@ -4,7 +4,6 @@ import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_app
 import 'package:honbap_signal_flutter/bloc/home/get_signal_apply/home_signal_apply_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
-import 'package:honbap_signal_flutter/repository/honbab/home/home_repository.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/matched_save_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_off_dialog_widget.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
@@ -22,7 +21,6 @@ import '../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
 import '../../bloc/home/get_signal_applyed/home_signal_applyed_state.dart';
 import '../../bloc/signal/signal_state_bloc.dart';
 import '../../bloc/signal/signal_user/signal_user_bloc.dart';
-import '../../bloc/signal/signal_user/signal_user_event.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 import '../../cubit/user_cubit.dart';
@@ -40,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _toggleLoadingOverlay(bool show) {
     if (show) {
       _overlayEntry = _createLoadingOverlay();
-      Overlay.of(context)?.insert(_overlayEntry!);
+      Overlay.of(context).insert(_overlayEntry!);
     } else {
       _overlayEntry?.remove();
       _overlayEntry = null;
@@ -95,7 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocListener<SignalStateBloc, SignalStateState>(
       listener: (context, state) {
         if (state.state == SignalState.changing) {
@@ -142,7 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (state.state == SignalState.signaling) {
                             return OutlinedButton(
                               onPressed: () {
-                                if (context.read<SignalStateBloc>().state.state !=
+                                if (context
+                                        .read<SignalStateBloc>()
+                                        .state
+                                        .state !=
                                     SignalState.matched) {
                                   showDialog(
                                     context: context,
@@ -188,26 +188,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     if (context.read<SignalStateBloc>().state.state ==
                         SignalState.matched) {
-                      print('matched');
                       showDialog(
-                      context: context,
-                      builder: (_) => MatchedSaveDialog(parentContext: context, userIdx: context.read<SignalStateBloc>().state.signal.matchUserIdx, applyIdx: context.read<SignalStateBloc>().state.signal.matchApplyIdx),
-                      barrierDismissible: false,
+                        context: context,
+                        builder: (_) => MatchedSaveDialog(
+                          parentContext: context,
+                          userIdx: context
+                              .read<SignalStateBloc>()
+                              .state
+                              .signal
+                              .matchUserIdx!,
+                          applyIdx: context
+                              .read<SignalStateBloc>()
+                              .state
+                              .signal
+                              .matchApplyIdx!,
+                        ),
+                        barrierDismissible: false,
                       );
-                    }
-                    else if (context.read<SignalStateBloc>().state.state !=
+                    } else if (context.read<SignalStateBloc>().state.state !=
                         SignalState.loading) {
                       if (context.read<SignalStateBloc>().state.state ==
                           SignalState.signaling) {
                         showDialog(
                           context: context,
-                          builder: (_) => SignalOffDialog(parentContext: context),
+                          builder: (_) =>
+                              SignalOffDialog(parentContext: context),
                           barrierDismissible: false,
                         );
                       } else {
                         showDialog(
                           context: context,
-                          builder: (_) => SignalOnDialog(parentContext: context),
+                          builder: (_) =>
+                              SignalOnDialog(parentContext: context),
                           barrierDismissible: false,
                         );
                       }
@@ -223,12 +235,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           signal: false,
                         );
                       } else if (state.state == SignalState.signaling) {
-                        print('onstate');
                         return const SignalBox(
                           signal: true,
                         );
                       } else if (state.state == SignalState.matched) {
-                        print('matched');
                         return Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
@@ -251,8 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         );
-                      }
-                      else if (state.state == SignalState.loading) {
+                      } else if (state.state == SignalState.loading) {
                         return Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
@@ -263,8 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         );
-                      }
-                      else {
+                      } else {
                         return const SignalBox(
                           signal: false,
                         );
@@ -298,7 +306,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       return StateCard(
                         matchedInfo: state.signal,
                         onTap: () {
-                          final signalUserStateBloc = context.read<SignalUserStateBloc>();
+                          final signalUserStateBloc =
+                              context.read<SignalUserStateBloc>();
                           showDialog(
                             context: context,
                             builder: (BuildContext dialogContext) {
@@ -306,7 +315,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 value: signalUserStateBloc,
                                 child: HomeUserDialog(
                                   parentContext: context,
-                                  userIdx: (state.signal.matchApplyIdx == context.read<UserCubit>().state.user!.userIdx)
+                                  userIdx: (state.signal.matchApplyIdx ==
+                                          context
+                                              .read<UserCubit>()
+                                              .state
+                                              .user!
+                                              .userIdx)
                                       ? state.signal.matchUserIdx!
                                       : state.signal.matchApplyIdx!,
                                   button1: '매칭 취소',
@@ -314,21 +328,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   leftTap: () {
                                     showDialog(
                                       context: context,
-                                      builder: (_) => MatchedSaveDialog(parentContext: context, userIdx: state.signal.matchUserIdx, applyIdx: state.signal.matchApplyIdx),
+                                      builder: (_) => MatchedSaveDialog(
+                                        parentContext: context,
+                                        userIdx: state.signal.matchUserIdx!,
+                                        applyIdx: state.signal.matchApplyIdx!,
+                                      ),
                                       barrierDismissible: false,
                                     );
                                   },
                                   rightTap: () {
-                                    //TODO: move to 쪽지함 (but. roomid등 존재하지 않는 데이터 존재)
-                                    // PushNewScreen.openChatRoom(
-                                    //   roomId: chat.roomId!,
-                                    //   nickName: chat.nickName!,
-                                    //   profileImg: chat.profileImg!,
-                                    //   context: context,
-                                    //   signalStateBloc: context.read<SignalStateBloc>(),
-                                    // );
                                     DefaultTabController.of(context)
-                                        .animateTo(3); //to chat room
+                                        .animateTo(3);
                                   },
                                 ),
                               );
@@ -416,7 +426,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   offset: Offset(0, 2),
                                 ),
                               ],
-                              borderRadius: BorderRadius.circular(12), //모서리를 둥글게
+                              borderRadius:
+                                  BorderRadius.circular(12), //모서리를 둥글게
                             ),
                             child: const Row(
                               children: [
@@ -452,25 +463,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                 name: state.signalApply[index].nickName,
                                 imgUri: state.signalApply[index].profileImg,
                                 onTap: () {
-                                  final signalUserStateBloc = context.read<SignalUserStateBloc>();
+                                  final signalUserStateBloc =
+                                      context.read<SignalUserStateBloc>();
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext dialogContext) {
                                       return BlocProvider.value(
                                         value: signalUserStateBloc,
                                         child: HomeUserDialog(
-                                            parentContext: context,
-                                            userIdx: state.signalApply[index].userIdx,
+                                          parentContext: context,
+                                          userIdx:
+                                              state.signalApply[index].userIdx,
                                           button1: '닫기',
                                           button2: '수락하기',
                                           rightTap: () {
                                             showDialog(
                                               context: context,
-                                              builder: (_) => SignalAcceptDialog(
-                                                  parentContext: context,
-                                                  userIdx: state.signalApply[index].userIdx,
-                                                  nickname: state.signalApply[index].nickName
-                                              ),
+                                              builder: (_) =>
+                                                  SignalAcceptDialog(
+                                                      parentContext: context,
+                                                      userIdx: state
+                                                          .signalApply[index]
+                                                          .userIdx,
+                                                      nickname: state
+                                                          .signalApply[index]
+                                                          .nickName),
                                               barrierDismissible: false,
                                             );
                                           },
@@ -485,9 +502,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context: context,
                                     builder: (_) => SignalAcceptDialog(
                                         parentContext: context,
-                                        userIdx: state.signalApply[index].userIdx,
-                                        nickname: state.signalApply[index].nickName
-                                    ),
+                                        userIdx:
+                                            state.signalApply[index].userIdx,
+                                        nickname:
+                                            state.signalApply[index].nickName),
                                     barrierDismissible: false,
                                   );
                                 },
@@ -496,27 +514,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context: context,
                                     builder: (_) => SignalDeleteDialog(
                                         parentContext: context,
-                                        userIdx: state.signalApply[index].userIdx,
-                                        nickname: state.signalApply[index].nickName,
+                                        userIdx:
+                                            state.signalApply[index].userIdx,
+                                        nickname:
+                                            state.signalApply[index].nickName,
                                         deleteTap: () {
-                                          context.read<HomeSignalApplyedBloc>().add(
-                                          HomeSignalApplyedDeleteEvent(
-                                          jwt: context
-                                              .read<UserCubit>()
-                                              .state
-                                              .user!
-                                              .jwt!,
-                                          userIdx: context
-                                              .read<UserCubit>()
-                                              .state
-                                              .user!
-                                              .userIdx!,
-                                          applyedIdx:
-                                          state.signalApply[index].userIdx,
-                                          ),
-                                        );
-                                      }
-                                    ),
+                                          context
+                                              .read<HomeSignalApplyedBloc>()
+                                              .add(
+                                                HomeSignalApplyedDeleteEvent(
+                                                  jwt: context
+                                                      .read<UserCubit>()
+                                                      .state
+                                                      .user!
+                                                      .jwt!,
+                                                  userIdx: context
+                                                      .read<UserCubit>()
+                                                      .state
+                                                      .user!
+                                                      .userIdx!,
+                                                  applyedIdx: state
+                                                      .signalApply[index]
+                                                      .userIdx,
+                                                ),
+                                              );
+                                        }),
                                     barrierDismissible: false,
                                   );
                                 },
@@ -526,7 +548,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }
                     }
-                    if (state.status == HomeSignalApplyStatus.error) {
+                    if (state.status == HomeSignalApplyedStatus.error) {
                       return Center(
                         child: Text(state.message ?? 'error'),
                       );
@@ -587,7 +609,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               name: state.signalApply[index].nickName,
                               imgUri: state.signalApply[index].profileImg,
                               onTap: () {
-                                final signalUserStateBloc = context.read<SignalUserStateBloc>();
+                                final signalUserStateBloc =
+                                    context.read<SignalUserStateBloc>();
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext dialogContext) {
@@ -595,7 +618,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       value: signalUserStateBloc,
                                       child: HomeUserDialog(
                                         parentContext: context,
-                                        userIdx: state.signalApply[index].applyedIdx,
+                                        userIdx:
+                                            state.signalApply[index].applyedIdx,
                                         button1: '닫기',
                                         button2: '거절하기',
                                         rightTap: () {
@@ -603,27 +627,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                             context: context,
                                             builder: (_) => SignalDeleteDialog(
                                                 parentContext: context,
-                                                userIdx: state.signalApply[index].applyedIdx,
-                                                nickname: state.signalApply[index].nickName,
+                                                userIdx: state
+                                                    .signalApply[index]
+                                                    .applyedIdx,
+                                                nickname: state
+                                                    .signalApply[index]
+                                                    .nickName,
                                                 deleteTap: () {
-                                                  context.read<HomeSignalApplyBloc>().add(
-                                                    HomeSignalApplyDeleteEvent(
-                                                      jwt: context
-                                                          .read<UserCubit>()
-                                                          .state
-                                                          .user!
-                                                          .jwt!,
-                                                      userIdx: context
-                                                          .read<UserCubit>()
-                                                          .state
-                                                          .user!
-                                                          .userIdx!,
-                                                      applyedIdx:
-                                                      state.signalApply[index].applyedIdx,
-                                                    ),
-                                                  );
-                                                }
-                                            ),
+                                                  context
+                                                      .read<
+                                                          HomeSignalApplyBloc>()
+                                                      .add(
+                                                        HomeSignalApplyDeleteEvent(
+                                                          jwt: context
+                                                              .read<UserCubit>()
+                                                              .state
+                                                              .user!
+                                                              .jwt!,
+                                                          userIdx: context
+                                                              .read<UserCubit>()
+                                                              .state
+                                                              .user!
+                                                              .userIdx!,
+                                                          applyedIdx: state
+                                                              .signalApply[
+                                                                  index]
+                                                              .applyedIdx,
+                                                        ),
+                                                      );
+                                                }),
                                             barrierDismissible: false,
                                           );
                                         },
@@ -638,27 +670,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context: context,
                                   builder: (_) => SignalDeleteDialog(
                                       parentContext: context,
-                                      userIdx: state.signalApply[index].applyedIdx,
-                                      nickname: state.signalApply[index].nickName,
+                                      userIdx:
+                                          state.signalApply[index].applyedIdx,
+                                      nickname:
+                                          state.signalApply[index].nickName,
                                       deleteTap: () {
                                         context.read<HomeSignalApplyBloc>().add(
-                                          HomeSignalApplyDeleteEvent(
-                                            jwt: context
-                                                .read<UserCubit>()
-                                                .state
-                                                .user!
-                                                .jwt!,
-                                            userIdx: context
-                                                .read<UserCubit>()
-                                                .state
-                                                .user!
-                                                .userIdx!,
-                                            applyedIdx:
-                                            state.signalApply[index].applyedIdx,
-                                          ),
-                                        );
-                                      }
-                                  ),
+                                              HomeSignalApplyDeleteEvent(
+                                                jwt: context
+                                                    .read<UserCubit>()
+                                                    .state
+                                                    .user!
+                                                    .jwt!,
+                                                userIdx: context
+                                                    .read<UserCubit>()
+                                                    .state
+                                                    .user!
+                                                    .userIdx!,
+                                                applyedIdx: state
+                                                    .signalApply[index]
+                                                    .applyedIdx,
+                                              ),
+                                            );
+                                      }),
                                   barrierDismissible: false,
                                 );
                               },

@@ -2,34 +2,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_circle_button.dart';
-
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
 class SignalListBox extends StatefulWidget {
-  const SignalListBox({
-    required this.userIdx,
-    this.name,
-    this.imgUri,
-    required this.onTap,
-    required this.acceptTap,
-    required this.deleteTap,
-    Key? key
-  }) : super(key: key);
+  const SignalListBox(
+      {required this.userIdx,
+      this.name,
+      this.imgUri,
+      required this.onTap,
+      required this.acceptTap,
+      required this.deleteTap,
+      Key? key})
+      : super(key: key);
 
   final int userIdx;
   final String? name;
   final String? imgUri;
-  final onTap;
-  final acceptTap;
-  final deleteTap;
+  final Function() onTap;
+  final Function() acceptTap;
+  final Function() deleteTap;
 
   @override
   State<SignalListBox> createState() => _SignalListBox();
 }
 
 class _SignalListBox extends State<SignalListBox> {
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -75,27 +73,26 @@ class _SignalListBox extends State<SignalListBox> {
                         borderRadius: BorderRadius.circular(20.0),
                         child: widget.imgUri != null
                             ? Image.network(
-                              widget.imgUri!,
-                              fit: BoxFit.fill,
-                              errorBuilder: (context, error, stackTrace) => Image.asset(
+                                widget.imgUri!,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Image.asset(
+                                  'assets/icons/home_signal_list_box_user.png',
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.fill,
+                                ),
+                              )
+                            : Image.asset(
                                 'assets/icons/home_signal_list_box_user.png',
                                 alignment: Alignment.center,
                                 fit: BoxFit.fill,
-                                ),
-                            )
-                            : Image.asset(
-                            'assets/icons/home_signal_list_box_user.png',
-                            alignment: Alignment.center,
-                            fit: BoxFit.fill,
-                          ),
+                              ),
                       ),
                     ),
                     Gaps.h16,
                     GestureDetector(
                       onTap: () async {
-                        if(widget.onTap != null) {
-                          widget.onTap();
-                        }
+                        widget.onTap();
                       },
                       child: Text(
                         widget.name ?? '익명의 유저',
@@ -112,9 +109,7 @@ class _SignalListBox extends State<SignalListBox> {
                   children: [
                     CupertinoButton(
                       onPressed: () {
-                        if(widget.acceptTap != null) {
-                          widget.acceptTap();
-                        }
+                        widget.acceptTap();
                       },
                       minSize: 0.0,
                       padding: const EdgeInsets.fromLTRB(7, 2, 6, 3),
@@ -123,18 +118,16 @@ class _SignalListBox extends State<SignalListBox> {
                       child: const Text(
                         '수락하기',
                         style: TextStyle(
-                            color: Color(0xFFFFFFFF),
-                            fontSize: Sizes.size12,
+                          color: Color(0xFFFFFFFF),
+                          fontSize: Sizes.size12,
                         ),
                       ),
                     ),
                     Gaps.h8,
                     HomeCircleButton(
-                        onTap: () {
-                          if(widget.deleteTap != null) {
-                            widget.deleteTap();
-                          }
-                        },
+                      onTap: () {
+                        widget.deleteTap();
+                      },
                     ),
                   ],
                 )

@@ -63,15 +63,11 @@ class HonbabAuthSignupRepository {
     };
     final body = jsonEncode(formData.toJson());
 
-    print('req: $body');
-
     final res = await http.post(
       Uri.parse('${ApiEndpoint.honbab}/user/signup'),
       headers: headers,
       body: body,
     );
-
-    print('res: ${res.body}');
 
     return ResCodeModel.fromJson(json.decode(res.body));
   }

@@ -64,6 +64,9 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
         if (state.data?.code == '10001') {
           _refreshScreen();
         }
+        if (state.data?.code == '10002') {
+          _refreshScreen();
+        }
         if (state.data?.code == '11001') {
           _updateSignalInfo(SignalStateModel.fromJson(jsonDecode(
             state.data!.message!,

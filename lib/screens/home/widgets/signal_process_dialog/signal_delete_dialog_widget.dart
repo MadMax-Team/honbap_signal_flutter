@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:honbap_signal_flutter/repository/honbab/home/location_repository.dart';
-import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
-
-import '../../../../bloc/home/get_signal_applyed/home_signal_applyed_bloc.dart';
-import '../../../../bloc/home/get_signal_applyed/home_signal_applyed_event.dart';
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
-import '../../../../cubit/user_cubit.dart';
 
 class SignalDeleteDialog extends StatefulWidget {
   final BuildContext parentContext;
   final String? nickname;
   final int userIdx;
-  final deleteTap;
+  final Function() deleteTap;
 
-  const SignalDeleteDialog({super.key, required this.parentContext, required this.userIdx, required this.deleteTap, this.nickname});
+  const SignalDeleteDialog(
+      {super.key,
+      required this.parentContext,
+      required this.userIdx,
+      required this.deleteTap,
+      this.nickname});
 
   @override
   State<SignalDeleteDialog> createState() => _SignalDeleteDialog();
@@ -48,7 +45,7 @@ class _SignalDeleteDialog extends State<SignalDeleteDialog> {
             Gaps.v19,
             const Text(
               textAlign: TextAlign.center,
-              '시그널을 삭제하시면 상대방에게 알람은 가지 않으며,\n\‘나에게 온 시그널\’에서 표시되지 않습니다.',
+              '시그널을 삭제하시면 상대방에게 알람은 가지 않으며,\n‘나에게 온 시그널’에서 표시되지 않습니다.',
               style: TextStyle(
                 fontSize: Sizes.size12,
                 fontWeight: FontWeight.w400,
@@ -84,9 +81,7 @@ class _SignalDeleteDialog extends State<SignalDeleteDialog> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
-                      if(widget.deleteTap != null) {
-                        widget.deleteTap();
-                      }
+                      widget.deleteTap();
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Container(

@@ -1,8 +1,7 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import '../../../../constants/api.dart';
 import 'package:http/http.dart' as http;
-
 import '../location_repository.dart';
 
 class HomeSignalBoxRepository {
@@ -19,7 +18,8 @@ class HomeSignalBoxRepository {
     };
 
     final position = await LocationRepository().fetchLocation();
-    print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+    debugPrint(
+        'Latitude: ${position.latitude}, Longitude: ${position.longitude}');
 
     final data = {
       "sigPromiseTime": sigPromiseTime,
@@ -139,8 +139,6 @@ class HomeSignalBoxRepository {
       headers: headers,
       body: json.encode(data),
     );
-
-    print(res.body);
 
     if (res.statusCode == 200) {
       final responseData = json.decode(res.body);

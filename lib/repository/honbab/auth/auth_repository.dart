@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/constants/api.dart';
 import 'package:honbap_signal_flutter/models/auth/auth_signin_model.dart';
@@ -43,10 +44,10 @@ class HonbabAuthRepository {
     String? email,
     String? password,
   }) async {
-    print('[Get JWT] Platform: $platform');
+    debugPrint('[Get JWT] Platform: $platform');
     try {
       if (platform == AuthenticationWith.kakao) {
-        print(kakaoModel?.kakaoAccount.email);
+        // print(kakaoModel?.kakaoAccount.email);
         // 카카로 로그인 api
         return null;
       }

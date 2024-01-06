@@ -7,7 +7,7 @@ class ProfileTextField extends StatefulWidget {
       : super(key: key);
 
   final String hintWord;
-  final setter;
+  final Function(String)? setter;
 
   @override
   State<ProfileTextField> createState() => _ProfileTextFieldState();
@@ -33,7 +33,7 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
     return TextField(
       controller: _controller,
       onChanged: (text) {
-        widget.setter(text);
+        widget.setter?.call(text);
       },
       textAlign: TextAlign.left,
       style: const TextStyle(

@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_event.dart';
-import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
-import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_second_widget.dart';
-
 import '../../../../constants/gaps.dart';
 import '../../../../constants/sizes.dart';
 
 class MatchedSaveDialog extends StatefulWidget {
   final BuildContext parentContext;
-  final userIdx;
-  final applyIdx;
+  final int userIdx;
+  final int applyIdx;
 
-  const MatchedSaveDialog({super.key, required this.parentContext, required this.userIdx, required this.applyIdx});
+  const MatchedSaveDialog({
+    super.key,
+    required this.parentContext,
+    required this.userIdx,
+    required this.applyIdx,
+  });
 
   @override
   State<MatchedSaveDialog> createState() => _MatchedSaveDialogState();
@@ -80,7 +82,12 @@ class _MatchedSaveDialogState extends State<MatchedSaveDialog> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      widget.parentContext.read<SignalStateBloc>().add(MatchedSateSaveEvent(userIdx: widget.userIdx, applyIdx: widget.applyIdx));
+                      widget.parentContext
+                          .read<SignalStateBloc>()
+                          .add(MatchedSateSaveEvent(
+                            userIdx: widget.userIdx,
+                            applyIdx: widget.applyIdx,
+                          ));
                       Navigator.of(context).pop();
                     },
                     behavior: HitTestBehavior.opaque,

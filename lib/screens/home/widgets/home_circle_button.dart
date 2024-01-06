@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeCircleButton extends StatelessWidget {
-  const HomeCircleButton({
-    Key? key,
-    required this.onTap,
-  }) : super(key: key);
+  final Function() onTap;
 
-  final onTap;
+  const HomeCircleButton({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +21,14 @@ class HomeCircleButton extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-              child: const Center(
-                child: Icon(
-                  Icons.clear,
-                  size: 15,
-                  color: Colors.white,
-                ),
+            onTap: onTap,
+            child: const Center(
+              child: Icon(
+                Icons.clear,
+                size: 15,
+                color: Colors.white,
               ),
-              onTap: () async {
-                if(onTap != null) {
-                  onTap();
-                }
-              }
+            ),
           ),
         ),
       ),

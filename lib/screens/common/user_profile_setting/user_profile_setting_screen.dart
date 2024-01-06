@@ -13,13 +13,36 @@ import 'package:honbap_signal_flutter/screens/common/user_profile_setting/widget
 import 'package:honbap_signal_flutter/screens/common/user_profile_setting/widgets/user_profile_setting_image_widget.dart';
 import 'package:honbap_signal_flutter/screens/common/user_profile_setting/widgets/user_profile_setting_tags_widget.dart';
 
-class UserProfileSettingScreen extends StatelessWidget {
+class UserProfileSettingScreen extends StatefulWidget {
   final bool isFirst;
 
   const UserProfileSettingScreen({
     super.key,
     this.isFirst = false,
   });
+
+  @override
+  State<UserProfileSettingScreen> createState() =>
+      _UserProfileSettingScreenState();
+}
+
+class _UserProfileSettingScreenState extends State<UserProfileSettingScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    var initProfile = context.read<UserCubit>().state.user;
+    context.read<UserProfileUploadCubit>().update(
+          hateFood: initProfile?.userProfile?.hateFood?.split(','),
+          mbti: initProfile?.userProfile?.mbti,
+          nickName: initProfile?.userProfile?.nickName,
+          preferArea: initProfile?.userProfile?.preferArea?.split(','),
+          profileImg: initProfile?.userProfile?.profileImg,
+          tags: initProfile?.userProfile?.interest?.split(','),
+          taste: initProfile?.userProfile?.taste?.split(','),
+          userIntroduce: initProfile?.userProfile?.userIntroduce,
+        );
+  }
 
   void _onChangeBtnTap(BuildContext context) {
     var jwt = context.read<UserCubit>().state.user!.jwt;
@@ -49,7 +72,7 @@ class UserProfileSettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: isFirst
+        leading: widget.isFirst
             ? null
             : IconButton(
                 onPressed: () {
@@ -70,49 +93,46 @@ class UserProfileSettingScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
-        child: ListView(
-          children: [
-            Gaps.v10,
-            const UserProfileSettingImageWidget(),
-            UserProfileSettingFormWidget(
-              type: UserProfileForm.nickName,
-              enableBox: false,
-              initValue:
-                  context.read<UserCubit>().state.user?.userProfile?.nickName,
-            ),
-            Gaps.v32,
-            UserProfileSettingFormWidget(
-              type: UserProfileForm.userIntroduce,
-              enableBox: false,
-              initValue: context
-                  .read<UserCubit>()
-                  .state
-                  .user
-                  ?.userProfile
-                  ?.userIntroduce,
-            ),
-            Gaps.v10,
-            const UserProfileSettingFormWidget(type: UserProfileForm.tags),
-            Gaps.v5,
-            const UserProfileSettingTagsWidget(type: UserProfileForm.tags),
-            const UserProfileSettingFormWidget(
-                type: UserProfileForm.preferArea),
-            Gaps.v10,
-            const UserProfileSettingTagsWidget(
-                type: UserProfileForm.preferArea),
-            const UserProfileSettingFormWidget(type: UserProfileForm.taste),
-            Gaps.v10,
-            const UserProfileSettingTagsWidget(type: UserProfileForm.taste),
-            const UserProfileSettingFormWidget(type: UserProfileForm.hateFood),
-            Gaps.v10,
-            const UserProfileSettingTagsWidget(type: UserProfileForm.hateFood),
-            UserProfileSettingFormWidget(
-              type: UserProfileForm.mbti,
-              initValue:
-                  context.read<UserCubit>().state.user?.userProfile?.mbti,
-            ),
-            Gaps.v32,
-          ],
+        child: BlocBuilder<UserProfileUploadCubit, UserProfileUploadState>(
+          builder: (context, state) => ListView(
+            children: [
+              Gaps.v10,
+              const UserProfileSettingImageWidget(),
+              UserProfileSettingFormWidget(
+                type: UserProfileForm.nickName,
+                enableBox: false,
+                initValue: state.profile?.nickName,
+              ),
+              Gaps.v32,
+              UserProfileSettingFormWidget(
+                type: UserProfileForm.userIntroduce,
+                enableBox: false,
+                initValue: state.profile?.userIntroduce,
+              ),
+              Gaps.v10,
+              const UserProfileSettingFormWidget(type: UserProfileForm.tags),
+              Gaps.v5,
+              const UserProfileSettingTagsWidget(type: UserProfileForm.tags),
+              const UserProfileSettingFormWidget(
+                  type: UserProfileForm.preferArea),
+              Gaps.v10,
+              const UserProfileSettingTagsWidget(
+                  type: UserProfileForm.preferArea),
+              const UserProfileSettingFormWidget(type: UserProfileForm.taste),
+              Gaps.v10,
+              const UserProfileSettingTagsWidget(type: UserProfileForm.taste),
+              const UserProfileSettingFormWidget(
+                  type: UserProfileForm.hateFood),
+              Gaps.v10,
+              const UserProfileSettingTagsWidget(
+                  type: UserProfileForm.hateFood),
+              UserProfileSettingFormWidget(
+                type: UserProfileForm.mbti,
+                initValue: state.profile?.mbti,
+              ),
+              Gaps.v32,
+            ],
+          ),
         ),
       ),
       bottomNavigationBar:
@@ -136,7 +156,7 @@ class UserProfileSettingScreen extends StatelessWidget {
             context.read<AuthenticationBloc>().add(const AuthenticaionSetState(
                   status: AuthenticationStatus.authenticated,
                 ));
-            if (!isFirst) {
+            if (!widget.isFirst) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: const Text('프로필을 성공적으로 저장했습니다.'),

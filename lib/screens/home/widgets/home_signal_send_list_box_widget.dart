@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:honbap_signal_flutter/screens/home/widgets/home_circle_button.dart';
-
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 
@@ -13,21 +11,20 @@ class SignalSendListBox extends StatefulWidget {
     this.imgUri,
     required this.onTap,
     required this.deleteTap,
-    Key? key
-  }) : super(key: key);
+    super.key,
+  });
 
   final int applyedIdx;
   final String? name;
   final String? imgUri;
-  final onTap;
-  final deleteTap;
+  final Function() onTap;
+  final Function() deleteTap;
 
   @override
   State<SignalSendListBox> createState() => _SignalListBox();
 }
 
 class _SignalListBox extends State<SignalSendListBox> {
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -73,28 +70,25 @@ class _SignalListBox extends State<SignalSendListBox> {
                         borderRadius: BorderRadius.circular(20.0),
                         child: widget.imgUri != null
                             ? Image.network(
-                          widget.imgUri!,
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, error, stackTrace) => Image.asset(
-                            'assets/icons/home_signal_list_box_user.png',
-                            alignment: Alignment.center,
-                            fit: BoxFit.fill,
-                          ),
-                        )
+                                widget.imgUri!,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Image.asset(
+                                  'assets/icons/home_signal_list_box_user.png',
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.fill,
+                                ),
+                              )
                             : Image.asset(
-                          'assets/icons/home_signal_list_box_user.png',
-                          alignment: Alignment.center,
-                          fit: BoxFit.fill,
-                        ),
+                                'assets/icons/home_signal_list_box_user.png',
+                                alignment: Alignment.center,
+                                fit: BoxFit.fill,
+                              ),
                       ),
                     ),
                     Gaps.h16,
                     GestureDetector(
-                      onTap: () {
-                        if(widget.onTap != null) {
-                          widget.onTap();
-                        }
-                      },
+                      onTap: widget.onTap,
                       child: Text(
                         widget.name ?? '익명의 유저',
                         textAlign: TextAlign.left,
@@ -109,11 +103,7 @@ class _SignalListBox extends State<SignalSendListBox> {
                 Row(
                   children: [
                     CupertinoButton(
-                      onPressed: () {
-                        if(widget.deleteTap != null) {
-                          widget.deleteTap();
-                        }
-                      },
+                      onPressed: widget.deleteTap,
                       minSize: 0.0,
                       padding: const EdgeInsets.fromLTRB(7, 2, 6, 3),
                       color: const Color(0xffFF4B26),

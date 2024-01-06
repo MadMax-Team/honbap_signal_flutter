@@ -16,7 +16,4 @@ class HomeSignalApplyDeleteEvent extends HomeSignalApplyEvent {
     required this.userIdx,
     required this.applyedIdx,
   });
-
-  @override
-  List<Object?> get props => [jwt, userIdx, applyedIdx];
 }

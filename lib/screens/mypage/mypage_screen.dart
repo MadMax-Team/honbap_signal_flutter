@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/user_cubit.dart';
-import 'package:honbap_signal_flutter/screens/mypage/match_history/match_history_screen.dart';
+// import 'package:honbap_signal_flutter/screens/mypage/match_history/match_history_screen.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_menu_divider.dart';
 import 'package:honbap_signal_flutter/screens/mypage/widgets/mypage_setting_button_widget.dart';
 import 'package:honbap_signal_flutter/tools/push_new_screen.dart';
@@ -28,14 +28,14 @@ class MyPageScreen extends StatelessWidget {
     );
   }
 
-  void _onMatchHistoryTap(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const MatchHistoryScreen(),
-      ),
-    );
-  }
+  // void _onMatchHistoryTap(BuildContext context) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const MatchHistoryScreen(),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

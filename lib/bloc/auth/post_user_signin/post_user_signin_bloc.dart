@@ -32,8 +32,6 @@ class SigninUserBloc extends Bloc<SinginUserEvent, SigninUserState> {
         password: state.password,
       );
 
-      print(res);
-
       if (res?.jwt == null || res?.userIdx == null) {
         emit(SigninUserErrorState(
           code: 1003,
@@ -50,7 +48,6 @@ class SigninUserBloc extends Bloc<SinginUserEvent, SigninUserState> {
         ));
       }
     } catch (e) {
-      print(e);
       emit(SigninUserErrorState(
         code: 1003,
         message: e.toString(),
@@ -65,7 +62,6 @@ class SigninUserBloc extends Bloc<SinginUserEvent, SigninUserState> {
     Emitter<SigninUserState> emit,
   ) {
     if (state.email == null || state.email?.isEmpty == true) {
-      print('email error');
       emit(SigninUserErrorState(
         code: 1001,
         message: '이메일을 입력해주세요.',

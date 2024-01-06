@@ -16,8 +16,6 @@ class ChatListRepository {
       headers: headers,
     );
 
-    print(res.body);
-
     List<ChatListModel> resultList = [];
     if (res.statusCode == 200) {
       for (var signalJson in json.decode(res.body)['result'] as List<dynamic>) {
