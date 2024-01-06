@@ -10,8 +10,10 @@ import '../../../../constants/sizes.dart';
 
 class MatchedSaveDialog extends StatefulWidget {
   final BuildContext parentContext;
+  final userIdx;
+  final applyIdx;
 
-  const MatchedSaveDialog({super.key, required this.parentContext});
+  const MatchedSaveDialog({super.key, required this.parentContext, required this.userIdx, required this.applyIdx});
 
   @override
   State<MatchedSaveDialog> createState() => _MatchedSaveDialogState();
@@ -78,7 +80,7 @@ class _MatchedSaveDialogState extends State<MatchedSaveDialog> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      widget.parentContext.read<SignalStateBloc>().add(SignalStateOffEvent());
+                      widget.parentContext.read<SignalStateBloc>().add(MatchedSateSaveEvent(userIdx: widget.userIdx, applyIdx: widget.applyIdx));
                       Navigator.of(context).pop();
                     },
                     behavior: HitTestBehavior.opaque,
