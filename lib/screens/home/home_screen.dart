@@ -191,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       print('matched');
                       showDialog(
                       context: context,
-                      builder: (_) => MatchedSaveDialog(parentContext: context, userIdx: context.read<SignalStateBloc>().state.signal.matchUserIdx, applyIdx: context.read<SignalStateBloc>().state.signal.oppoUserIdx),
+                      builder: (_) => MatchedSaveDialog(parentContext: context, userIdx: context.read<SignalStateBloc>().state.signal.matchUserIdx, applyIdx: context.read<SignalStateBloc>().state.signal.matchApplyIdx),
                       barrierDismissible: false,
                       );
                     }
@@ -306,15 +306,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 value: signalUserStateBloc,
                                 child: HomeUserDialog(
                                   parentContext: context,
-                                  userIdx: (state.signal.oppoUserIdx == context.read<UserCubit>().state.user!.userIdx)
+                                  userIdx: (state.signal.matchApplyIdx == context.read<UserCubit>().state.user!.userIdx)
                                       ? state.signal.matchUserIdx!
-                                      : state.signal.oppoUserIdx!,
+                                      : state.signal.matchApplyIdx!,
                                   button1: '매칭 취소',
                                   button2: '쪽지방으로',
                                   leftTap: () {
                                     showDialog(
                                       context: context,
-                                      builder: (_) => MatchedSaveDialog(parentContext: context, userIdx: state.signal.matchUserIdx, applyIdx: state.signal.oppoUserIdx),
+                                      builder: (_) => MatchedSaveDialog(parentContext: context, userIdx: state.signal.matchUserIdx, applyIdx: state.signal.matchApplyIdx),
                                       barrierDismissible: false,
                                     );
                                   },

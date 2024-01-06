@@ -36,12 +36,11 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
           await homeSignalBoxRepository.getHomeSignalBoxState(jwt: jwt);
       final signalState = resultData['sigStatus'];
       final matchedState = resultData['sigMatchStatus'];
-      // final oppoUserIdx = myIdx == resultData['applyedIdx']
-      //     ? resultData['userIdx']
-      //     : resultData['applyedIdx'];
-      // final oppoNickName = resultData['userName'];
+      final oppoUserIdx = myIdx == resultData['applyedIdx']
+          ? resultData['userIdx']
+          : resultData['applyedIdx'];
       final matchUserIdx = resultData['userIdx'];
-      final oppoUserIdx = resultData['applyedIdx'];
+      final matchApplyIdx = resultData['applyedIdx'];
       final oppoNickName = resultData['nickName'];
       final imgUrl = resultData['profileImg'];
       final signalStateModel = SignalStateModel.fromJson(resultData);
@@ -49,6 +48,7 @@ class SignalStateBloc extends Bloc<SignalStateEvent, SignalStateState> {
       final customizedSignalStateModel = SignalStateModel(
         oppoUserIdx: oppoUserIdx,
         matchUserIdx: matchUserIdx,
+        matchApplyIdx: matchApplyIdx,
         oppoNickName: oppoNickName,
         imgUrl: imgUrl,
         sigPromiseTime: signalStateModel.sigPromiseTime,
