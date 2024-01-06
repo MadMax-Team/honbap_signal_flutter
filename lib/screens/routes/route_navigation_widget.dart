@@ -87,6 +87,8 @@ class _RouteNavigationWidgetState extends State<RouteNavigationWidget> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Sizes.size20),
                   child: TabBar(
+                    overlayColor:
+                        MaterialStatePropertyAll(Colors.grey.shade200),
                     tabs: [
                       Tab(
                         icon: Image.asset(

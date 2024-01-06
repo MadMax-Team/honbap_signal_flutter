@@ -29,6 +29,8 @@ class ChatsLeaveDialog extends StatelessWidget {
           Radius.circular(Sizes.size7),
         ),
       ),
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
       contentPadding: const EdgeInsets.all(0),
       content: Column(
         mainAxisSize: MainAxisSize.min,

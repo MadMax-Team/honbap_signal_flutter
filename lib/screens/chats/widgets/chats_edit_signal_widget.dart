@@ -100,9 +100,7 @@ class _ChatsEditSignalWidgetState extends State<ChatsEditSignalWidget> {
                 _button(
                   isColor: true,
                   text: '확인하기',
-                  onTap: () {
-                    print('확인하기');
-                  },
+                  onTap: widget.onTapClose,
                 ),
               ],
             ),

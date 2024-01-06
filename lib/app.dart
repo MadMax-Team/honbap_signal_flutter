@@ -164,6 +164,7 @@ class _AppState extends State<App> {
       ],
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
+        dialogBackgroundColor: Colors.white,
         primarySwatch: createMaterialColor(const Color(0xffff4b25)),
         primaryColor: createMaterialColor(const Color(0xffff4b25)),
         fontFamily: 'Pretendard',

@@ -39,6 +39,7 @@ class ChatsPopupMenuButton extends StatelessWidget {
         ),
         const PopupMenuItem(
           value: PopupItems.delete,
+          enabled: false,
           child: Text(
             '대화삭제',
             style: TextStyle(
@@ -49,6 +50,7 @@ class ChatsPopupMenuButton extends StatelessWidget {
         ),
         const PopupMenuItem(
           value: PopupItems.declaration,
+          enabled: false,
           child: Text(
             '신고',
             style: TextStyle(
@@ -59,6 +61,7 @@ class ChatsPopupMenuButton extends StatelessWidget {
         ),
         const PopupMenuItem(
           value: PopupItems.block,
+          enabled: false,
           child: Text(
             '차단',
             style: TextStyle(
