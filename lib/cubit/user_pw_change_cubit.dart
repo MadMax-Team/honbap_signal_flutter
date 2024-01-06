@@ -26,6 +26,7 @@ class UserPWChangeCubit extends Cubit<UserPWChangeState> {
     final res = await userProfileRepository.updatePassword(
       jwt: userModel.jwt ?? '',
       pw: state.newPassword!,
+      oldPw: state.oldPassword!,
     );
 
     if (res != null && res.code == 1000) {

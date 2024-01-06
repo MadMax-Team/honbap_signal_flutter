@@ -74,16 +74,22 @@ class UserProfileRepository {
   Future<ResCodeModel?> updatePassword({
     required String jwt,
     required String pw,
+    required String oldPw,
   }) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
       'x-access-token': jwt,
     };
 
+    final Map<String, String> body = {
+      'password': pw,
+      'oldpassword': oldPw,
+    };
+
     final res = await http.patch(
       Uri.parse('${ApiEndpoint.honbab}/user/myinfo/modifypw'),
       headers: headers,
-      body: jsonEncode({'password': pw}),
+      body: jsonEncode(body),
     );
 
     if (res.statusCode == 200) {

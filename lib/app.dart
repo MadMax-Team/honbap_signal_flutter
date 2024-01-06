@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:honbap_signal_flutter/Themes/create_material_color.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
@@ -165,8 +164,22 @@ class _AppState extends State<App> {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         dialogBackgroundColor: Colors.white,
-        primarySwatch: createMaterialColor(const Color(0xffff4b25)),
-        primaryColor: createMaterialColor(const Color(0xffff4b25)),
+        // primarySwatch: createMaterialColor(const Color(0xffff4b25)),
+        // primaryColor: createMaterialColor(const Color(0xffff4b25)),
+        colorScheme: const ColorScheme(
+          primary: Color(0xffff4b25),
+          onPrimary: Colors.white,
+          secondary: Color(0xffff4b25),
+          onSecondary: Colors.white,
+          background: Colors.white,
+          onBackground: Colors.black87,
+          surface: Colors.white,
+          onSurface: Colors.black87,
+          surfaceTint: Colors.white,
+          error: Color(0xffff4b25),
+          onError: Colors.white,
+          brightness: Brightness.light,
+        ),
         fontFamily: 'Pretendard',
         textTheme: TextTheme(
           // 2022 sets
