@@ -10,14 +10,15 @@ class ChatBox extends StatelessWidget {
     super.key,
     required this.chat,
     required this.index,
-    required this.profileImg,
+    this.profileImg,
     required this.nickName,
     required this.isSended,
   });
 
   final List<ChatModel> chat;
   final int index;
-  final String profileImg, nickName;
+  final String nickName;
+  final String? profileImg;
   final bool isSended;
 
   DateTime _strToDT(String sdt) {

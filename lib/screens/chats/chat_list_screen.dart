@@ -88,7 +88,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                         await PushNewScreen.openChatRoom(
                           roomId: chat.roomId!,
                           nickName: chat.nickName!,
-                          profileImg: chat.profileImg!,
+                          profileImg: chat.profileImg,
                           context: context,
                           signalStateBloc: context.read<SignalStateBloc>(),
                         );

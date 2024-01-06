@@ -18,7 +18,8 @@ import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 enum PopupItems { refresh, delete, declaration, block }
 
 class ChatRoomScreen extends StatefulWidget {
-  final String nickName, profileImg, roomId;
+  final String nickName, roomId;
+  final String? profileImg;
   final SignalStateBloc? signalStateBloc;
 
   const ChatRoomScreen({

@@ -35,7 +35,7 @@ class PushNewScreen {
   static Future<void> openChatRoom({
     required String roomId,
     required String nickName,
-    required String profileImg,
+    required String? profileImg,
     required dynamic context,
     SignalStateBloc? signalStateBloc,
   }) async {

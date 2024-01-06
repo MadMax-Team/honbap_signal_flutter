@@ -29,7 +29,7 @@ class CommonProfileImageWidget extends StatelessWidget {
               profileImg!,
               width: size * 2,
               height: size * 2,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
     );
   }
