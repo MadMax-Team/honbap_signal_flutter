@@ -85,9 +85,9 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              '시그널 글 작성',
-                              style: TextStyle(
+                            Text(
+                              widget.modify ? '시그널 글 수정' : '시그널 글 작성',
+                              style: const TextStyle(
                                 fontSize: Sizes.size18,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black,

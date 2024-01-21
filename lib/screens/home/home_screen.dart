@@ -630,7 +630,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         userIdx:
                                             state.signalApply[index].applyedIdx,
                                         button1: '닫기',
-                                        button2: '거절하기',
+                                        button2: '요청 취소',
                                         rightTap: () {
                                           showDialog(
                                             context: context,
