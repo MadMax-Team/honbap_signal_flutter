@@ -39,6 +39,7 @@ class _StateCardState extends State<StateCard> {
           ),
           child: GestureDetector(
             onTap: widget.onTap,
+            behavior: HitTestBehavior.translucent,
             child: Row(
               children: [
                 Container(
