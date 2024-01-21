@@ -51,18 +51,18 @@ class _StateCardState extends State<StateCard> {
                     child: widget.matchedInfo.imgUrl != null
                         ? Image.network(
                             widget.matchedInfo.imgUrl!,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) =>
                                 Image.asset(
                               'assets/icons/home_signal_list_box_user.png',
                               alignment: Alignment.center,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                             ),
                           )
                         : Image.asset(
                             'assets/icons/home_signal_list_box_user.png',
                             alignment: Alignment.center,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                           ),
                   ),
                 ),

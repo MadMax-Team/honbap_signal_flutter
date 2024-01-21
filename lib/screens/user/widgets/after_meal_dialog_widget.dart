@@ -58,7 +58,7 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                           'assets/icons/user_profile_exit_icon.svg',
                           height: Sizes.size24,
                           width: Sizes.size24,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           alignment: Alignment.center,
                         ),
                       ),
@@ -83,12 +83,12 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                               child: Image.network(
                                 //widget.matchedInfo.image!,
                                 'link',
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                                 errorBuilder: ((context, error, stackTrace) =>
                                     SvgPicture.asset(
                                       'assets/icons/icon_honbab1.svg',
                                       alignment: Alignment.center,
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.cover,
                                     )),
                               ),
                             ),
@@ -144,17 +144,17 @@ class _AfterMealDialogState extends State<AfterMealDialog> {
                         full: SvgPicture.asset(
                           'assets/icons/rating_star_icon_full.svg',
                           alignment: Alignment.center,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                         half: SvgPicture.asset(
                           'assets/icons/rating_star_icon_empty.svg',
                           alignment: Alignment.center,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                         empty: SvgPicture.asset(
                           'assets/icons/rating_star_icon_empty.svg',
                           alignment: Alignment.center,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       onRatingUpdate: (rating) {

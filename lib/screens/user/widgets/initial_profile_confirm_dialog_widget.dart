@@ -38,7 +38,7 @@ class _InitialProfileConfirmDialogState
                     child: SvgPicture.asset(
                       'assets/icons/user_profile_honbob_icon.svg',
                       alignment: Alignment.center,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Gaps.v6,

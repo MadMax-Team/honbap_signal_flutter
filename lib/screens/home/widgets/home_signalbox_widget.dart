@@ -53,7 +53,7 @@ class _SignalBoxState extends State<SignalBox>
             child: SvgPicture.asset(
               'assets/icons/home_signal_box.svg',
               alignment: Alignment.center,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
         ),

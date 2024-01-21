@@ -83,7 +83,7 @@ class SignupUserBloc extends Bloc<SignupUserEvent, SignupUserInfoState> {
     if (event.formData.userName == null || event.formData.userName == '') {
       emit(SignupUserInfoErrorState(
         code: 1003,
-        message: '닉네임을 입력해주세요.',
+        message: '이름을 입력해주세요.',
       ));
       emit(SignupUserInfoNormalState(formData: event.formData));
       return false;

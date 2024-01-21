@@ -69,7 +69,7 @@ class SignalUserCard extends StatelessWidget {
               ),
               Gaps.v3,
               Text(
-                '나와 ${signal.distance?.round()}m',
+                '나와 ${signal.distance?.toStringAsFixed(1)}km',
                 style: TextStyle(
                   color: signal.checkSigWrite == 0
                       ? Colors.grey.shade600
