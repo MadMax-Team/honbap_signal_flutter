@@ -4,6 +4,7 @@ import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_event.dart';
 import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_state.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
+import 'package:honbap_signal_flutter/bloc/signal/signal_state_state.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
 import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
@@ -76,12 +77,24 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<FCMCubit, FCMState>(
-      listener: (context, state) {
-        if (state.data?.code == "11000") {
-          _charRefresh();
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<FCMCubit, FCMState>(
+          listener: (context, state) {
+            if (state.data?.code == "11000") {
+              _charRefresh();
+            }
+          },
+        ),
+        BlocListener<SignalStateBloc, SignalStateState>(
+          bloc: widget.signalStateBloc,
+          listener: (context, state) {
+            if (state.state != SignalState.matched) {
+              setState(() {});
+            }
+          },
+        ),
+      ],
       child: GestureDetector(
         onTap: FocusScope.of(context).unfocus,
         child: Scaffold(

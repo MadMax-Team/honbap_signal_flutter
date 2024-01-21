@@ -290,6 +290,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Color(0xff8E8E8E),
                   ),
                 ),
+                const Text(
+                  ' *매칭 완료된 상태에서는 자동으로 시그널 Off 됩니다. 다시 시그널 On하고 싶다면 매칭을 취소해 주세요. (상대방의 프로필 > [매칭 취소] 누르기)',
+                  style: TextStyle(
+                    fontSize: Sizes.size9,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xff8E8E8E),
+                  ),
+                ),
                 const SizedBox(height: 39),
                 const Text(
                   '나의 매칭 상태',
