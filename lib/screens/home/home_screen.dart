@@ -499,22 +499,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 },
                                 acceptTap: () {
-                                  if(context.read<SignalStateBloc>().state.state == SignalState.signaling) {
+                                  if (context
+                                          .read<SignalStateBloc>()
+                                          .state
+                                          .state ==
+                                      SignalState.signaling) {
                                     showDialog(
                                       context: context,
                                       builder: (_) => SignalAcceptDialog(
                                           parentContext: context,
                                           userIdx:
-                                          state.signalApply[index].userIdx,
-                                          nickname:
-                                          state.signalApply[index].nickName),
+                                              state.signalApply[index].userIdx,
+                                          nickname: state
+                                              .signalApply[index].nickName),
                                       barrierDismissible: false,
                                     );
                                   } else {
                                     showDialog(
-                                        context: context,
-                                        builder: (_) => const SignalDeniedDialog(),
-                                        barrierDismissible: false,
+                                      context: context,
+                                      builder: (_) =>
+                                          const SignalDeniedDialog(),
+                                      barrierDismissible: false,
                                     );
                                   }
                                 },
@@ -630,7 +635,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         userIdx:
                                             state.signalApply[index].applyedIdx,
                                         button1: '닫기',
-                                        button2: '요청 취소',
+                                        button2: '요청취소',
                                         rightTap: () {
                                           showDialog(
                                             context: context,
