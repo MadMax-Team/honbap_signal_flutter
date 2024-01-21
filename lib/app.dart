@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/auth/authentication/authentication_state.dart';
+import 'package:honbap_signal_flutter/bloc/home/signal_modify/signal_modify_dialog_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_list_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_user/signal_user_bloc.dart';
@@ -142,6 +143,12 @@ class _AppState extends State<App> {
                   create: (context) => SignalUserStateBloc(
                     homeSignalApplyRepository:
                     context.read<HomeSignalApplyRepository>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (context) => SignalModifyBloc(
+                    boxSendRepository:
+                    context.read<HomeSignalBoxRepository>(),
                   ),
                 ),
               ],

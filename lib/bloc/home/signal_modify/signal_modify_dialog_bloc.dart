@@ -4,10 +4,11 @@ import 'package:honbap_signal_flutter/bloc/home/signal_modify/signal_modify_dial
 import 'package:honbap_signal_flutter/repository/honbab/home/signal_box/home_signal_box_repository.dart';
 
 class SignalModifyBloc extends Bloc<SignalModifyEvent, SignalModifyDialogState> {
-  final HomeSignalBoxRepository _boxSendRepository;
+  final HomeSignalBoxRepository boxSendRepository;
 
-  SignalModifyBloc(this._boxSendRepository)
-      :super(const SignalModifyDialogState(status: SignalModifyDialogStatus.init)) {
+  SignalModifyBloc({
+    required this.boxSendRepository
+  }) : super(const SignalModifyDialogState(status: SignalModifyDialogStatus.init)) {
     on<GetSignalStateDetailEvent>(_homeSignalModifyGetEventHandler);
   }
 
@@ -18,7 +19,7 @@ class SignalModifyBloc extends Bloc<SignalModifyEvent, SignalModifyDialogState> 
     emit(state.copyWith(status: SignalModifyDialogStatus.loading));
 
     try {
-      final Map<String, dynamic> signalData = await _boxSendRepository.getSignalDetail(jwt: event.jwt);
+      final Map<String, dynamic> signalData = await boxSendRepository.getSignalDetail(jwt: event.jwt);
 
       emit(state.copyWith(
         status: SignalModifyDialogStatus.success,
