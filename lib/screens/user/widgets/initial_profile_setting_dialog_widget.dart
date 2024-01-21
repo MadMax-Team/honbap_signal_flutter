@@ -96,7 +96,7 @@ class _InitialProfileDialogState extends State<InitialProfileDialog> {
                           'assets/icons/user_profile_exit_icon.svg',
                           height: Sizes.size24,
                           width: Sizes.size24,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           alignment: Alignment.center,
                         ),
                       ),

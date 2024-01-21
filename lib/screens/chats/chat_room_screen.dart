@@ -6,6 +6,7 @@ import 'package:honbap_signal_flutter/bloc/chat/chat_room/chat_room_state.dart';
 import 'package:honbap_signal_flutter/bloc/signal/signal_state_bloc.dart';
 import 'package:honbap_signal_flutter/constants/gaps.dart';
 import 'package:honbap_signal_flutter/constants/sizes.dart';
+import 'package:honbap_signal_flutter/cubit/fcm_cubit.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_chatbox_widget.dart';
 import 'package:honbap_signal_flutter/screens/chats/widgets/chats_edit_signal_widget.dart';
@@ -75,134 +76,143 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: FocusScope.of(context).unfocus,
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
+    return BlocListener<FCMCubit, FCMState>(
+      listener: (context, state) {
+        if (state.data?.code == "11000") {
+          _charRefresh();
+        }
+      },
+      child: GestureDetector(
+        onTap: FocusScope.of(context).unfocus,
+        child: Scaffold(
+          body: Stack(
+            children: [
+              Scaffold(
+                appBar: AppBar(
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                title: Text(
-                  widget.nickName,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                elevation: 0,
-                centerTitle: false,
-                backgroundColor: Colors.white,
-                actions: [
-                  BlocBuilder<ChatRoomBloc, ChatRoomState>(
-                    builder: (context, state) {
-                      return IconButton(
-                        onPressed: _charRefresh,
-                        icon: state.status == ChatRoomStatus.loading
-                            ? SizedBox(
-                                width: Sizes.size20,
-                                height: Sizes.size20,
-                                child: CircularProgressIndicator(
-                                  color: Theme.of(context).primaryColor,
+                  title: Text(
+                    widget.nickName,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  elevation: 0,
+                  centerTitle: false,
+                  backgroundColor: Colors.white,
+                  actions: [
+                    BlocBuilder<ChatRoomBloc, ChatRoomState>(
+                      builder: (context, state) {
+                        return IconButton(
+                          onPressed: _charRefresh,
+                          icon: state.status == ChatRoomStatus.loading
+                              ? SizedBox(
+                                  width: Sizes.size20,
+                                  height: Sizes.size20,
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.arrow_circle_down_outlined,
+                                  color: Colors.black,
                                 ),
-                              )
-                            : const Icon(
-                                Icons.arrow_circle_down_outlined,
-                                color: Colors.black,
-                              ),
-                      );
+                        );
+                      },
+                    ),
+                    ChatsPopupMenuButton(onSelected: _onPopupButtonSelected),
+                  ],
+                ),
+                body: ShaderMask(
+                  shaderCallback: (Rect rect) {
+                    return const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.purple,
+                        Colors.transparent,
+                        Colors.transparent,
+                        Colors.purple
+                      ],
+                      stops: [
+                        0.0,
+                        0.01,
+                        0.99,
+                        1.0
+                      ], // 10% purple, 80% transparent, 10% purple
+                    ).createShader(rect);
+                  },
+                  blendMode: BlendMode.dstOut,
+                  child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
+                    buildWhen: (previous, current) =>
+                        previous.chats != current.chats,
+                    builder: (context, state) {
+                      if (state.status == ChatRoomStatus.init) {
+                        context.read<ChatRoomBloc>().add(ChatRoomGetEvent());
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        );
+                      }
+                      if (state.status == ChatRoomStatus.loading &&
+                          state.chats.isEmpty) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        );
+                      }
+                      if (state.status == ChatRoomStatus.error) {
+                        return Center(
+                          child: Text(state.message ?? 'error'),
+                        );
+                      }
+                      return _buildBody(state);
                     },
                   ),
-                  ChatsPopupMenuButton(onSelected: _onPopupButtonSelected),
-                ],
+                ),
+                bottomNavigationBar: const ChatsSendboxWidget(),
               ),
-              body: ShaderMask(
-                shaderCallback: (Rect rect) {
-                  return const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.purple,
-                      Colors.transparent,
-                      Colors.transparent,
-                      Colors.purple
-                    ],
-                    stops: [
-                      0.0,
-                      0.01,
-                      0.99,
-                      1.0
-                    ], // 10% purple, 80% transparent, 10% purple
-                  ).createShader(rect);
-                },
-                blendMode: BlendMode.dstOut,
-                child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
-                  buildWhen: (previous, current) =>
-                      previous.chats != current.chats,
-                  builder: (context, state) {
-                    if (state.status == ChatRoomStatus.init) {
-                      context.read<ChatRoomBloc>().add(ChatRoomGetEvent());
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      );
-                    }
-                    if (state.status == ChatRoomStatus.loading &&
-                        state.chats.isEmpty) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      );
-                    }
-                    if (state.status == ChatRoomStatus.error) {
-                      return Center(
-                        child: Text(state.message ?? 'error'),
-                      );
-                    }
-                    return _buildBody(state);
+              if (widget.roomId.contains(widget
+                      .signalStateBloc?.state.signal.oppoUserIdx
+                      ?.toString() ??
+                  'null'))
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top + Sizes.size56,
+                  ),
+                  child:
+                      ChatsNoticeCardWidget(onOpenTap: _panelController.open),
+                ),
+              SlidingUpPanel(
+                controller: _panelController,
+                minHeight: 0,
+                maxHeight: 350,
+                isDraggable: false,
+                renderPanelSheet: false,
+                panelBuilder: () => ChatsEditSignalWidget(
+                  initSignal: SignalInfoModel(
+                    sigPromiseArea:
+                        widget.signalStateBloc?.state.signal.sigPromiseArea,
+                    sigPromiseMenu:
+                        widget.signalStateBloc?.state.signal.sigPromiseMenu,
+                    sigPromiseTime:
+                        widget.signalStateBloc?.state.signal.sigPromiseTime,
+                  ),
+                  onTapClose: () {
+                    FocusScope.of(context).unfocus();
+                    _panelController.close();
                   },
                 ),
               ),
-              bottomNavigationBar: const ChatsSendboxWidget(),
-            ),
-            if (widget.roomId.contains(
-                widget.signalStateBloc?.state.signal.oppoUserIdx?.toString() ??
-                    'null'))
-              Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).padding.top + Sizes.size56,
-                ),
-                child: ChatsNoticeCardWidget(onOpenTap: _panelController.open),
-              ),
-            SlidingUpPanel(
-              controller: _panelController,
-              minHeight: 0,
-              maxHeight: 350,
-              isDraggable: false,
-              renderPanelSheet: false,
-              panelBuilder: () => ChatsEditSignalWidget(
-                initSignal: SignalInfoModel(
-                  sigPromiseArea:
-                      widget.signalStateBloc?.state.signal.sigPromiseArea,
-                  sigPromiseMenu:
-                      widget.signalStateBloc?.state.signal.sigPromiseMenu,
-                  sigPromiseTime:
-                      widget.signalStateBloc?.state.signal.sigPromiseTime,
-                ),
-                onTapClose: () {
-                  FocusScope.of(context).unfocus();
-                  _panelController.close();
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

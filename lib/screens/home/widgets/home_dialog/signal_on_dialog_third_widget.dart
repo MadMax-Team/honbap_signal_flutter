@@ -48,7 +48,7 @@ class _SignalThirdBoxState extends State<SignalThirdBox> {
                     child: Image.asset(
                       'assets/icons/home_signal_box_dialog.png',
                       alignment: Alignment.center,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   Gaps.v10,

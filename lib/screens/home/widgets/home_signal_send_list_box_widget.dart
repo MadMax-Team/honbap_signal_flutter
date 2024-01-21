@@ -45,7 +45,7 @@ class _SignalListBox extends State<SignalSendListBox> {
             child: SvgPicture.asset(
               'assets/icons/home_signal_list_box.svg',
               alignment: Alignment.center,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -71,18 +71,18 @@ class _SignalListBox extends State<SignalSendListBox> {
                         child: widget.imgUri != null
                             ? Image.network(
                                 widget.imgUri!,
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Image.asset(
                                   'assets/icons/home_signal_list_box_user.png',
                                   alignment: Alignment.center,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                               )
                             : Image.asset(
                                 'assets/icons/home_signal_list_box_user.png',
                                 alignment: Alignment.center,
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                               ),
                       ),
                     ),

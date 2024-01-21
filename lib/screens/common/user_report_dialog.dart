@@ -144,7 +144,7 @@ class _UserReportDialogState extends State<UserReportDialog> {
                                           "assets/test/test_image.jpg",
                                           width: Sizes.size60,
                                           height: Sizes.size60,
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),

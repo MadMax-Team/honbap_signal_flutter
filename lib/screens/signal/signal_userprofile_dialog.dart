@@ -48,7 +48,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
 
   void _applySignal() {
     widget.cubit.applySignal(widget.signal.userIdx!);
-    Navigator.of(context).pop();
+    Navigator.of(context).pop<bool>(true);
   }
 
   @override
@@ -187,7 +187,7 @@ class _SignalUserDialogState extends State<SignalUserDialog> {
                   children: [
                     Expanded(
                       child: GestureDetector(
-                        onTap: Navigator.of(context).pop,
+                        onTap: () => Navigator.of(context).pop<bool>(false),
                         child: Container(
                           alignment: Alignment.center,
                           height: Sizes.size52,

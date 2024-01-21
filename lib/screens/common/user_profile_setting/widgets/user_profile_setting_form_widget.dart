@@ -62,6 +62,8 @@ class _UserProfileSettingFormWidgetState
             var prev =
                 context.read<UserProfileUploadCubit>().state.profile?.tags ??
                     [];
+
+            if (prev.length >= 15) return;
             prev.add(value);
 
             context
@@ -82,6 +84,8 @@ class _UserProfileSettingFormWidgetState
                     .profile
                     ?.preferArea ??
                 [];
+
+            if (prev.length >= 5) return;
             prev.add(value);
 
             context
@@ -99,6 +103,8 @@ class _UserProfileSettingFormWidgetState
             var prev =
                 context.read<UserProfileUploadCubit>().state.profile?.taste ??
                     [];
+
+            if (prev.length >= 5) return;
             prev.add(value);
 
             context
@@ -119,6 +125,8 @@ class _UserProfileSettingFormWidgetState
                     .profile
                     ?.hateFood ??
                 [];
+
+            if (prev.length >= 5) return;
             prev.add(value);
 
             context
@@ -171,13 +179,15 @@ class _UserProfileSettingFormWidgetState
                   keyboardType: TextInputType.emailAddress,
                   autocorrect: false,
                   enableSuggestions: false,
-                  maxLength: widget.type == UserProfileForm.userIntroduce
-                      ? 50
-                      : widget.type == UserProfileForm.tags
-                          ? 7
-                          : widget.type == UserProfileForm.mbti
-                              ? 4
-                              : null,
+                  maxLength: widget.type == UserProfileForm.nickName
+                      ? 10
+                      : widget.type == UserProfileForm.userIntroduce
+                          ? 50
+                          : widget.type == UserProfileForm.tags
+                              ? 7
+                              : widget.type == UserProfileForm.mbti
+                                  ? 4
+                                  : 30,
                   textInputAction: widget.type == UserProfileForm.nickName ||
                           widget.type == UserProfileForm.userIntroduce
                       ? TextInputAction.next
