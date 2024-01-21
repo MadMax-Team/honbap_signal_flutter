@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:honbap_signal_flutter/models/signal/signal_info_model.dart';
 import 'package:honbap_signal_flutter/screens/home/widgets/home_dialog/signal_on_dialog_third_widget.dart';
 import 'package:honbap_signal_flutter/widgets/common_signal_card_widget.dart';
@@ -204,16 +205,25 @@ class _SignalSecondDialogState extends State<SignalSecondDialog> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pop();
-                          showDialog(
-                              context: context,
-                              builder: (_) => SignalThirdBox(
-                                    time: _signalInfo.sigPromiseTime,
-                                    location: _signalInfo.sigPromiseArea,
-                                    favoriteFood: _signalInfo.sigPromiseMenu,
-                                    parentContext: widget.parentContext,
-                                  ),
-                              barrierDismissible: false);
+                          if(widget.modify == false && _signalInfo.sigPromiseTime == null && _signalInfo.sigPromiseArea == null && _signalInfo.sigPromiseMenu == null) {
+                            Fluttertoast.showToast(
+                                msg: "시그널 정보를 입력해주세요!",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                            );
+                          } else {
+                            Navigator.of(context).pop();
+                            showDialog(
+                                context: context,
+                                builder: (_) => SignalThirdBox(
+                                  time: _signalInfo.sigPromiseTime,
+                                  location: _signalInfo.sigPromiseArea,
+                                  favoriteFood: _signalInfo.sigPromiseMenu,
+                                  parentContext: widget.parentContext,
+                                ),
+                                barrierDismissible: false);
+                          }
                         },
                         behavior: HitTestBehavior.opaque,
                         child: Container(
